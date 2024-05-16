@@ -1,4 +1,6 @@
+import { ToasterContext } from "@/context/ToasterContext";
 import axios from "axios";
+
 
 const headers={
   Accept:"application/json",
@@ -32,6 +34,7 @@ instance.interceptors.response.use(
       // Respons diterima dengan status tidak berhasil
       console.error('Error response status:', error.response.status);
       console.error('Error response data:', error.response.data);
+      
     } else if (error.request) {
       // Permintaan tidak mendapatkan respons
       console.error('No response received:', error.request);

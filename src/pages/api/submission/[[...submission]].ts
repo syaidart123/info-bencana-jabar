@@ -4,6 +4,7 @@ import {
   addData,
   deleteData,
   retrieveData,
+  retrieveDataByUser,
   updateData,
 } from "@/lib/firebase/service";
 
@@ -12,13 +13,40 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    const Submissions: any = await retrieveData("submissions");
-    const data = Submissions.map((submission: any) => {
-      return submission;
-    });
-    res
-      .status(200)
-      .json({ status: true, statusCode: 200, msg: "sukses", data });
+    const token = req.headers.authorization?.split(" ")[1] || "";
+    if (token) {
+      jwt.verify(
+        token,
+        process.env.NEXTAUTH_SECRET || "",
+        async (err: any, decoded: any) => {          
+          if (decoded) {
+            try {
+              const Submissions: any = await retrieveDataByUser("submissions", decoded.email);              
+              const data = Submissions.map((submission: any) => {
+                return submission;
+              });
+              res.status(200).json({ status: true, statusCode: 200, msg: "Success", data });
+            } catch (error) {
+              console.error('Error fetching user submissions:', error);
+              res.status(500).json({ status: false, statusCode: 500, msg: "Internal server error" });
+            }
+          } else {
+            res.status(403).json({ status: false, statusCode: 403, msg: "Access Denied" });
+          }
+        }
+      );
+    } else {
+      try {
+        const Submissions: any = await retrieveData("submissions");
+        const data = Submissions.map((submission: any) => {
+          return submission;
+        });
+        res.status(200).json({ status: true, statusCode: 200, msg: "Success", data });
+      } catch (error) {
+        console.error('Error fetching all submissions:', error);
+        res.status(500).json({ status: false, statusCode: 500, msg: "Internal server error" });
+      }
+    }
   } else if (req.method === "POST") {
     const token = req.headers.authorization?.split(" ")[1] || "";
     jwt.verify(
@@ -56,6 +84,8 @@ export default async function handler(
     );
   } else if (req.method === "PUT") {
     const { submission }: any = req.query;
+    console.log(submission);
+    
     const token = req.headers.authorization?.split(" ")[1] || "";
     const { data } = req.body;
     jwt.verify(

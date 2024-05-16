@@ -108,7 +108,9 @@ const Tabel = (props: propTypes) => {
                         type="button"
                         onClick={() => setDetailSubmission(sub)}
                       >
-                        <Scaling />
+                        <div className="bg-sky-500 px-4 py-2 rounded-md text-white ">
+                            <Scaling />
+                          </div>
                       </Button>
                     </td>
                   </tr>

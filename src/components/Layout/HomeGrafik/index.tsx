@@ -11,20 +11,22 @@ const HomeGrafikLayout = (props: propsTypes) => {
   const { submission } = props;
   const [selectedBencana, setSelectedBencana] = useState("");
   const [selectedDaerah, setSelectedDaerah] = useState("");
-const filteredData = useMemo(() => {
-    return submission.filter((item: { jenisBencana: string; daerah: string; }) => {
-      if (selectedBencana && selectedDaerah) {
-        return (
-          item.jenisBencana === selectedBencana &&
-          item.daerah === selectedDaerah
-        );
-      } else if (selectedBencana) {
-        return item.jenisBencana === selectedBencana;
-      } else if (selectedDaerah) {
-        return item.daerah === selectedDaerah;
+  const filteredData = useMemo(() => {
+    return submission.filter(
+      (item: { jenisBencana: string; daerah: string }) => {
+        if (selectedBencana && selectedDaerah) {
+          return (
+            item.jenisBencana === selectedBencana &&
+            item.daerah === selectedDaerah
+          );
+        } else if (selectedBencana) {
+          return item.jenisBencana === selectedBencana;
+        } else if (selectedDaerah) {
+          return item.daerah === selectedDaerah;
+        }
+        return true;
       }
-      return true;
-    });
+    );
   }, [submission, selectedBencana, selectedDaerah]);
 
   const [kerusakan, setKerusakan] = useState<any>({
@@ -144,7 +146,7 @@ const filteredData = useMemo(() => {
     setJenisBencana(jenisBencanaData);
     setKerusakan(kerusakanChartData);
     setKorban(korbanChartData);
-  }, [filteredData,submission]);
+  }, [filteredData, submission]);
 
   const option: any = {
     responsive: true,
@@ -162,6 +164,7 @@ const filteredData = useMemo(() => {
   const optionBar: any = {
     indexAxis: "y",
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: false,
@@ -176,45 +179,41 @@ const filteredData = useMemo(() => {
       },
     },
   };
-  
 
   return (
     <div className="w-full min-h-screen">
-      <div className="container ml-5">
-    <FilterSelect setSelectedBencana={setSelectedBencana} setSelectedDaerah={setSelectedDaerah} />
-      </div>
-    <div className="container mx-auto px-5 py-10">
-      <div className="flex flex-col lg:flex-row gap-5">
-        <div className="w-full lg:w-1/2 bg-white rounded-md border px-3">
-          <div>
-            <BarChart data={jenisBencana} options={optionBar}/>
-          </div>
-        </div>
-        <div className="w-full lg:w-1/2 flex flex-col gap-5 lg:flex-wrap">
-          <div className="bg-white rounded-md border px-3 lg:w-1/2">
-            <div className="border shadow-md rounded-md px-5 py-3">
-              <p className="text-xl font-bold">Total Kerusakan</p>
-              <hr className="my-3" />
-              <div className="my-3">
-                <PieChart data={kerusakan} option={option} />
-              </div>
+      <div className=" mx-5 py-10">
+        <div className="flex flex-col lg:flex-row gap-2">
+          <div className="w-full lg:w-1/2 bg-white rounded-md border px-3">
+            <div className="ml-5">
+              <FilterSelect
+                setSelectedBencana={setSelectedBencana}
+                setSelectedDaerah={setSelectedDaerah}
+              />
+            </div>
+            <div className="px-2 my-5 border rounded-md h-80">
+              <BarChart data={jenisBencana} options={optionBar} />
             </div>
           </div>
-          <div className="bg-white rounded-md border px-3 lg:w-1/2">
-            <div className="border shadow-md rounded-md px-5 py-3">
-              <p className="text-xl font-bold">Total Korban</p>
-              <hr className="my-3" />
-              <div className="my-3">
-                <PieChart data={korban} option={option} />
-              </div>
+          <div className="w-full lg:w-1/2 flex flex-col gap-2 lg:flex-row ">
+            <div className="bg-white rounded-md border px-3 lg:w-1/2">
+                <p className="text-xl text-center font-bold py-2">Total Kerusakan</p>
+                <hr className="my-2" />
+                <div className="my-3 flex items-center justify-center">
+                  <PieChart data={kerusakan} option={option} />
+                </div>
+            </div>
+            <div className="bg-white rounded-md border px-3 lg:w-1/2">
+                <p className="text-xl text-center font-bold py-2">Total Korban</p>
+                <hr className="my-2" />
+                <div className="my-3 flex items-center justify-center">
+                  <PieChart data={korban} option={option} />
+                </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  
-
   );
 };
 

@@ -58,7 +58,6 @@ const SelectOption = (props: PropsTypes) => {
                     </option>
                     {children}
                 </select>
-                {/* Tombol "x" untuk mereset nilai */}
                 {selectedValue && (
                     <Button
                         type="button"

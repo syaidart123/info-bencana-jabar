@@ -161,9 +161,11 @@ const FormBencana = (props: propTypes) => {
             name="image"
             uploadedImage={uploadedImage}
             setUploadedImage={setUploadedImage}
+            required
+            
           />
           <Button type="submit" className="p-5 bg-sky-600 text-white my-5">
-            {isLoading ? "Loading..." : "Submit"}
+            {isLoading ? "Loading..." : "Kirim"}
           </Button>
         </form>
       </div>

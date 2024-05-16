@@ -4,22 +4,23 @@ type propsTypes = {
   uploadedImage: File | null;
   name: string;
   setUploadedImage: Dispatch<SetStateAction<File | null>>;
+  required?:boolean
 };
 
 const InputFile = (props: propsTypes) => {
-  const { uploadedImage, name, setUploadedImage } = props;
+  const { uploadedImage, name, setUploadedImage,required } = props;
   return (
     <div className="w-full">
       <label
         htmlFor={name}
-        className="mt-3 bg-slate-100 float-left w-full flex flex-col justify-center items-center gap-5 p-5 cursor-pointer mb-5 rounded-md"
+        className="mt-3 bg-slate-100 float-left w-full flex flex-col justify-center items-center gap-5 p-5 cursor-pointer rounded-md"
       >
         {uploadedImage?.name ? (
           <p>{uploadedImage?.name}</p>
         ) : (
           <>
-            <p>Pilih gambar</p>
-            <Upload className="w-8 h-8 "/>
+            <p>Pilih Gambar</p>
+            <Upload className="w-8 h-8"/>
             <p>
               Ukuran file maksimal <b>1MB</b>
             </p>
@@ -27,7 +28,8 @@ const InputFile = (props: propsTypes) => {
         )}
       </label>
       <input
-        className="opacity-0 absolute z-1"
+        className="opacity-0 z-[-1]"
+        required={required}
         type="file"
         name={name}
         id={name}

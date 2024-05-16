@@ -1,20 +1,23 @@
 import FormBencana from "@/components/Layout/FormBencana";
+import { ToasterContext } from "@/context/ToasterContext";
 import { uploadFile } from "@/lib/firebase/service";
 import submissionService from "@/services/pengajuan";
-import { Submission } from "@/types/submission.type";
 import { useSession } from "next-auth/react";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useContext, useState } from "react";
 
 const PengajuanBencana = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [submissionData, setSubmissionData] = useState<Submission[]>([]);
-  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
+  const [uploadedImage, setUploadedImage] = useState<File | any>(null);
+
+  const { setToaster } = useContext(ToasterContext);
   const session: any = useSession();
 
   const uploadImage = (id: string, form: any) => {
     const file = form.image.files[0];
-    const newName = "submission." + file.name.split(".")[1];
+    console.log(file);
+
     if (file) {
+      const newName = "submission." + file.name.split(".")[1];
       uploadFile(
         id,
         file,
@@ -34,18 +37,35 @@ const PengajuanBencana = () => {
               setIsLoading(false);
               setUploadedImage(null);
               form.reset();
-              const { data } = await submissionService.getSubmission();
-              setSubmissionData(data.data);
+              setToaster({
+                variant: "success",
+                message: "Pengajuan Berhasil Dikirim",
+              });
             } else {
               setIsLoading(false);
               setUploadedImage(null);
               form.reset();
+              setToaster({
+                variant: "danger",
+                message: "Pengajuan Gagal Dikirim",
+              });
             }
           } else {
             setIsLoading(false);
+
+            setToaster({
+              variant: "danger",
+              message: "Ukuran file maksimal 1 MB",
+            });
           }
         }
       );
+    } else {
+      setIsLoading(false);
+      setToaster({
+        variant: "danger",
+        message: "Gambar tidak ada",
+      });
     }
   };
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -82,14 +102,28 @@ const PengajuanBencana = () => {
       },
     };
 
+    if (uploadedImage && uploadedImage.size >= 1000000) {
+      setIsLoading(false);
+      setToaster({
+        variant: "danger",
+        message: "Ukuran file maksimal 1 MB",
+      });
+      return; // Menghentikan eksekusi jika ukuran file melebihi 1 MB
+    }
+
     const result = await submissionService.addSubmission(
       data,
       session.data?.accessToken
     );
 
     if (result.status === 200) {
-      setIsLoading(false);
       uploadImage(result.data.data.id, form);
+    } else {
+      setIsLoading(false);
+      setToaster({
+        variant: "danger",
+        message: "Pengajuan Gagal Dikirim",
+      });
     }
   };
   return (

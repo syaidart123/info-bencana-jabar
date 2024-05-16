@@ -1,4 +1,4 @@
-import PengajuanBencana from '@/components/Page/Bencana'
+import PengajuanBencana from '@/components/Page/PengajuanBencana'
 import React from 'react'
 
 const PagePengajuanBencana = () => {

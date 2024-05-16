@@ -1,5 +1,4 @@
 import Button from "@/components/UI/Button";
-import serviceProfile from "@/services/profile";
 import { LogOut } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
@@ -12,10 +11,7 @@ const listNavbar = [
     title: "Home",
     link: "/",
   },
-  {
-    title: "Tentang Kami",
-    link: "/about",
-  },
+  
   {
     title: "Data Bencana",
     link: "/bencana",
@@ -28,7 +24,7 @@ const listNavbar = [
 
 const Navbar = () => {
   const [showDropdown, setDropdown] = useState(false);
-  const [profile,setProfile]=useState<any>({});
+  // const [profile,setProfile]=useState<any>({});
   const session: any = useSession();
   
   const pathname = usePathname();
@@ -40,15 +36,15 @@ const Navbar = () => {
     }
   };
 
-  useEffect(()=>{
-    if(session.data?.accessToken && Object.keys(profile).length === 0){
-      const getProfile = async () => {
-        const {data} = await serviceProfile.getProfile(session.data?.accessToken)
-        setProfile(data.data)
-    }
-    getProfile();
-    }
-  },[session,profile])
+  // useEffect(()=>{
+  //   if(session.data?.accessToken && Object.keys(profile).length === 0){
+  //     const getProfile = async () => {
+  //       const {data} = await serviceProfile.getProfile(session.data?.accessToken)
+  //       setProfile(data.data)
+  //   }
+  //   getProfile();
+  //   }
+  // },[session,profile])
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
@@ -94,14 +90,14 @@ const Navbar = () => {
           onClick={() => setDropdown(!showDropdown)}
         >
         {session.data?.user.image ? 
-          (<Image src={profile.image} loading="lazy" width={500} height={500} alt="Avatar" className=" bg-gray flex items-center bg-gray-400 justify-center text-white h-[40px] w-[40px] rounded-full object-cover"/>
+          (<Image src={session.data?.user.image} loading="lazy" width={500} height={500} alt="Avatar" className=" bg-gray flex items-center bg-gray-400 justify-center text-white h-[40px] w-[40px] rounded-full object-cover"/>
         )
         :(
           <div
             ref={ref}
             className="py-1 px-2 bg-gray flex items-center bg-gray-400 justify-center text-white h-[40px] w-[40px] rounded-full"
           >
-            <p>{session.data?.user.name.charAt(0)}</p>
+            <p>{session.data?.user.fullname.charAt(0)}</p>
           </div>
         )}
           {showDropdown && (
@@ -125,18 +121,18 @@ const Navbar = () => {
           )}
         </div>
       ) : (
-        <div className="flex">
+        <div className="flex gap-3">
           <Button
             type="button"
-            className=" text-sky-500  border border-sky-500 me-3 "
+            className=" text-sky-500 border border-sky-500"
           >
-            <Link href="/auth/login">Login</Link>
+            <Link href="/auth/login" className="bg-white px-4 py-2 rounded-lg border border-sky-500 hover:bg-slate-50">Login</Link>
           </Button>
           <Button
             type="button"
-            className="bg-sky-500 p-5 text-sky-500"
+            className=" text-white"
           >
-            <Link href="/auth/register">Register</Link>
+            <Link href="/auth/register" className="bg-sky-500 px-4 py-2 rounded-lg border hover:bg-sky-600">Register</Link>
           </Button>
         </div>
       )}

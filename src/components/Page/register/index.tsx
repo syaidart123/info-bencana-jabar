@@ -2,20 +2,19 @@
 import AuthLayout from "@/components/Layout/auth";
 import Button from "@/components/UI/Button";
 import Input from "@/components/UI/Input";
+import { ToasterContext } from "@/context/ToasterContext";
 import authService from "@/services/auth";
 import { useRouter } from "next/navigation";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useContext, useState } from "react";
 
 const RegisterPage = () => {
   const [loading,setLoading]=useState(false);
-  const [error,setError]=useState("");
   const {push} = useRouter();
+  const {setToaster} = useContext(ToasterContext);
 
   const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
-
     e.preventDefault();
     setLoading(true);
-    setError("");
 
     const form = e.target as HTMLFormElement;
     const data = {
@@ -29,14 +28,14 @@ const RegisterPage = () => {
         form.reset()
         setLoading(false);
         push("/auth/login");
+        setToaster({variant:"success",message:"Registrasi Berhasil"});
       }else{
         setLoading(false);
-        setError("Email Already Exist");
+        setToaster({variant:"danger",message:"Registrasi Gagal"});
       }
     } catch (error) {
       setLoading(false);
-      setError("Email Already Exist");
-      console.log(error);
+      setToaster({variant:"danger",message:"Email Already Exist"});
       
     }
   };
@@ -48,7 +47,6 @@ const RegisterPage = () => {
       link="/auth/login"
     >
       <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
-      <p className="text-red-500 text-center">{error}</p>
         <Input
           label="Fullname"
           name="fullname"

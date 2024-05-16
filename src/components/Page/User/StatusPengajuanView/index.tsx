@@ -12,11 +12,9 @@ type propTypes = {
 
 const StatusPengajuanView = (props: propTypes) => {
   const { submission } = props;
-  const [dataSubmission, setDataSubmission] = useState<any>(submission);
+  const [dataSubmission, setDataSubmission] = useState<any>([]);
   const [deletedSubmission, setDeletedSubmission] = useState({});
   const [updatedSubmission, setUpdatedSubmission] = useState({});
-  console.log(updatedSubmission);
-  
 
   useEffect(() => {
     setDataSubmission(submission);
@@ -61,7 +59,7 @@ const StatusPengajuanView = (props: propTypes) => {
                 </th>
                 <th
                   scope="col"
-                  className="px-6 py-3 text-end text-xs font-medium text-white uppercase"
+                  className="px-6 py-3 text-start text-xs font-medium text-white uppercase"
                 >
                   Action
                 </th>
@@ -93,18 +91,24 @@ const StatusPengajuanView = (props: propTypes) => {
                       {sub.status}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                      <Button
-                        type="button"
-                        onClick={() => setUpdatedSubmission(sub)}
-                      >
-                        <ClipboardPen />
-                      </Button>
-                      <Button
-                        type="button"
-                        onClick={() => setDeletedSubmission(sub)}
-                      >
-                        <Trash2 />
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button
+                          type="button"
+                          onClick={() => setUpdatedSubmission(sub)}
+                        >
+                          <div className="bg-yellow-500 px-4 py-2 rounded-md text-white ">
+                            <ClipboardPen />
+                          </div>
+                        </Button>
+                        <Button
+                          type="button"
+                          onClick={() => setDeletedSubmission(sub)}
+                        >
+                          <div className="bg-red-500 px-4 py-2 rounded-md text-white ">
+                            <Trash2 />
+                          </div>
+                        </Button>
+                      </div>
                     </td>
                   </tr>
                 );
@@ -113,20 +117,20 @@ const StatusPengajuanView = (props: propTypes) => {
           </table>
         </div>
       </DashboardLayout>
-      {Object.keys(updatedSubmission).length >0? (
+      {Object.keys(updatedSubmission).length > 0 ? (
         <ModalUpdatePengajuan
           updatedSubmission={updatedSubmission}
           setUpdatedSubmission={setUpdatedSubmission}
           setDataSubmission={setDataSubmission}
         />
-      ):null}
+      ) : null}
       {Object.keys(deletedSubmission).length > 0 ? (
         <ModalDeletePengajuan
           deletedSubmission={deletedSubmission}
           setDeletedSubmission={setDeletedSubmission}
           setDataSubmission={setDataSubmission}
         />
-      ):null}
+      ) : null}
     </div>
   );
 };

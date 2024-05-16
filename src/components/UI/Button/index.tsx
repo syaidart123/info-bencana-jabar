@@ -3,20 +3,18 @@ import React from "react";
 type propTypes = {
   type?: "button" | "submit" | "reset";
   children: React.ReactNode;
-  className?: string;
+  className?: any;
   onClick?: () => void;
   disabled?: boolean;
 };
 
-const Button = ({ type = "button", className = "", children, onClick, disabled }: propTypes) => {
-  const combinedClassName = `${className} px-3 py-1 cursor-pointer border-none flex justify-center items-center rounded-full focus:outline-none hover:shadow-sm`;
+const Button = ({ type = "button", className, children, onClick, disabled }: propTypes) => {
   return (
     <button
       type={type}
-      className={`${combinedClassName.trim()} ${disabled ? 'opacity-70 cursor-not-allowed' : ''}`}
+      className={`${className} font-medium rounded-lg text-sm px-8 py-3 text-center`}
       onClick={onClick}
       disabled={disabled}
-      aria-disabled={disabled}
     >
       {children}
     </button>

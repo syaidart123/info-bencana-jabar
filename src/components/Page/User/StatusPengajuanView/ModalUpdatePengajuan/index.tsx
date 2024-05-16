@@ -6,25 +6,51 @@ import InputGroup from "@/components/UI/InputGroup";
 import Option from "@/components/UI/Option";
 import submissionService from "@/services/pengajuan";
 import { useSession } from "next-auth/react";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useContext, useState } from "react";
 import SelectOption from "@/components/UI/SelectOption";
+import InputFile from "@/components/UI/InputFile";
+import Image from "next/image";
+import { uploadFile } from "@/lib/firebase/service";
+import { ToasterContext } from "@/context/ToasterContext";
 
 const ModalUpdatePengajuan = (props: any) => {
   const { updatedSubmission, setUpdatedSubmission, setDataSubmission } = props;
+
   const [isLoading, setIsLoading] = useState(false);
   const [jenisBencana, setJenisBencana] = useState("");
+  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const session: any = useSession();
-  console.log(updatedSubmission);
-  
-  
-  const handleUpdate = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
-    const form = e.target as HTMLFormElement;
+  const { setToaster } = useContext(ToasterContext);
+
+  const updateSubmission = async (
+    form: any,
+    newImageURL: string = updatedSubmission.image
+  ) => {
     const data = {
-      status: form.status.value,
+      namaPelapor: form.namaPelapor.value,
+      jenisBencana: form.jenisBencana.value,
+      tanggal: form.tanggal.value,
+      daerah: form.daerah.value,
+      lokasi: form.lokasi.value,
+      penyebab: form.penyebab.value,
+      image: newImageURL,
+      kerusakan: {
+        rumah: parseInt(form.rumah.value) || 0,
+        rumahTerendam: parseInt(form.rumahTerendam.value) || 0,
+        fasilitasUmum: parseInt(form.fasilitasUmum.value) || 0,
+      },
+      korban: {
+        meninggal: parseInt(form.meninggal.value) || 0,
+        hilang: parseInt(form.hilang.value) || 0,
+        terluka: parseInt(form.terluka.value) || 0,
+      },
+
+      pengungsian: {
+        lokasiPengungsian: form.lokasiPengungsian?.value,
+        tenda: parseInt(form.tenda?.value) || 0,
+        pengungsi: parseInt(form.pengungsi?.value) || 0,
+      },
     };
-    
     const result = await submissionService.updateSubmission(
       updatedSubmission.id,
       data,
@@ -32,19 +58,64 @@ const ModalUpdatePengajuan = (props: any) => {
     );
     if (result.status === 200) {
       setIsLoading(false);
-      setUpdatedSubmission({});
-      const { data } = await submissionService.getSubmission(
+      setUploadedImage(null);
+      form.reset();
+      setUpdatedSubmission(false);
+      const { data } = await submissionService.getSubmission();
+      const userSubmission = data.data.filter(
+        (item: any) => item.user.email === session.data?.user.email
       );
-      setDataSubmission(data.data);
+      setDataSubmission(userSubmission);
+      setToaster({
+        variant: "success",
+        message: "Pengajuan Berhasil Diupdate",
+      });
     } else {
       setIsLoading(false);
+      setUploadedImage(null);
+      form.reset();
+      setUpdatedSubmission(false);
+      setToaster({
+        variant: "danger",
+        message: "Pengajuan Gagal Diupdate",
+      });
+    }
+  };
+
+  const handleUpdate = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const form: any = e.target as HTMLFormElement;
+    const file = form.image.files[0];
+    if (file) {
+      const newName = "submission." + file.name.split(".")[1];
+      uploadFile(
+        updatedSubmission.id,
+        file,
+        newName,
+        "submission",
+        async (status: boolean, newImageURL: string) => {
+          if (status) {
+            updateSubmission(form, newImageURL);
+          } else {
+            setIsLoading(false);
+            setToaster({
+              variant: "danger",
+              message: "Maksimal ukuran file 1 MB",
+            });
+          }
+        }
+      );
+    } else {
+      updateSubmission(form);
     }
   };
 
   return (
     <>
-      <Modal onClose={() => setUpdatedSubmission({})}>
-      <form onSubmit={handleUpdate}>
+      <Modal onClose={() => setUpdatedSubmission(false)}>
+        <p className="text-3xl font-bold mb-5 ">Update Pengajuan</p>
+        <form onSubmit={handleUpdate}>
           <Input
             name="namaPelapor"
             placeholder="Masukan nama pelapor"
@@ -59,7 +130,6 @@ const ModalUpdatePengajuan = (props: any) => {
             title="Pilih Jenis Bencana..."
             onChange={(e: any) => setJenisBencana(e.target.value)}
             defaultValue={updatedSubmission?.jenisBencana}
-
           >
             <Option value="Banjir">Banjir</Option>
             <Option value="Cuaca Ekstrem">Cuaca Ekstrem</Option>
@@ -69,8 +139,19 @@ const ModalUpdatePengajuan = (props: any) => {
             <Option value="Tsunami">Tsunami</Option>
           </SelectOption>
 
-          <Input name="tanggal" label="Tanggal" type="date" required defaultValue={updatedSubmission?.tanggal} />
-          <SelectOption label="Daerah" name="daerah" defaultValue={updatedSubmission?.daerah} title="Pilih Daerah...">
+          <Input
+            name="tanggal"
+            label="Tanggal"
+            type="date"
+            required
+            defaultValue={updatedSubmission?.tanggal}
+          />
+          <SelectOption
+            label="Daerah"
+            name="daerah"
+            defaultValue={updatedSubmission?.daerah}
+            title="Pilih Daerah..."
+          >
             <Option value="Kota Bandung">Kota Bandung</Option>
             <Option value="Kabupaten Bandung">Kabupaten Bandung</Option>
             <Option value="Kabupaten Bandung Barat">
@@ -108,7 +189,6 @@ const ModalUpdatePengajuan = (props: any) => {
             label="Lokasi Bencana"
             defaultValue={updatedSubmission?.lokasi}
             required
-
           />
           <Input
             name="penyebab"
@@ -118,7 +198,7 @@ const ModalUpdatePengajuan = (props: any) => {
             defaultValue={updatedSubmission?.penyebab}
           />
 
-          <InputGroup name="Kerusakan" title="Kerusakan" >
+          <InputGroup name="Kerusakan" title="Kerusakan">
             <InputField
               name="rumah"
               type="number"
@@ -126,13 +206,16 @@ const ModalUpdatePengajuan = (props: any) => {
               placeholder="Jumlah kerusakan rumah"
               defaultValue={updatedSubmission?.kerusakan.rumah}
             />
-          
+
             <InputField
               name="rumahTerendam"
               type="number"
               titleName="Rumah Terendam "
               placeholder="Jumlah kerusakan rumah terendam"
-              disabled={jenisBencana !== "Banjir"}
+              disabled={
+                updatedSubmission.jenisBencana !== "Banjir" &&
+                jenisBencana !== "Banjir"
+              }
               defaultValue={updatedSubmission?.kerusakan.rumahTerendam}
             />
             <InputField
@@ -177,14 +260,14 @@ const ModalUpdatePengajuan = (props: any) => {
               defaultValue={updatedSubmission?.pengungsian.lokasiPengungsian}
             />
             <InputField
-              name="jumlahTenda"
+              name="tenda"
               type="number"
               titleName="Tenda"
               placeholder="Jumlah tenda"
               defaultValue={updatedSubmission?.pengungsian.tenda}
             />
             <InputField
-              name="jumlahPengungsi"
+              name="pengungsi"
               type="number"
               titleName="Pengungsi"
               placeholder="Jumlah Pengungsi"
@@ -192,12 +275,25 @@ const ModalUpdatePengajuan = (props: any) => {
             />
           </InputGroup>
 
-          {/* <InputFile
-            name="image"
-            uploadedImage={uploadedImage}
-            setUploadedImage={setUploadedImage}
-          /> */}
-          <Button type="submit" className="p-5 bg-sky-600 text-white my-5">
+          <div className="flex items-center gap-4 my-3">
+            <Image
+              src={
+                uploadedImage
+                  ? URL.createObjectURL(uploadedImage)
+                  : updatedSubmission.image
+              }
+              alt="image"
+              width={200}
+              height={200}
+              className=" w-[15%] aspect-square h-auto rounded-md bg-slate-200 flex justify-center items-center "
+            />
+            <InputFile
+              name="image"
+              uploadedImage={uploadedImage}
+              setUploadedImage={setUploadedImage}
+            />
+          </div>
+          <Button type="submit" className="p-5 bg-sky-600 text-white">
             {isLoading ? "Loading..." : "Update"}
           </Button>
         </form>

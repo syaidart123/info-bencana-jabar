@@ -8,12 +8,7 @@ const submissionService = {
   }),
   getSubmission: () =>
     instance.get("/api/submission"),
-  getSubmissionById: (token: any, id: any) =>
-    instance.get(`/api/submission/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }),
+
   updateSubmission: (id: any, data: any, token: string) =>
     instance.put(
       `/api/submission/${id}`,
@@ -29,7 +24,7 @@ const submissionService = {
       headers: { Authorization: `Bearer ${token}`},
     }),
   getSubmissionByUser: (token: any) =>
-    instance.get(`/api/submissionUser`, {
+    instance.get('/api/submission', {
       headers:{
         Authorization: `Bearer ${token}`
       }

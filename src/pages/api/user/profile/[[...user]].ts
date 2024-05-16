@@ -14,7 +14,6 @@ export default async function handler(
         process.env.NEXTAUTH_SECRET || "",
         async (err: any, decoded: any) => {
           if (decoded) {
-            
             const profile: any = await retrieveDataById("users", decoded.id);
             if (profile) {
               profile.id = decoded.id;

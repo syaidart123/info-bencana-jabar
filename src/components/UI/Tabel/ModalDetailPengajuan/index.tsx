@@ -9,7 +9,6 @@ ChartJS.register(Tooltip, Legend, ArcElement);
 
 const ModalDetailPengajuan = (props: any) => {
   const { detailSubmission, setDetailSubmission } = props;
-  console.log(detailSubmission);
   
   const [isLoading, setIsLoading] = useState(false);
   const [korban, setKorban] = useState<any>({

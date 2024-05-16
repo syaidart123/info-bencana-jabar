@@ -9,11 +9,12 @@ type propsTypes={
   defaultValue?:string;
   required?:boolean;
   disabled?:boolean;
+  autoFocus?:boolean;
   
 }
 
 const Input = (props:propsTypes) => {
-  const {label,type,name,placeholder, className,required,defaultValue,disabled}=props;
+  const {label,type,name,placeholder, className,required,defaultValue,disabled,autoFocus}=props;
   return (
     <div>
       {label &&<label
@@ -24,6 +25,7 @@ const Input = (props:propsTypes) => {
       </label>}
       <input
         type={type}
+        autoFocus={autoFocus}
         name={name}
         defaultValue={defaultValue}
         min={0}

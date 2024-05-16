@@ -67,12 +67,18 @@ export async function retrieveDataById(collectionName: string, id: string) {
   const data = snapshot.data();
   return data;
 }
-export async function retrieveDataByUser(
-  collectionName: string,
-  email: string
-) {
-  const snapshot = await getDoc(doc(firestore, collectionName, email));
-  const data = snapshot.data();
+
+export async function retrieveDataByUser(collectionName: string, email: string) {
+  const q = query(collection(firestore, collectionName), where("user.email", "==", email));
+  const querySnapshot = await getDocs(q);
+  const data: any[] = [];
+  querySnapshot.forEach((doc) => {
+    // Ambil ID dokumen
+    const docData = doc.data();
+    const id = doc.id;
+    // Masukkan ID ke dalam data
+    data.push({ ...docData, id });
+  });
   return data;
 }
 

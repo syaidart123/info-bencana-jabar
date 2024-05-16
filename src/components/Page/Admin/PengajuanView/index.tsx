@@ -19,7 +19,7 @@ const PengajuanView = (props: propTypes) => {
   useEffect(() => {
     setDataSubmission(submission);
   }, [submission]);
-  
+
   return (
     <div>
       <DashboardLayout type="Admin">
@@ -31,7 +31,7 @@ const PengajuanView = (props: propTypes) => {
                 <div className="overflow-hidden">
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-sky-500">
-                      <tr>
+                      <tr >
                         <th
                           scope="col"
                           className="px-6 py-3 text-start text-xs font-medium text-white uppercase"
@@ -64,7 +64,7 @@ const PengajuanView = (props: propTypes) => {
                         </th>
                         <th
                           scope="col"
-                          className="px-6 py-3 text-end text-xs font-medium text-white uppercase"
+                          className="px-6 py-3 text-start text-xs font-medium text-white uppercase"
                         >
                           Action
                         </th>
@@ -80,8 +80,14 @@ const PengajuanView = (props: propTypes) => {
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 ">
                               {index + 1}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 ">
-                              <Image src={sub.image} width={100} height={100} alt="foto" />
+                            <td className="px-6 py-4 whitespace-nowrap text-sm rounded-md font-medium text-gray-800 ">
+                              <Image
+                                src={sub.image}
+                                width={100}
+                                height={100}
+                                alt="foto"
+                                className="rounded-lg shadow-lg max-h-20 object-cover"
+                              />
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 ">
                               {sub.jenisBencana}
@@ -93,19 +99,24 @@ const PengajuanView = (props: propTypes) => {
                               {sub.status}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                              
+                              <div className="flex gap-2">
                               <Button
                                 type="button"
                                 onClick={() => setUpdatedSubmission(sub)}
                               >
+                                 <div className="bg-yellow-500 px-4 py-2 rounded-md text-white ">
                                 <ClipboardPen />
+                                </div>
                               </Button>
                               <Button
                                 type="button"
                                 onClick={() => setDeletedSubmission(sub)}
                               >
+                                <div className="bg-red-500 px-4 py-2 rounded-md text-white ">
                                 <Trash2 />
+                                </div>
                               </Button>
+                              </div>
                             </td>
                           </tr>
                         );
@@ -124,14 +135,14 @@ const PengajuanView = (props: propTypes) => {
           setUpdatedSubmission={setUpdatedSubmission}
           setDataSubmission={setDataSubmission}
         />
-      ):null}
+      ) : null}
       {Object.keys(deletedSubmission).length > 0 ? (
         <ModalDeletePengajuan
           deletedSubmission={deletedSubmission}
           setDeletedSubmission={setDeletedSubmission}
           setDataSubmission={setDataSubmission}
         />
-      ):null}
+      ) : null}
     </div>
   );
 };
