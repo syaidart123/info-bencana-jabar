@@ -13,7 +13,7 @@ type propTypes = {
 };
 
 const Tabel = (props: propTypes) => {
-  const { dataSubmission} = props;
+  const { dataSubmission } = props;
   const [detailSubmission, setDetailSubmission] = useState({});
   const [selectedBencana, setSelectedBencana] = useState("");
   const [selectedDaerah, setSelectedDaerah] = useState("");
@@ -34,8 +34,11 @@ const Tabel = (props: propTypes) => {
   return (
     <>
       <div className="px-10 h-screen">
-        <p className="text-2xl mb-5">Data Bencana</p>
-        <FilterSelect setSelectedBencana={setSelectedBencana} setSelectedDaerah={setSelectedDaerah} />
+        <p className="text-2xl my-10 mx-3">Data Bencana</p>
+        <FilterSelect
+          setSelectedBencana={setSelectedBencana}
+          setSelectedDaerah={setSelectedDaerah}
+        />
         <div className="flex w-full">
           <table className="w-3/6 min-w-full divide-y divide-gray-200">
             <thead className="bg-sky-500">
@@ -109,8 +112,8 @@ const Tabel = (props: propTypes) => {
                         onClick={() => setDetailSubmission(sub)}
                       >
                         <div className="bg-sky-500 px-4 py-2 rounded-md text-white ">
-                            <Scaling />
-                          </div>
+                          <Scaling />
+                        </div>
                       </Button>
                     </td>
                   </tr>

@@ -6,10 +6,8 @@ import {
   NextResponse,
 } from "next/server";
 
-const adminPage = ["admin"]
-const authPage = ["auth"]
-const Pengajuan = ["pengajuanBencana"]
-const Dashboard = ["dashboard"]
+const adminPage = ["admin"];
+const authPage = ["auth"];
 
 export default function withAuth(
   middleware: NextMiddleware,
@@ -17,7 +15,7 @@ export default function withAuth(
 ) {
   return async (req: NextRequest, next: NextFetchEvent) => {
     const pathname = req.nextUrl.pathname.split("/")[1];
-    
+
     if (pathAuth.includes(pathname)) {
       const token = await getToken({
         req,
@@ -30,9 +28,6 @@ export default function withAuth(
       }
       if (token) {
         if (authPage.includes(pathname)) {
-          return NextResponse.redirect(new URL("/", req.url));
-        }
-        if (!token && Pengajuan.includes(pathname)) {
           return NextResponse.redirect(new URL("/", req.url));
         }
         if (token.role !== "admin" && adminPage.includes(pathname)) {

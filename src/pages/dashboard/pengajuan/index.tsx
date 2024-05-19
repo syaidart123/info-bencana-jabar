@@ -1,5 +1,5 @@
-import StatusPengajuanView from "@/components/Page/User/StatusPengajuanView";
-import submissionService from "@/services/pengajuan";
+import StatusPengajuanView from "@/components/Page/User/SubmissionUserView";
+import serviceUser from "@/services/user";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 
@@ -7,17 +7,16 @@ const StatusPengajuanPage = () => {
   const [submission, setSubmission] = useState([]);
   const session: any = useSession();
 
+  const getSubmissions = async () => {
+    if (session.data?.accessToken && Object.keys(submission).length === 0) {
+      const { data } = await serviceUser.getSubmissionByUser();
+      setSubmission(data.data);
+    }
+  };
+
   useEffect(() => {
-    const getSubmissions = async () => {
-      if (session.data?.accessToken && Object.keys(submission).length === 0) {
-        const { data } = await submissionService.getSubmissionByUser(
-          session.data?.accessToken
-        );
-        setSubmission(data.data);
-      }
-    };
     getSubmissions();
-  }, [session, submission]);
+  }, [session]);
   return <StatusPengajuanView submission={submission} />;
 };
 

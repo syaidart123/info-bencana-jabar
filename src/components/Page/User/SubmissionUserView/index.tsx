@@ -19,12 +19,13 @@ const StatusPengajuanView = (props: propTypes) => {
   useEffect(() => {
     setDataSubmission(submission);
   }, [submission]);
+
   return (
     <div>
       <DashboardLayout type="User">
         <p className="text-xl font-bold mb-10">Pengajuan Bencana</p>
-        <div className="flex w-full">
-          <table className="w-3/6 min-w-full divide-y divide-gray-200">
+        <div className="overflow-x-auto border shadow-md rounded-md">
+          <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-sky-500">
               <tr>
                 <th

@@ -1,12 +1,12 @@
-import DashboardUserView from '@/components/Page/User/DashboardUserView'
-import React from 'react'
+import DashboardUserView from "@/components/Page/User/DashboardUserView";
+import React from "react";
 
 const Dashboard = () => {
   return (
     <div>
-        <DashboardUserView />
+      <DashboardUserView />
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

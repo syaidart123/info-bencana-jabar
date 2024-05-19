@@ -4,11 +4,11 @@ type propsTypes = {
   uploadedImage: File | null;
   name: string;
   setUploadedImage: Dispatch<SetStateAction<File | null>>;
-  required?:boolean
+  required?: boolean;
 };
 
 const InputFile = (props: propsTypes) => {
-  const { uploadedImage, name, setUploadedImage,required } = props;
+  const { uploadedImage, name, setUploadedImage, required } = props;
   return (
     <div className="w-full">
       <label
@@ -20,7 +20,7 @@ const InputFile = (props: propsTypes) => {
         ) : (
           <>
             <p>Pilih Gambar</p>
-            <Upload className="w-8 h-8"/>
+            <Upload className="w-8 h-8" />
             <p>
               Ukuran file maksimal <b>1MB</b>
             </p>

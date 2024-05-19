@@ -23,9 +23,7 @@ const Sidebar = (props: any) => {
   useEffect(() => {
     if (session.data?.accessToken && Object.keys(profile).length === 0) {
       const getProfile = async () => {
-        const { data } = await serviceProfile.getProfile(
-          session.data?.accessToken
-        );
+        const { data } = await serviceProfile.getProfile();
         setProfile(data.data);
       };
       getProfile();

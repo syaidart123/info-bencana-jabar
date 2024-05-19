@@ -9,6 +9,8 @@ type propsTypes = {
 
 const HomeGrafikLayout = (props: propsTypes) => {
   const { submission } = props;
+  console.log(submission);
+
   const [selectedBencana, setSelectedBencana] = useState("");
   const [selectedDaerah, setSelectedDaerah] = useState("");
   const filteredData = useMemo(() => {
@@ -197,18 +199,20 @@ const HomeGrafikLayout = (props: propsTypes) => {
           </div>
           <div className="w-full lg:w-1/2 flex flex-col gap-2 lg:flex-row ">
             <div className="bg-white rounded-md border px-3 lg:w-1/2">
-                <p className="text-xl text-center font-bold py-2">Total Kerusakan</p>
-                <hr className="my-2" />
-                <div className="my-3 flex items-center justify-center">
-                  <PieChart data={kerusakan} option={option} />
-                </div>
+              <p className="text-xl text-center font-bold py-2">
+                Total Kerusakan
+              </p>
+              <hr className="my-2" />
+              <div className="my-3 flex items-center justify-center">
+                <PieChart data={kerusakan} option={option} />
+              </div>
             </div>
             <div className="bg-white rounded-md border px-3 lg:w-1/2">
-                <p className="text-xl text-center font-bold py-2">Total Korban</p>
-                <hr className="my-2" />
-                <div className="my-3 flex items-center justify-center">
-                  <PieChart data={korban} option={option} />
-                </div>
+              <p className="text-xl text-center font-bold py-2">Total Korban</p>
+              <hr className="my-2" />
+              <div className="my-3 flex items-center justify-center">
+                <PieChart data={korban} option={option} />
+              </div>
             </div>
           </div>
         </div>

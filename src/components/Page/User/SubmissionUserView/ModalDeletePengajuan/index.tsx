@@ -1,14 +1,13 @@
 import Modal from "@/components/UI/Modal";
 import Button from "@/components/UI/Button";
-import submissionService from "@/services/pengajuan";
-import { useSession } from "next-auth/react";
+import submissionService from "@/services/submission";
 import React, { useContext, useState } from "react";
 import { deleteFile } from "@/lib/firebase/service";
 import { ToasterContext } from "@/context/ToasterContext";
+import serviceUser from "@/services/user";
 
 const ModalDeletePengajuan = (props: any) => {
   const { deletedSubmission, setDeletedSubmission, setDataSubmission } = props;
-  const session: any = useSession();
   console.log(deletedSubmission);
 
   const { setToaster } = useContext(ToasterContext);
@@ -16,8 +15,7 @@ const ModalDeletePengajuan = (props: any) => {
   const handleDelete = async () => {
     setIsLoading(true);
     const result = await submissionService.deleteSubmission(
-      deletedSubmission.id,
-      session.data?.accessToken
+      deletedSubmission.id
     );
     if (result.status === 200) {
       setIsLoading(false);
@@ -33,22 +31,18 @@ const ModalDeletePengajuan = (props: any) => {
                 message: "Pengajuan Berhasil Dihapus",
               });
               setDeletedSubmission({});
-              const { data } = await submissionService.getSubmissionByUser(
-                session.data?.accessToken
-              );
+              const { data } = await serviceUser.getSubmissionByUser();
               setDataSubmission(data.data);
             }
           }
         );
-      }else{
+      } else {
         setDeletedSubmission({});
         setToaster({
-          variant:"success",
-          message:"Pengajuan Berhasil Dihapus"
-        })
-        const { data } = await submissionService.getSubmissionByUser(
-          session.data?.accessToken
-        );
+          variant: "success",
+          message: "Pengajuan Berhasil Dihapus",
+        });
+        const { data } = await serviceUser.getSubmissionByUser();
         setDataSubmission(data.data);
       }
     } else {

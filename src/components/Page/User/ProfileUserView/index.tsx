@@ -6,7 +6,7 @@ import serviceProfile from "@/services/profile";
 import Image from "next/image";
 import React, { useState } from "react";
 
-const ProfileView = ({ profile, setProfile, session }: any) => {
+const ProfileUserView = ({ profile, setProfile, session }: any) => {
   const [changeName, setChangeName] = useState<any>({});
   const [isLoading, setIsLoading] = useState("");
 
@@ -25,11 +25,7 @@ const ProfileView = ({ profile, setProfile, session }: any) => {
             const data = {
               image: newImageUrl,
             };
-            const result = await serviceProfile.updateProfile(
-              profile.id,
-              data,
-              session.data?.accessToken
-            );
+            const result = await serviceProfile.updateProfile(profile.id, data);
             if (result.status === 200) {
               setIsLoading("");
               setProfile({ ...profile, image: newImageUrl });
@@ -52,11 +48,7 @@ const ProfileView = ({ profile, setProfile, session }: any) => {
     const data = {
       ...changeName,
     };
-    const result = await serviceProfile.updateProfile(
-      profile.id,
-      data,
-      session.data?.accessToken
-    );
+    const result = await serviceProfile.updateProfile(profile.id, data);
     if (result.status === 200) {
       setProfile({ ...profile, ...changeName });
       setChangeName({});
@@ -64,7 +56,7 @@ const ProfileView = ({ profile, setProfile, session }: any) => {
   };
 
   return (
-    <DashboardLayout type="Admin">
+    <DashboardLayout type="User">
       <p className="text-xl font-bold mb-10">Profile Page</p>
       <div className="flex w-full">
         <div className="w-full flex p-10 border rounded-md gap-5 shadow-sm">
@@ -125,30 +117,17 @@ const ProfileView = ({ profile, setProfile, session }: any) => {
                 name="email"
                 label="Email"
                 defaultValue={profile.email}
+                className="bg-gray-100"
                 disabled
               />
-              <label className="block mb-2 text-sm font-medium text-gray-900 mt-3">
-                Lembaga
-                <select
-                  name="jenisBencana"
-                  className="border py-3 px-4 pe-9 mt-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                >
-                  <option selected disabled>
-                    Pilih Lembaga...
-                  </option>
-                  <option value="Human Initiative">Human Initiative</option>
-                  <option value="IZI">IZI</option>
-                  <option value="Relawan Bencana">Relawan Bencana</option>
-                  <option value="Al-Hilal">Al-Hilal</option>
-                </select>
-              </label>
+
               <Input
                 type="text"
-                name="jabatan"
-                label="Jabatan"
-                defaultValue={profile.jabatan}
+                name="telepon"
+                label="No. Telepon"
+                defaultValue={profile.telepon}
               />
-              <Button type="submit" className=" bg-sky-500 text-white mt-3  ">
+              <Button type="submit" className=" bg-sky-500 text-white mt-3">
                 Update
               </Button>
             </form>
@@ -159,4 +138,4 @@ const ProfileView = ({ profile, setProfile, session }: any) => {
   );
 };
 
-export default ProfileView;
+export default ProfileUserView;

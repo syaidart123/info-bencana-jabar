@@ -68,8 +68,14 @@ export async function retrieveDataById(collectionName: string, id: string) {
   return data;
 }
 
-export async function retrieveDataByUser(collectionName: string, email: string) {
-  const q = query(collection(firestore, collectionName), where("user.email", "==", email));
+export async function retrieveDataByUser(
+  collectionName: string,
+  email: string
+) {
+  const q = query(
+    collection(firestore, collectionName),
+    where("user.email", "==", email)
+  );
   const querySnapshot = await getDocs(q);
   const data: any[] = [];
   querySnapshot.forEach((doc) => {

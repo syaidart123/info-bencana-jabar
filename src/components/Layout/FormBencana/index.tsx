@@ -16,7 +16,7 @@ type propTypes = {
 
 const FormBencana = (props: propTypes) => {
   const { handleSubmit, setUploadedImage, uploadedImage, isLoading } = props;
-  const [jenisBencana,setJenisBencana]=useState("");
+  const [jenisBencana, setJenisBencana] = useState("");
 
   return (
     <div className="flex flex-col bg-white xl:w-2/4 w-11/12  border border-t-4 border-t-blue-600 shadow-sm rounded-xl">
@@ -99,7 +99,7 @@ const FormBencana = (props: propTypes) => {
               titleName="Rumah"
               placeholder="Jumlah kerusakan rumah"
             />
-          
+
             <InputField
               name="rumahTerendam"
               type="number"
@@ -162,7 +162,6 @@ const FormBencana = (props: propTypes) => {
             uploadedImage={uploadedImage}
             setUploadedImage={setUploadedImage}
             required
-            
           />
           <Button type="submit" className="p-5 bg-sky-600 text-white my-5">
             {isLoading ? "Loading..." : "Kirim"}

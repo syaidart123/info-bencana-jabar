@@ -4,7 +4,7 @@ import Input from "@/components/UI/Input";
 import InputField from "@/components/UI/InputField";
 import InputGroup from "@/components/UI/InputGroup";
 import Option from "@/components/UI/Option";
-import submissionService from "@/services/pengajuan";
+import submissionService from "@/services/submission";
 import { useSession } from "next-auth/react";
 import React, { FormEvent, useContext, useState } from "react";
 import SelectOption from "@/components/UI/SelectOption";
@@ -12,6 +12,7 @@ import InputFile from "@/components/UI/InputFile";
 import Image from "next/image";
 import { uploadFile } from "@/lib/firebase/service";
 import { ToasterContext } from "@/context/ToasterContext";
+import serviceUser from "@/services/user";
 
 const ModalUpdatePengajuan = (props: any) => {
   const { updatedSubmission, setUpdatedSubmission, setDataSubmission } = props;
@@ -53,19 +54,15 @@ const ModalUpdatePengajuan = (props: any) => {
     };
     const result = await submissionService.updateSubmission(
       updatedSubmission.id,
-      data,
-      session.data?.accessToken
+      data
     );
     if (result.status === 200) {
       setIsLoading(false);
       setUploadedImage(null);
       form.reset();
       setUpdatedSubmission(false);
-      const { data } = await submissionService.getSubmission();
-      const userSubmission = data.data.filter(
-        (item: any) => item.user.email === session.data?.user.email
-      );
-      setDataSubmission(userSubmission);
+      const { data } = await serviceUser.getSubmissionByUser();
+      setDataSubmission(data.data);
       setToaster({
         variant: "success",
         message: "Pengajuan Berhasil Diupdate",
@@ -99,6 +96,7 @@ const ModalUpdatePengajuan = (props: any) => {
             updateSubmission(form, newImageURL);
           } else {
             setIsLoading(false);
+            setUploadedImage(null);
             setToaster({
               variant: "danger",
               message: "Maksimal ukuran file 1 MB",
