@@ -14,11 +14,13 @@ import { usePathname } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 
 const Sidebar = (props: any) => {
+  
   const session: any = useSession();
   const [showDropdown, setDropdown] = useState(false);
   const [profile, setProfile] = useState<any>({});
   const [isLoading, setIsLoading] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  
 
   useEffect(() => {
     if (session.data?.accessToken && Object.keys(profile).length === 0) {
@@ -106,7 +108,6 @@ const Sidebar = (props: any) => {
                   src={profile.image}
                   width={500}
                   height={500}
-                  onLoad={() => setIsLoading(false)}
                   alt=""
                   className={`${
                     isLoading && "animate-pulse"
@@ -161,3 +162,7 @@ const Sidebar = (props: any) => {
 };
 
 export default Sidebar;
+
+
+
+

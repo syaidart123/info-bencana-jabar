@@ -84,6 +84,33 @@ const ModalUpdatePengajuan = (props: any) => {
     setIsLoading(true);
     const form: any = e.target as HTMLFormElement;
     const file = form.image.files[0];
+
+    if (file) {
+      const allowedExtensions = ["jpg", "jpeg", "png", "pdf"];
+      const fileExtension = file.name.split(".").pop().toLowerCase();
+
+      if (!allowedExtensions.includes(fileExtension)) {
+        setIsLoading(false);
+        setUploadedImage(null);
+        setToaster({
+          variant: "danger",
+          message:
+            "Ekstensi file tidak sesuai. Hanya jpg, jpeg, png, dan pdf yang diizinkan.",
+        });
+        return;
+      }
+
+      if (file.size >= 1000000) {
+        setIsLoading(false);
+        setUploadedImage(null);
+        setToaster({
+          variant: "danger",
+          message: "Ukuran file maksimal 1 MB",
+        });
+        return;
+      }
+    }
+
     if (file) {
       const newName = "submission." + file.name.split(".")[1];
       uploadFile(

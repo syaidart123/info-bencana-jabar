@@ -143,7 +143,7 @@ const PengajuanBencana = () => {
       setUploadedImage(null);
       setToaster({
         variant: "danger",
-        message: "Gambar tidak ada",
+        message: "Gambar harus di isi",
       });
     }
   };

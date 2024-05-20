@@ -6,7 +6,7 @@ import serviceProfile from "@/services/profile";
 import Image from "next/image";
 import React, { useState } from "react";
 
-const ProfileUserView = ({ profile, setProfile, session }: any) => {
+const ProfileUserView = ({ profile, setProfile }: any) => {
   const [changeName, setChangeName] = useState<any>({});
   const [isLoading, setIsLoading] = useState("");
 

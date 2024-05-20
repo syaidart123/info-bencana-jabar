@@ -46,7 +46,6 @@ export default async function handler(
     verify(req, res, false, async (decoded: any) => {
       const { submission }: any = req.query;
       const { data } = req.body;
-      console.log(submission);
       if (decoded) {
         await updateData(
           "submissions",

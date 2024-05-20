@@ -14,6 +14,7 @@ export default async function handler(
   if (req.method === "GET") {
     verify(req, res, false, async (decoded: any) => {
       const profile: any = await retrieveDataById("users", decoded.id);
+      
       if (profile) {
         profile.id = decoded.id;
         apiResponseSuccess(res, profile);

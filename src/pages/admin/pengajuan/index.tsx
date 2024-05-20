@@ -6,7 +6,6 @@ import React, { useEffect, useState } from "react";
 const PengajuanPage = () => {
   const [submission, setSubmission] = useState([]);
   const session: any = useSession();
-  console.log(submission);
 
   useEffect(() => {
     const getSubmissions = async () => {

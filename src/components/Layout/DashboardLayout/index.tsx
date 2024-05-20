@@ -25,14 +25,14 @@ const listSidebarAdmin = [
   },
 ];
 const listSidebarUser = [
-  {
-    title: "Dashboard",
-    link: "/dashboard",
-    icon: <BarChart3 />,
-  },
+  // {
+  //   title: "Dashboard Pengajuan",
+  //   link: "/dashboard",
+  //   icon: <BarChart3 />,
+  // },
   {
     title: "Pengajuan",
-    link: "/dashboard/pengajuan",
+    link: "/dashboard",
     icon: <Newspaper />,
   },
   {
