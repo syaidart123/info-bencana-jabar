@@ -9,7 +9,6 @@ type propsTypes = {
 
 const HomeGrafikLayout = (props: propsTypes) => {
   const { submission } = props;
-  console.log(submission);
 
   const [selectedBencana, setSelectedBencana] = useState("");
   const [selectedDaerah, setSelectedDaerah] = useState("");

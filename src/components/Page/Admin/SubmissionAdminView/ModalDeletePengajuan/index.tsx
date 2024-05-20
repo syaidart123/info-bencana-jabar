@@ -6,7 +6,6 @@ import { deleteFile } from "@/lib/firebase/service";
 import { ToasterContext } from "@/context/ToasterContext";
 const ModalDeletePengajuan = (props: any) => {
   const { deletedSubmission, setDeletedSubmission, setDataSubmission } = props;
-  console.log(deletedSubmission);
 
   const { setToaster } = useContext(ToasterContext);
   const [isLoading, setIsLoading] = useState(false);

@@ -1,7 +1,7 @@
 import instance from "@/lib/axios/instance";
 
 const serviceProfile = {
-  getProfile: () => instance.get("http://localhost:3000/api/user/profile"),
+  getProfile: () => instance.get('/api/user/profile'),
   updateProfile: (id: any, data: any) =>
     instance.put(`/api/user/profile/${id}`, { data }),
 };
