@@ -26,3 +26,4 @@ const ProfileUserPage = () => {
 };
 
 export default ProfileUserPage;
+

@@ -3,17 +3,17 @@ import React, { useEffect, useState } from "react";
 import submissionService from "@/services/submission";
 import HomeGrafikLayout from "@/components/Layout/HomeGrafik";
 
-const HomePage = () => {
-  const [submission, setSubmission] = useState([]);
+const HomePage = ({submission}:any) => {
+  // const [submission, setSubmission] = useState([]);
 
-  const getSubmissions = async () => {
-    const { data } = await submissionService.getSubmission();
-    setSubmission(data.data);
-  };
+  // const getSubmissions = async () => {
+  //   const { data } = await submissionService.getSubmission();
+  //   setSubmission(data.data);
+  // };
 
-  useEffect(() => {
-    getSubmissions();
-  }, []);
+  // useEffect(() => {
+  //   getSubmissions();
+  // }, []);
 
   return (
     <div>

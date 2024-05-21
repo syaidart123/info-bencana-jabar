@@ -1,12 +1,21 @@
-import { Inter } from "next/font/google";
 import HomePage from "@/components/Page/Home";
+import submissionService from "@/services/submission";
 
-const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+export default function Home({submission}:any) {
+  
   return (
     <>
-      <HomePage />
+      <HomePage submission={submission} />
     </>
   );
+}
+
+export async function getServerSideProps() {
+  const {data} = await submissionService.getSubmission();
+  return {
+    props: {
+      submission: data.data,
+    },  
+  }
 }

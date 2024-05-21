@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 
 const DashboardUserPage = () => {
+  
   const [submission, setSubmission] = useState([]);
   const session: any = useSession();
 
@@ -21,3 +22,12 @@ const DashboardUserPage = () => {
 };
 
 export default DashboardUserPage;
+
+// export async function getServerSideProps() {
+//   const { data } = await serviceUser.getSubmissionByUser();
+//   return {
+//     props: {
+//       submission: data.data
+//     },
+//   };
+// }

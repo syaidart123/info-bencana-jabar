@@ -49,7 +49,7 @@ const DashboardLayout = (props: propTypes) => {
   return (
     <div className="flex justify-between">
      {type === "Admin" ? ( <Sidebar links={listSidebarAdmin} />):( <Sidebar links={listSidebarUser} />)}
-      <div className="w-full p-16">{children}</div>
+      <div className="w-full p-10">{children}</div>
     </div>
   );
 };

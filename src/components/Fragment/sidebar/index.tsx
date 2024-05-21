@@ -44,9 +44,12 @@ const Sidebar = (props: any) => {
     };
   }, []);
 
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const { links } = props;
   const active = usePathname();
+  const toggleSidebar = () => {
+    setOpen(!open);
+  };
   return (
     <aside className="h-screen sticky top-0">
       <nav className="h-full flex flex-col bg-white border-r shadow-sm">
@@ -65,7 +68,7 @@ const Sidebar = (props: any) => {
           <Button
             type="button"
             className="p-1.5"
-            onClick={() => setOpen(!open)}
+            onClick={toggleSidebar}
           >
             {open ? (
               <ChevronsLeft color="blue" />
