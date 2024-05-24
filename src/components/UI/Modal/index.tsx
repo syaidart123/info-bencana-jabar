@@ -21,7 +21,7 @@ const Modal = (props:propTypes) => {
     },[onClose])
   return (
     <div className='fixed w-screen h-screen z-50 top-0 bg-black bg-opacity-50 flex justify-center items-center'>
-        <div ref={ref} className={`p-5 rounded-md bg-white w-[80vw] max-h-[80vh] xl:w-[50vw] xl:max-h-[80vh] transition-all shadow-md overflow-y-scroll no-scrollbar sm:overflow-auto`}>
+        <div ref={ref} className={`p-5 rounded-md bg-white w-[80vw] max-h-[80vh] xl:w-[65vw] xl:max-h-[80vh] transition-all shadow-md overflow-y-scroll no-scrollbar sm:overflow-auto`}>
             {children}
         </div>
     </div>

@@ -11,10 +11,11 @@ type PropsTypes = {
   id?: string;
   defaultValue?: string;
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  required?: boolean;
 };
 
 const SelectOption = (props: PropsTypes) => {
-  const { label, name, title, children, disabled, onChange, id, defaultValue } =
+  const { label, name, title, children, disabled, onChange, id, defaultValue,required } =
     props;
   const [selectedValue, setSelectedValue] = useState("");
 
@@ -51,8 +52,9 @@ const SelectOption = (props: PropsTypes) => {
           disabled={disabled}
           onChange={handleChange}
           defaultValue={defaultValue}
+          required={required}
           id={id}
-          className="border py-3 px-4 pe-9 mt-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+          className="border truncate p-2.5 mt-3 block w-full border-gray-200 rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none"
         >
           <option value="" disabled>
             {title}

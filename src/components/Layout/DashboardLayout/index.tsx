@@ -1,10 +1,10 @@
 import Sidebar from "@/components/Fragment/sidebar";
-import { BarChart3, CircleUser, Newspaper } from "lucide-react";
+import { BarChart3, CircleUser, HandCoins, Newspaper } from "lucide-react";
 import React from "react";
 
 type propTypes = {
   children: React.ReactNode;
-  type:"Admin"|"User"; 
+  type: "Admin" | "User";
 };
 
 const listSidebarAdmin = [
@@ -17,6 +17,11 @@ const listSidebarAdmin = [
     title: "Pengajuan",
     link: "/admin/pengajuan",
     icon: <Newspaper />,
+  },
+  {
+    title: "Bantuan",
+    link: "/admin/bantuan",
+    icon: <HandCoins />,
   },
   {
     title: "Profile",
@@ -42,13 +47,15 @@ const listSidebarUser = [
   },
 ];
 
-
-
 const DashboardLayout = (props: propTypes) => {
   const { children, type } = props;
   return (
     <div className="flex justify-between">
-     {type === "Admin" ? ( <Sidebar links={listSidebarAdmin} />):( <Sidebar links={listSidebarUser} />)}
+      {type === "Admin" ? (
+        <Sidebar links={listSidebarAdmin} />
+      ) : (
+        <Sidebar links={listSidebarUser} />
+      )}
       <div className="w-full p-10">{children}</div>
     </div>
   );

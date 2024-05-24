@@ -108,13 +108,13 @@ const ModalDetailPengajuan = (props: any) => {
             <hr />
             <div className="flex gap-5 flex-col items-start mt-5 mx-5 border p-5 bg-white rounded-md shadow-md">
               <div className="w-full xl:flex xl:justify-between xl:gap-7 py-5">
-                <div className="xl:w-2/4 border flex items-center justify-center shadow-md mb-5 rounded-md">
+                <div className="xl:w-2/4 flex flex-col items-start  mb-5">
                   <Image
                     src={detailSubmission.image}
                     width={1000}
                     height={1000}
                     alt="foto"
-                    className="rounded-md w-full h-full object-cover object-center"
+                    className="rounded-md w-full border object-contain object-top"
                   />
                 </div>
                 <div className="xl:w-2/4">

@@ -139,13 +139,13 @@ const ModalUpdatePengajuan = (props: any) => {
             <hr className="my-5 xl:my-2 " />
             <div className="flex gap-5 flex-col items-start mx-5 border p-5 bg-white rounded-md shadow-md">
               <div className="w-full xl:flex xl:justify-between xl:gap-7">
-                <div className="xl:w-2/4 border flex items-center justify-center shadow-md mb-5 rounded-md">
+              <div className="xl:w-2/4 flex flex-col items-start  mb-5">
                   <Image
                     src={updatedSubmission.image}
-                    width={800}
-                    height={800}
+                    width={1000}
+                    height={1000}
                     alt="foto"
-                    className="rounded-md w-full h-full object-cover object-center"
+                    className="rounded-md w-full border object-contain object-top"
                   />
                 </div>
                 <div className="xl:w-2/4">

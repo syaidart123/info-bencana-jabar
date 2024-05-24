@@ -4,6 +4,7 @@ import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 
 const listNavbar = [
@@ -24,11 +25,21 @@ const listNavbar = [
 
 const Navbar = () => {
   const [showDropdown, setDropdown] = useState(false);
+  const { push } = useRouter();
+
   // const [profile,setProfile]=useState<any>({});
   const session: any = useSession();
 
   const pathname = usePathname();
   const ref = useRef<HTMLDivElement>(null);
+
+  const handleDashboard = () => {
+    if (session.data.user.role === "admin") {
+      push("/admin");
+    } else {
+      push("/dashboard");
+    }
+  };
 
   const handleClickOutside: any = (event: MouseEvent) => {
     if (ref.current && !ref.current.contains(event.target as Node)) {
@@ -85,48 +96,88 @@ const Navbar = () => {
         </ul>
       </div>
       {session.data ? (
-        <div
-          className="relative inline-block cursor-pointer group-hover:block"
-          onClick={() => setDropdown(!showDropdown)}
-        >
-          {session.data?.user.image ? (
-            <Image
-              src={session.data?.user.image}
-              loading="lazy"
-              width={500}
-              height={500}
-              alt="Avatar"
-              className=" bg-gray flex items-center bg-gray-400 justify-center text-white h-[40px] w-[40px] rounded-full object-cover"
-            />
-          ) : (
+        // <div
+        //   className="relative inline-block cursor-pointer group-hover:block"
+        //   onClick={() => setDropdown(!showDropdown)}
+        // >
+        //   {session.data?.user.image ? (
+        //     <Image
+        //       src={session.data?.user.image}
+        //       loading="lazy"
+        //       width={500}
+        //       height={500}
+        //       alt="Avatar"
+        //       className=" bg-gray flex items-center bg-gray-400 justify-center text-white h-[40px] w-[40px] rounded-full object-cover"
+        //     />
+        //   ) : (
+        //     <div
+        //       ref={ref}
+        //       className="py-1 px-2 bg-gray flex items-center bg-gray-400 justify-center text-white h-[40px] w-[40px] rounded-full"
+        //     >
+        //       <p>{session.data?.user.fullname.charAt(0)}</p>
+        //     </div>
+        //   )}
+        //   {showDropdown && (
+        //     <div className="absolute flex flex-col items-center  bg-white min-w-[160px] border my-1 z-10 rounded-md">
+        //       <Link
+        //         href={
+        //           session.data?.user.role === "admin" ? "/admin" : "/dashboard"
+        //         }
+        //         className="hover:bg-slate-50 w-full h-full text-center py-2 border-b"
+        //       >
+        //         Dashboard
+        //       </Link>
+        //       <Link
+        //         href="/auth/login"
+        //         type="button"
+        //         className="hover:bg-slate-50 text-red-500 w-full py-1 flex justify-center items-center"
+        //         onClick={() => signOut()}
+        //       >
+        //         <p className="mr-1">Logout</p>
+        //         <LogOut size={15} />
+        //       </Link>
+        //     </div>
+        //   )}
+        // </div>
+        <div className="flex gap-4 items-center">
+          <div className="relative">
+            {session.data?.user.image ? (
+              <Image
+                alt={session.data?.user?.fullname}
+                src={session.data?.user?.image}
+                width={40}
+                height={40}
+                className="rounded-[40px] cursor-pointer object-cover object-center"
+                onClick={() => setDropdown(!showDropdown)}
+              />
+            ) : (
+              <div
+                className="py-1 px-2 cursor-pointer bg-gray flex items-center bg-gray-400 justify-center text-white h-[40px] w-[40px] rounded-full"
+                onClick={() => setDropdown(!showDropdown)}
+              >
+                <p>{session.data?.user.fullname.charAt(0)}</p>
+              </div>
+            )}
             <div
-              ref={ref}
-              className="py-1 px-2 bg-gray flex items-center bg-gray-400 justify-center text-white h-[40px] w-[40px] rounded-full"
+              className={`absolute border right-0 top-[45px] rounded-md flex-col ${
+                showDropdown ? "flex z-10" : "hidden"
+              }`}
             >
-              <p>{session.data?.user.fullname.charAt(0)}</p>
-            </div>
-          )}
-          {showDropdown && (
-            <div className="absolute flex flex-col items-center  bg-white min-w-[160px] border my-1 z-10 rounded-md">
-              <Link
-                href={
-                  session.data?.user.role === "admin" ? "/admin" : "/dashboard"
-                }
-                className="hover:bg-slate-50 w-full h-full text-center py-2 border-b"
+              <button
+                onClick={handleDashboard}
+                className="w-[150px] flex rounded-t-md  justify-center items-center text-left py-2 px-4 bg-white cursor-pointer border-none text-lg hover:bg-slate-50"
               >
                 Dashboard
-              </Link>
-              <Link
-                href="/auth/login"
-                type="button"
-                className="hover:bg-slate-50 text-red-500 w-full py-1 flex justify-center items-center"
+              </button>
+              <button
                 onClick={() => signOut()}
+                className="w-[150px] text-red-500 rounded-b-md flex justify-center items-center text-left py-2 px-4 bg-white cursor-pointer border-none text-lg hover:bg-slate-50"
               >
                 <p className="mr-1">Logout</p>
                 <LogOut size={15} />
-              </Link>
+              </button>
             </div>
-          )}
+          </div>
         </div>
       ) : (
         <div className="flex gap-3">

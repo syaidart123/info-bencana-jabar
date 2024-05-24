@@ -44,7 +44,7 @@ const Sidebar = (props: any) => {
     };
   }, []);
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const { links } = props;
   const active = usePathname();
   const toggleSidebar = () => {
@@ -126,10 +126,10 @@ const Sidebar = (props: any) => {
               )}
               <div>
                 <h4 className="font-semibold text-black">
-                  {session.data?.user?.fullname}
+                  {profile.fullname}
                 </h4>
                 <span className="text-xs text-gray-600">
-                  {session.data?.user?.email}
+                  {profile.email}
                 </span>
               </div>
             </div>

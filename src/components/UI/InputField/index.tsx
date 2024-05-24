@@ -33,7 +33,9 @@ const InputField = (props: propTypes) => {
         disabled={disabled}
         readOnly={readOnly}
         min={0}
-        className="appearance-none py-2 px-3 pe-11 block w-full border border-gray-200 shadow-sm rounded-e-lg text-sm focus:z-10 disabled:opacity-50 disabled:pointer-events-none"
+        className={`appearance-none py-2 px-3 pe-11 block w-full border border-gray-200 shadow-sm rounded-e-lg text-sm focus:z-10 disabled:opacity-50 disabled:pointer-events-none ${
+          disabled ? "cursor-not-allowed" : ""
+        }`}
       />
     </div>
   );
