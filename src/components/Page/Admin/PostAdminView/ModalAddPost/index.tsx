@@ -1,26 +1,41 @@
 import Modal from "@/components/UI/Modal";
 import submissionService from "@/services/submission";
-import React, { FormEvent, useContext, useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import Button from "@/components/UI/Button";
 import { ToasterContext } from "@/context/ToasterContext";
-import SelectOptionFragment from "@/components/Fragment/OptionDaerah";
 import Input from "@/components/UI/Input";
 import SelectOption from "@/components/UI/SelectOption";
 import Option from "@/components/UI/Option";
-import aidService from "@/services/aid";
+import SelectOptionFragment from "@/components/Fragment/OptionDaerah";
+import { Post } from "@/types/post.type";
+import postService from "@/services/post";
 
-const ModalUpdateAid = (props: any) => {
-  const { updatedAid, setUpdatedAid, setAidData } = props;
+type propsTypes = {
+  setModalAddPost: Dispatch<SetStateAction<boolean>>;
+  setPostData: Dispatch<SetStateAction<Post[]>>;
+};
+
+const ModalAddPost = (props: propsTypes) => {
+  const { setModalAddPost, setPostData } = props;
 
   const [isLoading, setIsLoading] = useState(false);
   const { setToaster } = useContext(ToasterContext);
-  const [aidCount, setAidCount] = useState(updatedAid.bantuan);
+  const [PostCount, setPostCount] = useState([
+    { lembaga: "", jenisBantuan: "", namaBantuan: "", qty: 0, nominal: 0 },
+  ]);
 
-  const handleUpdate = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     const form = e.target as HTMLFormElement;
-    const Bantuan = aidCount.map((item: any) => {
+    const bantuan = PostCount.map((item: any) => {
       return {
         lembaga: item.lembaga,
         jenisBantuan: item.jenisBantuan,
@@ -29,50 +44,58 @@ const ModalUpdateAid = (props: any) => {
         nominal: parseInt(`${item.nominal}`),
       };
     });
+
     const data = {
       jenisBencana: form.jenisBencana.value,
-      Status: form.status.value,
       daerah: form.daerah.value,
       lokasi: form.lokasi.value,
-      bantuan: Bantuan,
+      bantuan: bantuan,
     };
 
-    const result = await aidService.updateAid(updatedAid.id, data);
+    const result = await postService.addPost(data);
+
     if (result.status === 200) {
       setIsLoading(false);
-      setUpdatedAid({});
-      const { data } = await aidService.getAid();
-      setAidData(data.data);
+      setModalAddPost(false);
+      const { data } = await postService.getPost();
+      setPostData(data.data);
+      setPostCount([
+        { lembaga: "", jenisBantuan: "", namaBantuan: "", qty: 0, nominal: 0 },
+      ]);
+
       setToaster({
         variant: "success",
-        message: "Pengajuan Berhasil Di Update",
+        message: "Bantuan Berhasil Di Tambahkan",
       });
     } else {
       setIsLoading(false);
+      setModalAddPost(false);
+      setPostCount([
+        { lembaga: "", jenisBantuan: "", namaBantuan: "", qty: 0, nominal: 0 },
+      ]);
       setToaster({
         variant: "danger",
-        message: "Pengajuan Gagal Di Update",
+        message: "Bantuan Gagal Di Tambahkan",
       });
     }
   };
 
-  const handleAid = (e: any, i: number, type: string) => {
-    const newAidCount: any = [...aidCount];
-    newAidCount[i][type] = e.target.value;
-    setAidCount(newAidCount);
+  const handlePost = (e: any, i: number, type: string) => {
+    const newPostCount: any = [...PostCount];
+    newPostCount[i][type] = e.target.value;
+    setPostCount(newPostCount);
   };
 
   return (
     <>
-      <Modal onClose={() => setUpdatedAid({})}>
-        <p className="text-3xl font-bold my-2 ">Update Bantuan Bencana</p>
-        <form onSubmit={handleUpdate}>
+      <Modal onClose={() => setModalAddPost(false)}>
+        <p className="text-3xl font-bold">Buat Bantuan</p>
+        <form onSubmit={handleSubmit}>
           <SelectOption
             name="jenisBencana"
             title="Pilih..."
             required
             label="Jenis Bencana"
-            defaultValue={updatedAid.jenisBencana}
           >
             <Option value="Banjir">Banjir</Option>
             <Option value="Cuaca Ekstrem">Cuaca Ekstrem</Option>
@@ -85,21 +108,19 @@ const ModalUpdateAid = (props: any) => {
             label="Daerah"
             name="daerah"
             title="Pilih Daerah..."
-            defaultValue={updatedAid.daerah}
           />
           <Input
             name="lokasi"
             label="Lokasi"
             placeholder="Lokasi"
             type="text"
-            defaultValue={updatedAid.lokasi}
           />
 
           <div className="mt-5">
             <label htmlFor="bantuan" className="text-lg font-bold">
               Bantuan
             </label>
-            {aidCount.map(
+            {PostCount.map(
               (
                 bantuan: {
                   lembaga: string;
@@ -116,8 +137,7 @@ const ModalUpdateAid = (props: any) => {
                       name="lembaga"
                       title="Pilih..."
                       label="Lembaga"
-                      onChange={(e) => handleAid(e, i, "lembaga")}
-                      defaultValue={bantuan.lembaga}
+                      onChange={(e) => handlePost(e, i, "lembaga")}
                       required
                     >
                       <Option value="Human Initiative">Human Initiative</Option>
@@ -128,8 +148,7 @@ const ModalUpdateAid = (props: any) => {
                       name="jenisBantuan"
                       title="Pilih..."
                       label="Jenis Bantuan"
-                      onChange={(e) => handleAid(e, i, "jenisBantuan")}
-                      defaultValue={bantuan.jenisBantuan}
+                      onChange={(e) => handlePost(e, i, "jenisBantuan")}
                       required
                     >
                       <Option value="Rupiah">Rupiah</Option>
@@ -139,17 +158,15 @@ const ModalUpdateAid = (props: any) => {
                       name="namaBantuan"
                       label="Nama Bantuan"
                       placeholder="Nama Bantuan"
-                      defaultValue={bantuan.namaBantuan}
                       type="text"
-                      onChange={(e) => handleAid(e, i, "namaBantuan")}
+                      onChange={(e) => handlePost(e, i, "namaBantuan")}
                     />
                     <Input
                       name="qty"
                       label="Qty"
                       placeholder="Qty"
-                      defaultValue={bantuan.qty}
                       type="number"
-                      onChange={(e) => handleAid(e, i, "qty")}
+                      onChange={(e) => handlePost(e, i, "qty")}
                       disabled={
                         bantuan.jenisBantuan === "Rupiah" ||
                         bantuan.jenisBantuan === ""
@@ -163,9 +180,8 @@ const ModalUpdateAid = (props: any) => {
                       name="nominal"
                       label="Nominal"
                       placeholder="Nominal"
-                      defaultValue={bantuan.nominal}
                       type="number"
-                      onChange={(e) => handleAid(e, i, "nominal")}
+                      onChange={(e) => handlePost(e, i, "nominal")}
                       disabled={
                         bantuan.jenisBantuan === "Barang" ||
                         bantuan.jenisBantuan === ""
@@ -181,45 +197,39 @@ const ModalUpdateAid = (props: any) => {
             )}
           </div>
 
-          <Button
-            type="button"
-            className={"my-2"}
-            onClick={() =>
-              setAidCount([
-                ...aidCount,
-                {
-                  lembaga: "",
-                  jenisBantuan: "",
-                  namaBantuan: "",
-                  qty: 0,
-                  nominal: 0,
-                },
-              ])
-            }
-          >
-            <span className="bg-sky-500 rounded-md text-white py-2 px-4">
-              Tambah Bantuan
-            </span>
-          </Button>
-          <SelectOption
-            name="status"
-            title="Status"
-            defaultValue={updatedAid.Status}
-            label="Status"
-          >
-            <Option value="Diproses">Diproses</Option>
-            <Option value="Selesai">Selesai</Option>
-          </SelectOption>
-          <button
-            type="submit"
-            className="px-4 py-2 bg-sky-500 text-white rounded-md mt-5"
-          >
-            {isLoading ? "Loading..." : "Update"}
-          </button>
+          <div className="flex flex-col items-start">
+            <Button
+              type="button"
+              className={"my-2"}
+              onClick={() =>
+                setPostCount([
+                  ...PostCount,
+                  {
+                    lembaga: "",
+                    jenisBantuan: "",
+                    namaBantuan: "",
+                    qty: 0,
+                    nominal: 0,
+                  },
+                ])
+              }
+            >
+              <span className="bg-sky-500 rounded-md text-white py-2 px-4">
+                Tambah Bantuan
+              </span>
+            </Button>
+
+            <button
+              type="submit"
+              className="px-4 py-2 bg-sky-500 text-white rounded-md mt-5"
+            >
+              {isLoading ? "Loading..." : "Kirim"}
+            </button>
+          </div>
         </form>
       </Modal>
     </>
   );
 };
 
-export default ModalUpdateAid;
+export default ModalAddPost;

@@ -8,19 +8,20 @@ import Input from "@/components/UI/Input";
 import SelectOption from "@/components/UI/SelectOption";
 import Option from "@/components/UI/Option";
 import aidService from "@/services/aid";
+import postService from "@/services/post";
 
-const ModalUpdateAid = (props: any) => {
-  const { updatedAid, setUpdatedAid, setAidData } = props;
+const ModalUpdatePost = (props: any) => {
+  const { updatedPost, setUpdatedPost, setPostData } = props;
 
   const [isLoading, setIsLoading] = useState(false);
   const { setToaster } = useContext(ToasterContext);
-  const [aidCount, setAidCount] = useState(updatedAid.bantuan);
+  const [PostCount, setPostCount] = useState(updatedPost.bantuan);
 
   const handleUpdate = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     const form = e.target as HTMLFormElement;
-    const Bantuan = aidCount.map((item: any) => {
+    const Bantuan = PostCount.map((item: any) => {
       return {
         lembaga: item.lembaga,
         jenisBantuan: item.jenisBantuan,
@@ -37,12 +38,12 @@ const ModalUpdateAid = (props: any) => {
       bantuan: Bantuan,
     };
 
-    const result = await aidService.updateAid(updatedAid.id, data);
+    const result = await postService.updatePost(updatedPost.id, data);
     if (result.status === 200) {
       setIsLoading(false);
-      setUpdatedAid({});
-      const { data } = await aidService.getAid();
-      setAidData(data.data);
+      setUpdatedPost({});
+      const { data } = await postService.getPost();
+      setPostData(data.data);
       setToaster({
         variant: "success",
         message: "Pengajuan Berhasil Di Update",
@@ -56,15 +57,15 @@ const ModalUpdateAid = (props: any) => {
     }
   };
 
-  const handleAid = (e: any, i: number, type: string) => {
-    const newAidCount: any = [...aidCount];
-    newAidCount[i][type] = e.target.value;
-    setAidCount(newAidCount);
+  const handlePost = (e: any, i: number, type: string) => {
+    const newPostCount: any = [...PostCount];
+    newPostCount[i][type] = e.target.value;
+    setPostCount(newPostCount);
   };
 
   return (
     <>
-      <Modal onClose={() => setUpdatedAid({})}>
+      <Modal onClose={() => setUpdatedPost({})}>
         <p className="text-3xl font-bold my-2 ">Update Bantuan Bencana</p>
         <form onSubmit={handleUpdate}>
           <SelectOption
@@ -72,7 +73,7 @@ const ModalUpdateAid = (props: any) => {
             title="Pilih..."
             required
             label="Jenis Bencana"
-            defaultValue={updatedAid.jenisBencana}
+            defaultValue={updatedPost.jenisBencana}
           >
             <Option value="Banjir">Banjir</Option>
             <Option value="Cuaca Ekstrem">Cuaca Ekstrem</Option>
@@ -85,21 +86,21 @@ const ModalUpdateAid = (props: any) => {
             label="Daerah"
             name="daerah"
             title="Pilih Daerah..."
-            defaultValue={updatedAid.daerah}
+            defaultValue={updatedPost.daerah}
           />
           <Input
             name="lokasi"
             label="Lokasi"
             placeholder="Lokasi"
             type="text"
-            defaultValue={updatedAid.lokasi}
+            defaultValue={updatedPost.lokasi}
           />
 
           <div className="mt-5">
             <label htmlFor="bantuan" className="text-lg font-bold">
               Bantuan
             </label>
-            {aidCount.map(
+            {PostCount.map(
               (
                 bantuan: {
                   lembaga: string;
@@ -116,7 +117,7 @@ const ModalUpdateAid = (props: any) => {
                       name="lembaga"
                       title="Pilih..."
                       label="Lembaga"
-                      onChange={(e) => handleAid(e, i, "lembaga")}
+                      onChange={(e) => handlePost(e, i, "lembaga")}
                       defaultValue={bantuan.lembaga}
                       required
                     >
@@ -128,7 +129,7 @@ const ModalUpdateAid = (props: any) => {
                       name="jenisBantuan"
                       title="Pilih..."
                       label="Jenis Bantuan"
-                      onChange={(e) => handleAid(e, i, "jenisBantuan")}
+                      onChange={(e) => handlePost(e, i, "jenisBantuan")}
                       defaultValue={bantuan.jenisBantuan}
                       required
                     >
@@ -141,7 +142,7 @@ const ModalUpdateAid = (props: any) => {
                       placeholder="Nama Bantuan"
                       defaultValue={bantuan.namaBantuan}
                       type="text"
-                      onChange={(e) => handleAid(e, i, "namaBantuan")}
+                      onChange={(e) => handlePost(e, i, "namaBantuan")}
                     />
                     <Input
                       name="qty"
@@ -149,7 +150,7 @@ const ModalUpdateAid = (props: any) => {
                       placeholder="Qty"
                       defaultValue={bantuan.qty}
                       type="number"
-                      onChange={(e) => handleAid(e, i, "qty")}
+                      onChange={(e) => handlePost(e, i, "qty")}
                       disabled={
                         bantuan.jenisBantuan === "Rupiah" ||
                         bantuan.jenisBantuan === ""
@@ -165,7 +166,7 @@ const ModalUpdateAid = (props: any) => {
                       placeholder="Nominal"
                       defaultValue={bantuan.nominal}
                       type="number"
-                      onChange={(e) => handleAid(e, i, "nominal")}
+                      onChange={(e) => handlePost(e, i, "nominal")}
                       disabled={
                         bantuan.jenisBantuan === "Barang" ||
                         bantuan.jenisBantuan === ""
@@ -185,8 +186,8 @@ const ModalUpdateAid = (props: any) => {
             type="button"
             className={"my-2"}
             onClick={() =>
-              setAidCount([
-                ...aidCount,
+              setPostCount([
+                ...PostCount,
                 {
                   lembaga: "",
                   jenisBantuan: "",
@@ -204,7 +205,7 @@ const ModalUpdateAid = (props: any) => {
           <SelectOption
             name="status"
             title="Status"
-            defaultValue={updatedAid.Status}
+            defaultValue={updatedPost.Status}
             label="Status"
           >
             <Option value="Diproses">Diproses</Option>
@@ -222,4 +223,4 @@ const ModalUpdateAid = (props: any) => {
   );
 };
 
-export default ModalUpdateAid;
+export default ModalUpdatePost;

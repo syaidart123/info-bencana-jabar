@@ -1,5 +1,11 @@
 import Sidebar from "@/components/Fragment/sidebar";
-import { BarChart3, CircleUser, HandCoins, Newspaper } from "lucide-react";
+import {
+  BarChart3,
+  CircleUser,
+  HandCoins,
+  MonitorUp,
+  Newspaper,
+} from "lucide-react";
 import React from "react";
 
 type propTypes = {
@@ -22,6 +28,11 @@ const listSidebarAdmin = [
     title: "Bantuan",
     link: "/admin/bantuan",
     icon: <HandCoins />,
+  },
+  {
+    title: "Postingan",
+    link: "/admin/postingan",
+    icon: <MonitorUp />,
   },
   {
     title: "Profile",
