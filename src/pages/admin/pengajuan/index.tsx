@@ -1,22 +1,19 @@
 import PengajuanView from "@/components/Page/Admin/SubmissionAdminView";
 import submissionService from "@/services/submission";
-import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-const PengajuanPage = () => {
-  const [submission, setSubmission] = useState([]);
-  const session: any = useSession();
-
-  useEffect(() => {
-    const getSubmissions = async () => {
-      if (session.data?.accessToken && Object.keys(submission).length === 0) {
-        const { data } = await submissionService.getSubmission();
-        setSubmission(data.data);
-      }
-    };
-    getSubmissions();
-  }, [session, submission]);
+const PengajuanPage = (props:any) => {
+  const { submission } = props;
   return <PengajuanView submission={submission} />;
 };
 
 export default PengajuanPage;
+
+export async function getServerSideProps() {
+  const { data } = await submissionService.getSubmission();
+  return {
+    props: {
+      submission: data.data,
+    },
+  };
+}

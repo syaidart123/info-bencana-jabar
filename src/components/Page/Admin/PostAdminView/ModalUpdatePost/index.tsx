@@ -9,51 +9,107 @@ import SelectOption from "@/components/UI/SelectOption";
 import Option from "@/components/UI/Option";
 import aidService from "@/services/aid";
 import postService from "@/services/post";
+import Image from "next/image";
+import InputFile from "@/components/UI/InputFile";
+import { uploadFile } from "@/lib/firebase/service";
 
 const ModalUpdatePost = (props: any) => {
   const { updatedPost, setUpdatedPost, setPostData } = props;
-
-  const [isLoading, setIsLoading] = useState(false);
   const { setToaster } = useContext(ToasterContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [PostCount, setPostCount] = useState(updatedPost.bantuan);
 
-  const handleUpdate = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
-    const form = e.target as HTMLFormElement;
-    const Bantuan = PostCount.map((item: any) => {
-      return {
-        lembaga: item.lembaga,
-        jenisBantuan: item.jenisBantuan,
-        namaBantuan: item.namaBantuan,
-        qty: parseInt(`${item.qty}`),
-        nominal: parseInt(`${item.nominal}`),
-      };
-    });
+
+  const updateProduct = async (
+    form: any,
+    newImageURL: string = updatedPost.image
+  ) => {
     const data = {
+      title: form.judul.value,
       jenisBencana: form.jenisBencana.value,
-      Status: form.status.value,
-      daerah: form.daerah.value,
-      lokasi: form.lokasi.value,
-      bantuan: Bantuan,
+      tanggal: form.tanggal.value,
+      deskripsi: form.desc.value,
+      image: newImageURL,
     };
 
     const result = await postService.updatePost(updatedPost.id, data);
     if (result.status === 200) {
       setIsLoading(false);
-      setUpdatedPost({});
+      setUploadedImage(null);
+      form.reset();
+      setUpdatedPost(false);
       const { data } = await postService.getPost();
       setPostData(data.data);
       setToaster({
         variant: "success",
-        message: "Pengajuan Berhasil Di Update",
+        message: "Postingan Berhasil Di Update",
       });
     } else {
       setIsLoading(false);
+      setUploadedImage(null);
+      form.reset();
+      setUpdatedPost(false);
       setToaster({
         variant: "danger",
-        message: "Pengajuan Gagal Di Update",
+        message: "Postingan Gagal Di Update",
       });
+    }
+  };
+
+  const handleUpdate = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const form = e.target as HTMLFormElement;
+    const file = form.image.files[0];
+    if (file) {
+      const allowedExtensions = ["jpg", "jpeg", "png", "pdf"];
+      const fileExtension = file.name.split(".").pop().toLowerCase();
+
+      if (!allowedExtensions.includes(fileExtension)) {
+        setIsLoading(false);
+        setUploadedImage(null);
+        setToaster({
+          variant: "danger",
+          message:
+            "Ekstensi file tidak sesuai. Hanya jpg, jpeg, png, dan pdf yang diizinkan.",
+        });
+        return;
+      }
+
+      if (file.size >= 1000000) {
+        setIsLoading(false);
+        setUploadedImage(null);
+        setToaster({
+          variant: "danger",
+          message: "Ukuran file maksimal 1 MB",
+        });
+        return;
+      }
+    }
+
+
+    if (file) {
+      const newName = "post." + file.name.split(".")[1];
+      uploadFile(
+        updatedPost.id,
+        file,
+        newName,
+        "posts",
+        (status: boolean, newImageURL: string) => {
+          if (status) {
+            updateProduct(form, newImageURL);
+          } else {
+            setIsLoading(false);
+            setToaster({
+              variant: "danger",
+              message: "Gagal Upload Gambar",
+            });
+          }
+        }
+      );
+    } else {
+      updateProduct(form);
     }
   };
 
@@ -66,14 +122,22 @@ const ModalUpdatePost = (props: any) => {
   return (
     <>
       <Modal onClose={() => setUpdatedPost({})}>
-        <p className="text-3xl font-bold my-2 ">Update Bantuan Bencana</p>
+        <p className="text-3xl font-bold my-2 ">Update Postingan</p>
         <form onSubmit={handleUpdate}>
+          <Input
+            name="judul"
+            type="text"
+            label="Judul"
+            placeholder="Masukan Judul"
+            defaultValue={updatedPost.title}
+            required
+          />
           <SelectOption
             name="jenisBencana"
             title="Pilih..."
+            defaultValue={updatedPost.jenisBencana}
             required
             label="Jenis Bencana"
-            defaultValue={updatedPost.jenisBencana}
           >
             <Option value="Banjir">Banjir</Option>
             <Option value="Cuaca Ekstrem">Cuaca Ekstrem</Option>
@@ -82,141 +146,49 @@ const ModalUpdatePost = (props: any) => {
             <Option value="Longsor">Longsor</Option>
             <Option value="Tsunami">Tsunami</Option>
           </SelectOption>
-          <SelectOptionFragment
-            label="Daerah"
-            name="daerah"
-            title="Pilih Daerah..."
-            defaultValue={updatedPost.daerah}
-          />
           <Input
-            name="lokasi"
-            label="Lokasi"
-            placeholder="Lokasi"
-            type="text"
-            defaultValue={updatedPost.lokasi}
+            name="tanggal"
+            type="date"
+            label="Tanggal"
+            defaultValue={updatedPost.tanggal}
+            required
           />
 
-          <div className="mt-5">
-            <label htmlFor="bantuan" className="text-lg font-bold">
-              Bantuan
+          <div className="mt-3">
+            <label htmlFor="desc" className="block text-sm font-medium mb-2">
+              Deskripsi
             </label>
-            {PostCount.map(
-              (
-                bantuan: {
-                  lembaga: string;
-                  jenisBantuan: string;
-                  namaBantuan: string;
-                  qty: number;
-                  nominal: number;
-                },
-                i: number
-              ) => (
-                <div key={i}>
-                  <div className="grid grid-cols-5 gap-4">
-                    <SelectOption
-                      name="lembaga"
-                      title="Pilih..."
-                      label="Lembaga"
-                      onChange={(e) => handlePost(e, i, "lembaga")}
-                      defaultValue={bantuan.lembaga}
-                      required
-                    >
-                      <Option value="Human Initiative">Human Initiative</Option>
-                      <Option value="IZI">IZI</Option>
-                    </SelectOption>
-
-                    <SelectOption
-                      name="jenisBantuan"
-                      title="Pilih..."
-                      label="Jenis Bantuan"
-                      onChange={(e) => handlePost(e, i, "jenisBantuan")}
-                      defaultValue={bantuan.jenisBantuan}
-                      required
-                    >
-                      <Option value="Rupiah">Rupiah</Option>
-                      <Option value="Barang">Barang</Option>
-                    </SelectOption>
-                    <Input
-                      name="namaBantuan"
-                      label="Nama Bantuan"
-                      placeholder="Nama Bantuan"
-                      defaultValue={bantuan.namaBantuan}
-                      type="text"
-                      onChange={(e) => handlePost(e, i, "namaBantuan")}
-                    />
-                    <Input
-                      name="qty"
-                      label="Qty"
-                      placeholder="Qty"
-                      defaultValue={bantuan.qty}
-                      type="number"
-                      onChange={(e) => handlePost(e, i, "qty")}
-                      disabled={
-                        bantuan.jenisBantuan === "Rupiah" ||
-                        bantuan.jenisBantuan === ""
-                      }
-                      required={
-                        bantuan.jenisBantuan === "Rupiah" ||
-                        bantuan.jenisBantuan === ""
-                      }
-                    />
-                    <Input
-                      name="nominal"
-                      label="Nominal"
-                      placeholder="Nominal"
-                      defaultValue={bantuan.nominal}
-                      type="number"
-                      onChange={(e) => handlePost(e, i, "nominal")}
-                      disabled={
-                        bantuan.jenisBantuan === "Barang" ||
-                        bantuan.jenisBantuan === ""
-                      }
-                      required={
-                        bantuan.jenisBantuan === "Barang" ||
-                        bantuan.jenisBantuan === ""
-                      }
-                    />
-                  </div>
-                </div>
-              )
-            )}
+            <textarea
+              id="desc"
+              name="desc"
+              defaultValue={updatedPost.deskripsi}
+              required
+              className="py-3 px-4 block w-full border-gray-200 border rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none "
+              rows={3}
+              placeholder="Masukan Deskripsi..."
+            ></textarea>
           </div>
-
-          <Button
-            type="button"
-            className={"my-2"}
-            onClick={() =>
-              setPostCount([
-                ...PostCount,
-                {
-                  lembaga: "",
-                  jenisBantuan: "",
-                  namaBantuan: "",
-                  qty: 0,
-                  nominal: 0,
-                },
-              ])
-            }
-          >
-            <span className="bg-sky-500 rounded-md text-white py-2 px-4">
-              Tambah Bantuan
-            </span>
+          <div className="flex items-center gap-4 my-3">
+            <Image
+              src={
+                uploadedImage
+                  ? URL.createObjectURL(uploadedImage)
+                  : updatedPost.image
+              }
+              alt="image"
+              width={200}
+              height={200}
+              className=" w-[15%] aspect-square h-auto rounded-md bg-slate-200 flex justify-center items-center"
+            />
+            <InputFile
+              name="image"
+              uploadedImage={uploadedImage}
+              setUploadedImage={setUploadedImage}
+            />
+          </div>
+          <Button type="submit" className="p-5 bg-sky-600 text-white">
+            {isLoading ? "Loading..." : "Update Postingan"}
           </Button>
-          <SelectOption
-            name="status"
-            title="Status"
-            defaultValue={updatedPost.Status}
-            label="Status"
-          >
-            <Option value="Diproses">Diproses</Option>
-            <Option value="Selesai">Selesai</Option>
-          </SelectOption>
-          <button
-            type="submit"
-            className="px-4 py-2 bg-sky-500 text-white rounded-md mt-5"
-          >
-            {isLoading ? "Loading..." : "Update"}
-          </button>
         </form>
       </Modal>
     </>

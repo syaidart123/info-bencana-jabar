@@ -1,30 +1,21 @@
+
 import ProfileAdminView from "@/components/Page/Admin/ProfileAdminView";
 import serviceProfile from "@/services/profile";
-import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-const ProfilePage = () => {
-  const [profile, setProfile] = useState({});
-  const session: any = useSession();
+const ProfilePage = (props: any) => {
+  const { bio } = props;
 
-  useEffect(() => {
-    if (session.data?.accessToken && Object.keys(profile).length === 0) {
-      const getProfile = async () => {
-        const { data } = await serviceProfile.getProfile();
-        setProfile(data.data);
-      };
-      getProfile();
-    }
-  }, [session, profile]);
-  return (
-    <>
-      <ProfileAdminView
-        profile={profile}
-        setProfile={setProfile}
-        session={session}
-      />
-    </>
-  );
+  return <ProfileAdminView bio={bio} />;
 };
 
 export default ProfilePage;
+
+export async function getServerSideProps() {
+  const { data } = await serviceProfile.getProfile();
+  return {
+    props: {
+      bio: data.data,
+    },
+  };
+}

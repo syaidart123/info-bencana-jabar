@@ -5,19 +5,27 @@ import { ToasterContext } from "@/context/ToasterContext";
 import { uploadFile } from "@/lib/firebase/service";
 import serviceProfile from "@/services/profile";
 import Image from "next/image";
-import React, { FormEvent, useContext, useState } from "react";
+import React, { FormEvent, useContext, useEffect, useState } from "react";
 
-const ProfileAdminView = ({ profile, setProfile }: any) => {
+const ProfileAdminView = (props: any) => {
+  const { bio } = props;
+  console.log(bio);
+  
+  const { setToaster } = useContext(ToasterContext);
+  const [profileData, setProfileData] = useState<any>(bio);
   const [changeName, setChangeName] = useState<any>({});
   const [isLoading, setIsLoading] = useState(false);
-  const { setToaster } = useContext(ToasterContext);
+
+  useEffect(() => {
+    setProfileData(bio);
+  }, [bio]);
 
   const handleUpdate = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     const form = e.target as HTMLFormElement;
     const file = form.uploadImage.files[0];
-    
+
     const newProfileData = {
       fullname: form.namaLengkap.value,
       telepon: form.telepon.value,
@@ -25,10 +33,13 @@ const ProfileAdminView = ({ profile, setProfile }: any) => {
 
     try {
       // Update Profile Information
-      const profileResult = await serviceProfile.updateProfile(profile.id, newProfileData);
+      const profileResult = await serviceProfile.updateProfile(
+        profileData.id,
+        newProfileData
+      );
       if (profileResult.status === 200) {
-        setProfile({
-          ...profile,
+        setProfileData({
+          ...profileData,
           fullname: newProfileData.fullname,
           telepon: newProfileData.telepon,
         });
@@ -48,8 +59,9 @@ const ProfileAdminView = ({ profile, setProfile }: any) => {
         if (!allowedExtensions.includes(fileExtension)) {
           setToaster({
             variant: "danger",
-            message: "Ekstensi file tidak sesuai. Hanya jpg, jpeg, png, dan pdf yang diizinkan.",
-          })
+            message:
+              "Ekstensi file tidak sesuai. Hanya jpg, jpeg, png, dan pdf yang diizinkan.",
+          });
           setChangeName({});
           return;
         }
@@ -58,23 +70,26 @@ const ProfileAdminView = ({ profile, setProfile }: any) => {
           setToaster({
             variant: "danger",
             message: "Ukuran file maksimal 1 MB",
-          })
+          });
           setChangeName({});
           return;
         }
 
         const newName = "profile." + file.name.split(".")[1];
         uploadFile(
-          profile.id,
+          profileData.id,
           file,
           newName,
           "users",
           async (status: boolean, newImageUrl: string) => {
             if (status) {
               const data = { image: newImageUrl };
-              const imageResult = await serviceProfile.updateProfile(profile.id, data);
+              const imageResult = await serviceProfile.updateProfile(
+                profileData.id,
+                data
+              );
               if (imageResult.status === 200) {
-                setProfile({ ...profile, image: newImageUrl });
+                setProfileData({ ...profileData, image: newImageUrl });
                 setChangeName({});
                 setToaster({
                   variant: "success",
@@ -101,24 +116,27 @@ const ProfileAdminView = ({ profile, setProfile }: any) => {
     }
   };
 
-  return (  
+  return (
     <DashboardLayout type="Admin">
       <p className="text-xl font-bold mb-10">Profile Page</p>
       <div className="w-full border rounded-md p-5">
-        <form onSubmit={handleUpdate} className="flex flex-col lg:flex-row justify-start items-center lg:items-start space-y-5 lg:space-y-0 lg:space-x-10">
+        <form
+          onSubmit={handleUpdate}
+          className="flex flex-col lg:flex-row justify-start items-center lg:items-start space-y-5 lg:space-y-0 lg:space-x-10"
+        >
           <div className="w-full lg:w-1/3 flex flex-col items-center border rounded-md shadow-md p-2">
-            {profile?.image ? (
+            {profileData?.image ? (
               <Image
-                src={profile?.image}
+                src={profileData?.image}
                 width={250}
                 height={250}
-                alt="Profile"
+                alt="profile"
                 loading="lazy"
                 className="rounded-full object-cover w-auto h-auto lg:w-[250px] lg:h-[250px] bg-gray-200 border text-3xl font-bold"
               />
             ) : (
               <div className="rounded-full w-[250px] h-[250px] flex justify-center items-center object-cover bg-gray-200 text-3xl font-bold">
-                {profile?.fullname?.charAt(0)}
+                {profileData?.fullname?.charAt(0)}
               </div>
             )}
             <div className="my-5">
@@ -151,14 +169,14 @@ const ProfileAdminView = ({ profile, setProfile }: any) => {
               type="text"
               name="namaLengkap"
               label="Nama Lengkap"
-              defaultValue={profile.fullname}
+              defaultValue={profileData.fullname}
               className="w-full"
             />
             <Input
               type="email"
               name="email"
               label="Email"
-              defaultValue={profile.email}
+              defaultValue={profileData.email}
               className="bg-gray-100 border-gray-300 opacity-40 w-full"
               disabled
             />
@@ -166,17 +184,18 @@ const ProfileAdminView = ({ profile, setProfile }: any) => {
               type="number"
               name="telepon"
               label="No. Telepon"
-              defaultValue={profile.telepon}
+              defaultValue={profileData.telepon}
               className="w-full"
             />
             <hr className="mt-5 mb-2" />
             <div className="flex justify-end">
-
-            <Button type="submit" className="bg-sky-500 text-white mt-3 w-3/4 lg:w-1/3">
-              {isLoading ? "Loading..." : "Update"}
-            </Button>
+              <Button
+                type="submit"
+                className="bg-sky-500 text-white mt-3 w-3/4 lg:w-1/3"
+              >
+                {isLoading ? "Loading..." : "Update"}
+              </Button>
             </div>
-
           </div>
         </form>
       </div>

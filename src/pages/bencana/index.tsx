@@ -3,7 +3,7 @@ import submissionService from "@/services/submission";
 import React from "react";
 
 const PageDataBencana = (props: any) => {
-  const { submission } = props;
+  const { submission } = props;  
   return <Tabel dataSubmission={submission} />;
 };
 

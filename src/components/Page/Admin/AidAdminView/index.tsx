@@ -7,20 +7,18 @@ import { Aid } from "@/types/aid.type";
 import ModalUpdateAid from "./ModalUpdateAid";
 import ModalDeleteAid from "./ModalDeleteAid";
 
-type propsType = {
-  dataAid: Aid[];
-};
 
-const AidAdminView = (props: propsType) => {
-  const { dataAid } = props;
+
+const AidAdminView = (props: any) => {
+  const { aids } = props;
   const [aidData, setAidData] = useState<Aid[]>([]);
   const [updatedAid, setUpdatedAid] = useState({});
   const [deletedAid, setDeletedAid] = useState({});
   const [modalAddAid, setModalAddAid] = useState(false);
 
   useEffect(() => {
-    setAidData(dataAid);
-  }, [dataAid]);
+    setAidData(aids);
+  }, [aids]);
 
   return (
     <div>

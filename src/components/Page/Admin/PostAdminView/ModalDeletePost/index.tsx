@@ -3,6 +3,7 @@ import Button from "@/components/UI/Button";
 import React, { useContext, useState } from "react";
 import { ToasterContext } from "@/context/ToasterContext";
 import postService from "@/services/post";
+import { deleteFile } from "@/lib/firebase/service";
 const ModalDeletePost = (props: any) => {
   const { deletedPost, setDeletedPost, setPostData } = props;
   const { setToaster } = useContext(ToasterContext);
@@ -13,14 +14,18 @@ const ModalDeletePost = (props: any) => {
 
     if (result.status === 200) {
       setIsLoading(false);
-
-      setDeletedPost({});
-      const { data } = await postService.getPost();
-      setPostData(data.data);
-      setToaster({
-        variant: "success",
-        message: "Pengajuan Berhasil Dihapus",
-      });
+      deleteFile(`/images/posts/${deletedPost.id}/${deletedPost.image?.split("%2F")[3].split("?")[0]}`, async (status:boolean)=>{
+        if(status){
+          setDeletedPost({});
+          const { data } = await postService.getPost();
+          setPostData(data.data);
+          setToaster({
+            variant: "success",
+            message: "Pengajuan Berhasil Dihapus",
+          });
+        }
+      }
+    )
     } else {
       setIsLoading(false);
       setDeletedPost({});

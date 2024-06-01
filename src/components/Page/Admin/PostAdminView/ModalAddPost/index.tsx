@@ -16,6 +16,9 @@ import Option from "@/components/UI/Option";
 import SelectOptionFragment from "@/components/Fragment/OptionDaerah";
 import { Post } from "@/types/post.type";
 import postService from "@/services/post";
+import InputFile from "@/components/UI/InputFile";
+import Image from "next/image";
+import { uploadFile } from "@/lib/firebase/service";
 
 type propsTypes = {
   setModalAddPost: Dispatch<SetStateAction<boolean>>;
@@ -24,58 +27,117 @@ type propsTypes = {
 
 const ModalAddPost = (props: propsTypes) => {
   const { setModalAddPost, setPostData } = props;
-
-  const [isLoading, setIsLoading] = useState(false);
   const { setToaster } = useContext(ToasterContext);
+  const [isLoading, setIsLoading] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [PostCount, setPostCount] = useState([
     { lembaga: "", jenisBantuan: "", namaBantuan: "", qty: 0, nominal: 0 },
   ]);
 
+  const uploadImage = async (id: string, form: any) => {
+    const file = form.image.files[0];
+    const newName = "post." + file.name.split(".")[1];
+    if (file) {
+      uploadFile(
+        id,
+        file,
+        newName,
+        "posts",
+        async (status: boolean, newImageURL: string) => {
+          if (status) {
+            const data = {
+              image: newImageURL,
+            };
+            const result = await postService.updatePost(id, data);
+            if (result.status === 200) {
+              setIsLoading(false);
+              setUploadedImage(null);
+              form.reset();
+              setModalAddPost(false);
+              const { data } = await postService.getPost();
+              setPostData(data.data);
+              setToaster({
+                variant: "success",
+                message: "Postingan Berhasil Di Tambah",
+              });
+            } else {
+              setIsLoading(false);
+              setUploadedImage(null);
+              form.reset();
+              setModalAddPost(false);
+              setToaster({
+                variant: "danger",
+                message: "Postingan Gagal Di Tambah",
+              });
+            }
+          } else {
+            setIsLoading(false);
+            setToaster({
+              variant: "danger",
+              message: "Postingan Gagal Di Tambah",
+            });
+          }
+        }
+      );
+    }
+  };
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     const form = e.target as HTMLFormElement;
-    const bantuan = PostCount.map((item: any) => {
-      return {
-        lembaga: item.lembaga,
-        jenisBantuan: item.jenisBantuan,
-        namaBantuan: item.namaBantuan,
-        qty: parseInt(`${item.qty}`),
-        nominal: parseInt(`${item.nominal}`),
-      };
-    });
-
     const data = {
+      title: form.judul.value,
       jenisBencana: form.jenisBencana.value,
-      daerah: form.daerah.value,
-      lokasi: form.lokasi.value,
-      bantuan: bantuan,
+      tanggal: form.tanggal.value,
+      deskripsi: form.desc.value,
+      image: "",
     };
 
-    const result = await postService.addPost(data);
+    const file = form.image.files[0];
+    if (file) {
+      const allowedExtensions = ["jpg", "jpeg", "png", "pdf"];
+      const fileExtension = file.name.split(".").pop().toLowerCase();
 
-    if (result.status === 200) {
-      setIsLoading(false);
-      setModalAddPost(false);
-      const { data } = await postService.getPost();
-      setPostData(data.data);
-      setPostCount([
-        { lembaga: "", jenisBantuan: "", namaBantuan: "", qty: 0, nominal: 0 },
-      ]);
+      if (!allowedExtensions.includes(fileExtension)) {
+        setIsLoading(false);
+        setUploadedImage(null);
+        setToaster({
+          variant: "danger",
+          message:
+            "Ekstensi file tidak sesuai. Hanya jpg, jpeg, png, dan pdf yang diizinkan.",
+        });
+        return;
+      }
 
-      setToaster({
-        variant: "success",
-        message: "Bantuan Berhasil Di Tambahkan",
-      });
-    } else {
+      if (file.size >= 1000000) {
+        setIsLoading(false);
+        setUploadedImage(null);
+        setToaster({
+          variant: "danger",
+          message: "Ukuran file maksimal 1 MB",
+        });
+        return;
+      }
+    }
+    try {
+      const result = await postService.addPost(data);
+
+      if (result.status === 200) {
+        uploadImage(result.data.data.id, form);
+      } else {
+        setIsLoading(false);
+        setUploadedImage(null);
+        setToaster({
+          variant: "danger",
+          message: "Postingan Gagal Di Tambah",
+        });
+      }
+    } catch (error) {
       setIsLoading(false);
-      setModalAddPost(false);
-      setPostCount([
-        { lembaga: "", jenisBantuan: "", namaBantuan: "", qty: 0, nominal: 0 },
-      ]);
+      setUploadedImage(null);
       setToaster({
         variant: "danger",
-        message: "Bantuan Gagal Di Tambahkan",
+        message: "Postingan Gagal Di Tambah",
       });
     }
   };
@@ -89,8 +151,15 @@ const ModalAddPost = (props: propsTypes) => {
   return (
     <>
       <Modal onClose={() => setModalAddPost(false)}>
-        <p className="text-3xl font-bold">Buat Bantuan</p>
+        <p className="text-3xl font-bold">Buat Postingan</p>
         <form onSubmit={handleSubmit}>
+          <Input
+            name="judul"
+            type="text"
+            label="Judul"
+            placeholder="Masukan Judul"
+            required
+          />
           <SelectOption
             name="jenisBencana"
             title="Pilih..."
@@ -104,128 +173,45 @@ const ModalAddPost = (props: propsTypes) => {
             <Option value="Longsor">Longsor</Option>
             <Option value="Tsunami">Tsunami</Option>
           </SelectOption>
-          <SelectOptionFragment
-            label="Daerah"
-            name="daerah"
-            title="Pilih Daerah..."
-          />
-          <Input
-            name="lokasi"
-            label="Lokasi"
-            placeholder="Lokasi"
-            type="text"
-          />
+          <Input name="tanggal" type="date" label="Tanggal" required />
 
-          <div className="mt-5">
-            <label htmlFor="bantuan" className="text-lg font-bold">
-              Bantuan
+          <div className="mt-3">
+            <label htmlFor="desc" className="block text-sm font-medium mb-2">
+              Deskripsi
             </label>
-            {PostCount.map(
-              (
-                bantuan: {
-                  lembaga: string;
-                  jenisBantuan: string;
-                  namaBantuan: string;
-                  qty: number;
-                  nominal: number;
-                },
-                i: number
-              ) => (
-                <div key={i}>
-                  <div className="grid grid-cols-5 gap-4">
-                    <SelectOption
-                      name="lembaga"
-                      title="Pilih..."
-                      label="Lembaga"
-                      onChange={(e) => handlePost(e, i, "lembaga")}
-                      required
-                    >
-                      <Option value="Human Initiative">Human Initiative</Option>
-                      <Option value="IZI">IZI</Option>
-                    </SelectOption>
-
-                    <SelectOption
-                      name="jenisBantuan"
-                      title="Pilih..."
-                      label="Jenis Bantuan"
-                      onChange={(e) => handlePost(e, i, "jenisBantuan")}
-                      required
-                    >
-                      <Option value="Rupiah">Rupiah</Option>
-                      <Option value="Barang">Barang</Option>
-                    </SelectOption>
-                    <Input
-                      name="namaBantuan"
-                      label="Nama Bantuan"
-                      placeholder="Nama Bantuan"
-                      type="text"
-                      onChange={(e) => handlePost(e, i, "namaBantuan")}
-                    />
-                    <Input
-                      name="qty"
-                      label="Qty"
-                      placeholder="Qty"
-                      type="number"
-                      onChange={(e) => handlePost(e, i, "qty")}
-                      disabled={
-                        bantuan.jenisBantuan === "Rupiah" ||
-                        bantuan.jenisBantuan === ""
-                      }
-                      required={
-                        bantuan.jenisBantuan === "Rupiah" ||
-                        bantuan.jenisBantuan === ""
-                      }
-                    />
-                    <Input
-                      name="nominal"
-                      label="Nominal"
-                      placeholder="Nominal"
-                      type="number"
-                      onChange={(e) => handlePost(e, i, "nominal")}
-                      disabled={
-                        bantuan.jenisBantuan === "Barang" ||
-                        bantuan.jenisBantuan === ""
-                      }
-                      required={
-                        bantuan.jenisBantuan === "Barang" ||
-                        bantuan.jenisBantuan === ""
-                      }
-                    />
-                  </div>
-                </div>
-              )
+            <textarea
+              id="desc"
+              name="desc"
+              required
+              className="py-3 px-4 block w-full border-gray-200 border rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none "
+              rows={3}
+              placeholder="Masukan Deskripsi..."
+            ></textarea>
+          </div>
+          <div className="flex items-center gap-4 my-3">
+            {uploadedImage ? (
+              <Image
+                src={URL.createObjectURL(uploadedImage)}
+                alt="image"
+                width={200}
+                height={200}
+                className=" w-[15%] aspect-square h-auto rounded-md bg-slate-200 flex justify-center items-center"
+              />
+            ) : (
+              <div className="w-[15%] aspect-square h-auto rounded-md bg-slate-200 flex justify-center items-center">
+                No Image
+              </div>
             )}
+            <InputFile
+              name="image"
+              required
+              uploadedImage={uploadedImage}
+              setUploadedImage={setUploadedImage}
+            />
           </div>
-
-          <div className="flex flex-col items-start">
-            <Button
-              type="button"
-              className={"my-2"}
-              onClick={() =>
-                setPostCount([
-                  ...PostCount,
-                  {
-                    lembaga: "",
-                    jenisBantuan: "",
-                    namaBantuan: "",
-                    qty: 0,
-                    nominal: 0,
-                  },
-                ])
-              }
-            >
-              <span className="bg-sky-500 rounded-md text-white py-2 px-4">
-                Tambah Bantuan
-              </span>
-            </Button>
-
-            <button
-              type="submit"
-              className="px-4 py-2 bg-sky-500 text-white rounded-md mt-5"
-            >
-              {isLoading ? "Loading..." : "Kirim"}
-            </button>
-          </div>
+          <Button type="submit" className="p-5 bg-sky-600 text-white">
+            {isLoading ? "Loading..." : "Buat Postingan"}
+          </Button>
         </form>
       </Modal>
     </>

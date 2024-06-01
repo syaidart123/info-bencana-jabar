@@ -6,12 +6,10 @@ import { ClipboardPen, Trash2 } from "lucide-react";
 import ModalDeletePengajuan from "./ModalDeletePengajuan";
 import Image from "next/image";
 
-type propTypes = {
-  submission: any;
-};
 
-const PengajuanView = (props: propTypes) => {
-  const { submission } = props;
+
+const PengajuanView = (props: any) => {
+  const { submission } = props;  
   const [dataSubmission, setDataSubmission] = useState<any>(submission);
   const [deletedSubmission, setDeletedSubmission] = useState({});
   const [updatedSubmission, setUpdatedSubmission] = useState({});

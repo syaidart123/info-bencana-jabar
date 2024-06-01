@@ -1,3 +1,4 @@
+import SelectOptionFragment from "@/components/Fragment/OptionDaerah";
 import Button from "@/components/UI/Button";
 import Input from "@/components/UI/Input";
 import InputField from "@/components/UI/InputField";
@@ -47,37 +48,7 @@ const FormBencana = (props: propTypes) => {
           </SelectOption>
 
           <Input name="tanggal" label="Tanggal" type="date" required />
-          <SelectOption label="Daerah" name="daerah" title="Pilih Daerah...">
-            <Option value="Kota Bandung">Kota Bandung</Option>
-            <Option value="Kabupaten Bandung">Kabupaten Bandung</Option>
-            <Option value="Kabupaten Bandung Barat">
-              Kabupaten Bandung Barat
-            </Option>
-            <Option value="Kota Banjar">Kota Banjar</Option>
-            <Option value="Kabupaten Bekasi">Kabupaten Bekasi</Option>
-            <Option value="Kota Bekasi">Kota Bekasi</Option>
-            <Option value="Kabupaten Bogor">Kabupaten Bogor</Option>
-            <Option value="Kota Bogor">Kota Bogor</Option>
-            <Option value="Kabupaten Ciamis">Kabupaten Ciamis</Option>
-            <Option value="Kabupaten Cirebon">Kabupaten Cirebon</Option>
-            <Option value="Kota Cirebon">Kota Cirebon</Option>
-            <Option value="Kabupaten Cianjur">Kabupaten Cianjur</Option>
-            <Option value="Kota Cimahi">Kota Cimahi</Option>
-            <Option value="Kota Depok">Kota Depok</Option>
-            <Option value="Kabupaten Garut">Kabupaten Garut</Option>
-            <Option value="Kabupaten Indramayu">Kabupaten Indramayu</Option>
-            <Option value="Kabupaten Karawang">Kabupaten Karawang</Option>
-            <Option value="Kabupaten Kuningan">Kabupaten Kuningan</Option>
-            <Option value="Kabupaten Majalengka">Kabupaten Majalengka</Option>
-            <Option value="Kabupaten Pangandaran">Kabupaten Pangandaran</Option>
-            <Option value="Kabupaten Purwakarta">Kabupaten Purwakarta</Option>
-            <Option value="Kabupaten Subang">Kabupaten Subang</Option>
-            <Option value="Kabupaten Sukabumi">Kabupaten Sukabumi</Option>
-            <Option value="Kabupaten Sumedang">Kabupaten Sumedang</Option>
-            <Option value="Kota Sukabumi">Kota Sukabumi</Option>
-            <Option value="Kabupaten Tasikmalaya">Kabupaten Tasikmalaya</Option>
-            <Option value="Kota Tasikmalaya">Kota Tasikmalaya</Option>
-          </SelectOption>
+          <SelectOptionFragment label="Daerah" name="daerah" title="Pilih Daerah..."  />
           <Input
             name="lokasi"
             placeholder="Masukan lokasi"

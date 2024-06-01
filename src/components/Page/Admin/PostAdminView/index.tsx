@@ -1,16 +1,23 @@
 import DashboardLayout from "@/components/Layout/DashboardLayout";
 import Button from "@/components/UI/Button";
-import { CirclePlus } from "lucide-react";
-import React, { useState } from "react";
+import { CirclePlus, ClipboardPen, Trash2 } from "lucide-react";
+import React, { useEffect, useState } from "react";
 import ModalAddPost from "./ModalAddPost";
 import ModalUpdatePost from "./ModalUpdatePost";
 import ModalDeletePost from "./ModalDeletePost";
+import Image from "next/image";
 
-const PostAdminView = () => {
+const PostAdminView = (props: any) => {
+  const {posts}=props;
   const [modalAddPost, setModalAddPost] = useState(false);
-  const [postData, setPostData] = useState({});
+  const [postData, setPostData] = useState<any>(posts);
   const [deletedPost, setDeletedPost] = useState({});
   const [updatedPost, setUpdatedPost] = useState({});
+
+useEffect(()=>{
+  setPostData(posts);
+},[posts])
+
   return (
     <>
       <DashboardLayout type="Admin">
@@ -39,7 +46,13 @@ const PostAdminView = () => {
                           scope="col"
                           className="px-6 py-3 text-start text-xs font-medium text-white uppercase"
                         >
-                          daerah
+                          Foto
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-start text-xs font-medium text-white uppercase"
+                        >
+                          Judul
                         </th>
                         <th
                           scope="col"
@@ -51,8 +64,9 @@ const PostAdminView = () => {
                           scope="col"
                           className="px-6 py-3 text-start text-xs font-medium text-white uppercase"
                         >
-                          status
+                          Tanggal
                         </th>
+                      
 
                         <th
                           scope="col"
@@ -62,8 +76,8 @@ const PostAdminView = () => {
                         </th>
                       </tr>
                     </thead>
-                    {/* <tbody>
-                      {aidData.map((sub: any, index: number) => {
+                    <tbody>
+                      {postData.map((sub: any, index: number) => {
                         return (
                           <tr
                             className="odd:bg-white even:bg-gray-100"
@@ -73,20 +87,23 @@ const PostAdminView = () => {
                               {index + 1}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm rounded-md font-medium text-gray-800 ">
-                              {sub.daerah}
+                              <Image src={sub.image} alt="foto" width={100} height={100}  />
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 ">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                               <p className="truncate max-w-[200px]">{sub.title}</p>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                               {sub.jenisBencana}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                              {sub.Status}
+                              {sub.tanggal}
                             </td>
 
                             <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                               <div className="flex gap-2">
                                 <Button
                                   type="button"
-                                  onClick={() => setUpdatedAid(sub)}
+                                  onClick={() => setUpdatedPost(sub)}
                                 >
                                   <div className="bg-yellow-500 px-4 py-2 rounded-md text-white">
                                     <ClipboardPen />
@@ -94,7 +111,7 @@ const PostAdminView = () => {
                                 </Button>
                                 <Button
                                   type="button"
-                                  onClick={() => setDeletedAid(sub)}
+                                  onClick={() => setDeletedPost(sub)}
                                 >
                                   <div className="bg-red-500 px-4 py-2 rounded-md text-white">
                                     <Trash2 />
@@ -105,7 +122,7 @@ const PostAdminView = () => {
                           </tr>
                         );
                       })}
-                    </tbody> */}
+                    </tbody>
                   </table>
                 </div>
               </div>
