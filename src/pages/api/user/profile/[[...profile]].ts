@@ -14,20 +14,23 @@ export default async function handler(
   if (req.method === "GET") {
     verify(req, res, false, async (decoded: any) => {
       const profile: any = await retrieveDataById("users", decoded.id);
-      
-      if (profile) {
-        profile.id = decoded.id;
-        apiResponseSuccess(res, profile);
-      } else {
+      try {
+        if (profile) {
+          profile.id = decoded.id;
+          apiResponseSuccess(res, profile);
+        } else {
+          apiResponseFailed(res);
+        }
+      } catch (error) {
         apiResponseFailed(res);
       }
     });
   } else if (req.method === "PUT") {
     const { data } = req.body;
-    const { user }: any = req.query;
+    const { profile }: any = req.query;
     verify(req, res, false, async (decoded: any) => {
       if (decoded) {
-        await updateData("users", user[0], data, (status: boolean) => {
+        await updateData("users", profile[0], data, (status: boolean) => {
           if (status) {
             apiResponseSuccess(res);
           } else {

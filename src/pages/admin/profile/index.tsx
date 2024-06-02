@@ -1,21 +1,16 @@
-
 import ProfileAdminView from "@/components/Page/Admin/ProfileAdminView";
+import fetcher from "@/lib/swr/fetcher";
 import serviceProfile from "@/services/profile";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import useSWR from "swr";
 
-const ProfilePage = (props: any) => {
-  const { bio } = props;
+const ProfilePage = () => {
+  const { data, error, isLoading } = useSWR("/api/user/profile", fetcher);
+  if (error) return <div>Error loading submissions</div>;
+  if (isLoading) return <div>Loading...</div>;
 
-  return <ProfileAdminView bio={bio} />;
+  return <ProfileAdminView bio={data} />;
 };
 
 export default ProfilePage;
-
-export async function getServerSideProps() {
-  const { data } = await serviceProfile.getProfile();
-  return {
-    props: {
-      bio: data.data,
-    },
-  };
-}

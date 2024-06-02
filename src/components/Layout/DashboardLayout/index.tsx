@@ -1,4 +1,6 @@
 import Sidebar from "@/components/Fragment/sidebar";
+import serviceProfile from "@/services/profile";
+import useSWR from "swr";
 import {
   BarChart3,
   CircleUser,
@@ -6,11 +8,13 @@ import {
   MonitorUp,
   Newspaper,
 } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import fetcher from "@/lib/swr/fetcher";
 
 type propTypes = {
   children: React.ReactNode;
   type: "Admin" | "User";
+  profile?: any;
 };
 
 const listSidebarAdmin = [
@@ -60,12 +64,16 @@ const listSidebarUser = [
 
 const DashboardLayout = (props: propTypes) => {
   const { children, type } = props;
+  const { data, error, isLoading } = useSWR("/api/user/profile", fetcher);
+
+  if (error) return <div>Error loading submissions</div>;
+  if (isLoading) return <div>Loading...</div>;
   return (
     <div className="flex justify-between">
       {type === "Admin" ? (
-        <Sidebar links={listSidebarAdmin} />
+        <Sidebar links={listSidebarAdmin} profile={data} />
       ) : (
-        <Sidebar links={listSidebarUser} />
+        <Sidebar links={listSidebarUser} profile={data} />
       )}
       <div className="w-full p-10">{children}</div>
     </div>

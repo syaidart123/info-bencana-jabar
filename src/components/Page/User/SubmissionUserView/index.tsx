@@ -6,19 +6,15 @@ import ModalDeletePengajuan from "./ModalDeletePengajuan";
 import ModalUpdatePengajuan from "./ModalUpdatePengajuan";
 import Image from "next/image";
 
-type propTypes = {
-  submission: any;
-};
-
-const StatusPengajuanView = (props: propTypes) => {
-  const { submission } = props;
+const StatusPengajuanView = (props: any) => {
+  const { submissions } = props;
   const [dataSubmission, setDataSubmission] = useState<any>([]);
   const [deletedSubmission, setDeletedSubmission] = useState({});
   const [updatedSubmission, setUpdatedSubmission] = useState({});
 
   useEffect(() => {
-    setDataSubmission(submission);
-  }, [submission]);
+    setDataSubmission(submissions);
+  }, [submissions]);
 
   return (
     <div>

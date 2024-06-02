@@ -14,35 +14,10 @@ import { usePathname } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 
 const Sidebar = (props: any) => {
-  
+  const { profile } = props;
   const session: any = useSession();
   const [showDropdown, setDropdown] = useState(false);
-  const [profile, setProfile] = useState<any>({});
   const [isLoading, setIsLoading] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  
-
-  useEffect(() => {
-    if (session.data?.accessToken && Object.keys(profile).length === 0) {
-      const getProfile = async () => {
-        const { data } = await serviceProfile.getProfile();
-        setProfile(data.data);
-      };
-      getProfile();
-    }
-  }, [session, profile]);
-  const handleClickOutside: any = (event: MouseEvent) => {
-    if (ref.current && !ref.current.contains(event.target as Node)) {
-      setDropdown(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
 
   const [open, setOpen] = useState(true);
   const { links } = props;
@@ -65,11 +40,7 @@ const Sidebar = (props: any) => {
               }`}
             />
           </Link>
-          <Button
-            type="button"
-            className="p-1.5"
-            onClick={toggleSidebar}
-          >
+          <Button type="button" className="p-1.5" onClick={toggleSidebar}>
             {open ? (
               <ChevronsLeft color="blue" />
             ) : (
@@ -107,34 +78,33 @@ const Sidebar = (props: any) => {
           >
             <div className="leading-4 flex justify-start gap-3 items-center">
               {session.data?.user?.image ? (
-                <Image
-                  src={profile.image}
-                  width={500}
-                  height={500}
-                  alt=""
-                  className={`${
-                    isLoading && "animate-pulse"
-                  } bg-gray flex items-center bg-gray-400 justify-center text-white h-[40px] w-[40px] rounded-full object-cover border`}
-                />
+                <>
+                  {profile.image ? (
+                    <Image
+                      src={profile?.image}
+                      width={500}
+                      height={500}
+                      alt=""
+                      className={`bg-gray flex items-center bg-gray-400 justify-center text-white h-[40px] w-[40px] rounded-full object-cover border`}
+                    />
+                  ) : (
+                    <div className="py-1 px-2 bg-gray flex items-center animate-pulse bg-gray-300 justify-center text-white h-[40px] w-[40px] rounded-full"></div>
+                  )}
+                </>
               ) : (
-                <div
-                  ref={ref}
-                  className="py-1 px-2 bg-gray flex items-center bg-gray-400 justify-center text-white h-[40px] w-[40px] rounded-full"
-                >
+                <div className="py-1 px-2 bg-gray flex items-center bg-gray-400 justify-center text-white h-[40px] w-[40px] rounded-full">
                   <p>{session.data?.user?.fullname.charAt(0)}</p>
                 </div>
               )}
               <div>
-                <h4 className="font-semibold text-black">
-                  {profile.fullname}
-                </h4>
+                <h4 className="font-semibold text-black">{profile.fullname}</h4>
                 <span className="text-xs text-gray-600">
-                  {profile.email}
+                  {session.data?.user.email}
                 </span>
               </div>
             </div>
           </div>
-          <div className="flex flex-col-reverse" ref={ref}>
+          <div className="flex flex-col-reverse">
             <Button type="button" onClick={() => setDropdown(!showDropdown)}>
               <ChevronRight size={20} />
             </Button>
@@ -165,7 +135,3 @@ const Sidebar = (props: any) => {
 };
 
 export default Sidebar;
-
-
-
-

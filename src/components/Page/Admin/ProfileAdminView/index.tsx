@@ -1,6 +1,7 @@
 import DashboardLayout from "@/components/Layout/DashboardLayout";
 import Button from "@/components/UI/Button";
 import Input from "@/components/UI/Input";
+import InputFile from "@/components/UI/InputFile";
 import { ToasterContext } from "@/context/ToasterContext";
 import { uploadFile } from "@/lib/firebase/service";
 import serviceProfile from "@/services/profile";
@@ -9,8 +10,7 @@ import React, { FormEvent, useContext, useEffect, useState } from "react";
 
 const ProfileAdminView = (props: any) => {
   const { bio } = props;
-  console.log(bio);
-  
+
   const { setToaster } = useContext(ToasterContext);
   const [profileData, setProfileData] = useState<any>(bio);
   const [changeName, setChangeName] = useState<any>({});
@@ -124,30 +124,36 @@ const ProfileAdminView = (props: any) => {
           onSubmit={handleUpdate}
           className="flex flex-col lg:flex-row justify-start items-center lg:items-start space-y-5 lg:space-y-0 lg:space-x-10"
         >
-          <div className="w-full lg:w-1/3 flex flex-col items-center border rounded-md shadow-md p-2">
-            {profileData?.image ? (
-              <Image
-                src={profileData?.image}
-                width={250}
-                height={250}
-                alt="profile"
-                loading="lazy"
-                className="rounded-full object-cover w-auto h-auto lg:w-[250px] lg:h-[250px] bg-gray-200 border text-3xl font-bold"
-              />
+          <div className="w-full lg:w-1/3 flex flex-col items-center p-2">
+            {profileData ? (
+              <>
+                {profileData?.image ? (
+                  <Image
+                    src={profileData?.image}
+                    width={250}
+                    height={250}
+                    alt="profile"
+                    loading="lazy"
+                    className="rounded-full object-cover w-[200px] h-[200px] xl:w-[250px] xl:h-[250px] bg-gray-200 font-bold"
+                  />
+                ) : (
+                  <div className="rounded-full w-[250px] h-[250px] flex animate-pulse justify-center items-center object-cover bg-gray-300 text-3xl font-bold"></div>
+                )}
+              </>
             ) : (
               <div className="rounded-full w-[250px] h-[250px] flex justify-center items-center object-cover bg-gray-200 text-3xl font-bold">
                 {profileData?.fullname?.charAt(0)}
               </div>
             )}
-            <div className="my-5">
+            <div className={`my-5 ${profileData?.image ? "" : "opacity-50"}`}>
               <label
                 htmlFor="upload-image"
-                className="w-full bg-gray-300 flex flex-col justify-center items-center p-5 cursor-pointer rounded-md"
+                className="w-full p-5 xl:p-7 bg-gray-300 flex flex-col justify-center items-center cursor-pointer rounded-md"
               >
                 {changeName.name ? (
                   <p>{changeName.name}</p>
                 ) : (
-                  <p className="text-[12px] text-black">
+                  <p className="text-[12px] xl:text-md text-black">
                     Max Ukuran File : 1 MB
                   </p>
                 )}
@@ -157,6 +163,7 @@ const ProfileAdminView = (props: any) => {
                 name="uploadImage"
                 id="upload-image"
                 className="opacity-0 absolute z-[-1]"
+                disabled={!profileData}
                 onChange={(e: any) => {
                   e.preventDefault();
                   setChangeName(e.currentTarget.files[0]);
@@ -164,39 +171,49 @@ const ProfileAdminView = (props: any) => {
               />
             </div>
           </div>
-          <div className="w-full lg:w-2/3 flex flex-col border rounded-md shadow-md p-4">
-            <Input
-              type="text"
-              name="namaLengkap"
-              label="Nama Lengkap"
-              defaultValue={profileData.fullname}
-              className="w-full"
-            />
-            <Input
-              type="email"
-              name="email"
-              label="Email"
-              defaultValue={profileData.email}
-              className="bg-gray-100 border-gray-300 opacity-40 w-full"
-              disabled
-            />
-            <Input
-              type="number"
-              name="telepon"
-              label="No. Telepon"
-              defaultValue={profileData.telepon}
-              className="w-full"
-            />
-            <hr className="mt-5 mb-2" />
-            <div className="flex justify-end">
-              <Button
-                type="submit"
-                className="bg-sky-500 text-white mt-3 w-3/4 lg:w-1/3"
-              >
-                {isLoading ? "Loading..." : "Update"}
-              </Button>
+          {profileData.image ? (
+            <div className="w-full lg:w-2/3 flex flex-col p-4">
+              <Input
+                type="text"
+                name="namaLengkap"
+                label="Nama Lengkap"
+                defaultValue={profileData.fullname}
+                className="w-full"
+              />
+              <Input
+                type="email"
+                name="email"
+                label="Email"
+                defaultValue={profileData.email}
+                className="bg-gray-100 border-gray-300 opacity-40 w-full"
+                disabled
+              />
+              <Input
+                type="number"
+                name="telepon"
+                label="No. Telepon"
+                defaultValue={profileData.telepon}
+                className="w-full"
+              />
+              <hr className="mt-5 mb-2" />
+              <div className="flex justify-start">
+                <Button
+                  type="submit"
+                  className="bg-sky-500 text-white mt-3 w-3/4 lg:w-1/3"
+                >
+                  {isLoading ? "Loading..." : "Update"}
+                </Button>
+              </div>
             </div>
-          </div>
+          ) : (
+            <>
+              <div className="flex flex-col w-full gap-3">
+                <div className="flex flex-col border rounded-md  p-4 bg-gray-200 animate-pulse"></div>
+                <div className=" flex flex-col border rounded-md  p-4 bg-gray-200 animate-pulse"></div>
+                <div className=" flex flex-col border rounded-md  p-4 bg-gray-200 animate-pulse"></div>
+              </div>
+            </>
+          )}
         </form>
       </div>
     </DashboardLayout>
