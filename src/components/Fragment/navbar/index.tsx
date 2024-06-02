@@ -1,5 +1,4 @@
 import Button from "@/components/UI/Button";
-import fetcher from "@/lib/swr/fetcher";
 import { LogOut } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
@@ -7,7 +6,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
-import useSWR from "swr";
 
 const listNavbar = [
   {
@@ -26,12 +24,11 @@ const listNavbar = [
 ];
 
 const Navbar = () => {
-  const { data, error, isLoading } = useSWR("/api/user/profile", fetcher);
-
   const [showDropdown, setDropdown] = useState(false);
   const { push } = useRouter();
   const session: any = useSession();
   const pathname = usePathname();
+  const ref = useRef<HTMLDivElement>(null);
 
   const handleDashboard = () => {
     if (session.data.user.role === "admin") {
@@ -41,9 +38,18 @@ const Navbar = () => {
     }
   };
 
-  if (error) return <div>Error loading submissions</div>;
-  if (isLoading) return <div>Loading...</div>;
+  const handleClickOutside: any = (event: MouseEvent) => {
+    if (ref.current && !ref.current.contains(event.target as Node)) {
+      setDropdown(false);
+    }
+  };
 
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
   return (
     <nav className="sticky flex top-0 w-screen z-50 py-5 justify-around items-center border-b bg-white">
       <div>
@@ -80,8 +86,8 @@ const Navbar = () => {
           <div className="relative">
             {session.data?.user.image ? (
               <Image
-                alt={data.fullname}
-                src={data.image}
+                alt={session.data?.user?.fullname}
+                src={session.data?.user?.image}
                 width={40}
                 height={40}
                 className="rounded-full w-[45px] h-[45px] cursor-pointer object-cover object-center"
