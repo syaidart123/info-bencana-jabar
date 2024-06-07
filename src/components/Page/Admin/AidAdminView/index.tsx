@@ -6,12 +6,23 @@ import ModalAddAid from "./ModalAddAid";
 import { Aid } from "@/types/aid.type";
 import ModalUpdateAid from "./ModalUpdateAid";
 import ModalDeleteAid from "./ModalDeleteAid";
+import formatRupiah from "@/utils/formatRupiah";
 
 
 
 const AidAdminView = (props: any) => {
   const { aids } = props;
   const [aidData, setAidData] = useState<Aid[]>([]);
+  // console.log(aidData);
+
+  // const totalNominalAid = aidData
+  // .flatMap((item: any) => item.bantuan)
+  // .reduce((total: any, item: any) => total + (item.nominal || 0), 0);  
+  // console.log(totalNominalAid);
+
+  const totalNominal = (data:any)=>data.map((item: any) => parseInt(item.nominal) || 0)  
+  .reduce((total: any, item: any) => total + item, 0);  
+  
   const [updatedAid, setUpdatedAid] = useState({});
   const [deletedAid, setDeletedAid] = useState({});
   const [modalAddAid, setModalAddAid] = useState(false);
@@ -60,6 +71,12 @@ const AidAdminView = (props: any) => {
                           scope="col"
                           className="px-6 py-3 text-start text-xs font-medium text-white uppercase"
                         >
+                          Nominal Bantuan
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-start text-xs font-medium text-white uppercase"
+                        >
                           status
                         </th>
 
@@ -84,8 +101,11 @@ const AidAdminView = (props: any) => {
                             <td className="px-6 py-4 whitespace-nowrap text-sm rounded-md font-medium text-gray-800 ">
                               {sub.daerah}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 ">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm rounded-md font-medium text-gray-800 ">
                               {sub.jenisBencana}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 ">
+                              {formatRupiah(totalNominal(sub.bantuan))}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                               {sub.Status}

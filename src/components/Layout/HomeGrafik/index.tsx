@@ -12,23 +12,24 @@ const HomeGrafikLayout = (props: propsTypes) => {
 
   const [selectedBencana, setSelectedBencana] = useState("");
   const [selectedDaerah, setSelectedDaerah] = useState("");
+  const [selectedStartDate, setSelectedStartDate] = useState("");
+  const [selectedEndDate, setSelectedEndDate] = useState("");
   const filteredData = useMemo(() => {
+    const startDate = selectedStartDate ? new Date(selectedStartDate) : null;
+    const endDate = selectedEndDate ? new Date(selectedEndDate) : null;
     return submission.filter(
-      (item: { jenisBencana: string; daerah: string }) => {
-        if (selectedBencana && selectedDaerah) {
-          return (
-            item.jenisBencana === selectedBencana &&
-            item.daerah === selectedDaerah
-          );
-        } else if (selectedBencana) {
-          return item.jenisBencana === selectedBencana;
-        } else if (selectedDaerah) {
-          return item.daerah === selectedDaerah;
-        }
-        return true;
+      (item: { jenisBencana: string; daerah: string, tanggal: string }) => {
+        const itemDate = new Date(item.tanggal);
+
+      const matchesBencana = selectedBencana ? item.jenisBencana === selectedBencana : true;
+      const matchesDaerah = selectedDaerah ? item.daerah === selectedDaerah : true;
+      const matchesStartDate = startDate ? itemDate >= startDate : true;
+      const matchesEndDate = endDate ? itemDate <= endDate : true;
+
+      return matchesBencana && matchesDaerah && matchesStartDate && matchesEndDate;
       }
     );
-  }, [submission, selectedBencana, selectedDaerah]);
+  }, [submission, selectedBencana, selectedDaerah, selectedStartDate, selectedEndDate]);
 
   const [kerusakan, setKerusakan] = useState<any>({
     datasets: [
@@ -190,6 +191,8 @@ const HomeGrafikLayout = (props: propsTypes) => {
               <FilterSelect
                 setSelectedBencana={setSelectedBencana}
                 setSelectedDaerah={setSelectedDaerah}
+                setSelectedStartDate={setSelectedStartDate}
+                setSelectedEndDate={setSelectedEndDate}
               />
             </div>
             <div className="px-2 my-5 border rounded-md h-80">

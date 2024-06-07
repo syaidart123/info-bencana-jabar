@@ -13,12 +13,12 @@ import { ToasterContext } from "@/context/ToasterContext";
 import Input from "@/components/UI/Input";
 import SelectOption from "@/components/UI/SelectOption";
 import Option from "@/components/UI/Option";
-import SelectOptionFragment from "@/components/Fragment/OptionDaerah";
 import { Post } from "@/types/post.type";
 import postService from "@/services/post";
 import InputFile from "@/components/UI/InputFile";
 import Image from "next/image";
 import { uploadFile } from "@/lib/firebase/service";
+import SelectOptionFragment from "@/components/Fragment/OptionDaerah";
 
 type propsTypes = {
   setModalAddPost: Dispatch<SetStateAction<boolean>>;
@@ -87,7 +87,7 @@ const ModalAddPost = (props: propsTypes) => {
     const form = e.target as HTMLFormElement;
     const data = {
       title: form.judul.value,
-      jenisBencana: form.jenisBencana.value,
+      daerah: form.daerah.value,
       tanggal: form.tanggal.value,
       deskripsi: form.desc.value,
       image: "",
@@ -95,7 +95,7 @@ const ModalAddPost = (props: propsTypes) => {
 
     const file = form.image.files[0];
     if (file) {
-      const allowedExtensions = ["jpg", "jpeg", "png", "pdf"];
+      const allowedExtensions = ["jpg", "jpeg", "png"];
       const fileExtension = file.name.split(".").pop().toLowerCase();
 
       if (!allowedExtensions.includes(fileExtension)) {
@@ -104,7 +104,7 @@ const ModalAddPost = (props: propsTypes) => {
         setToaster({
           variant: "danger",
           message:
-            "Ekstensi file tidak sesuai. Hanya jpg, jpeg, png, dan pdf yang diizinkan.",
+            "Ekstensi file tidak sesuai. Hanya jpg, jpeg dan png yang diizinkan.",
         });
         return;
       }
@@ -160,19 +160,7 @@ const ModalAddPost = (props: propsTypes) => {
             placeholder="Masukan Judul"
             required
           />
-          <SelectOption
-            name="jenisBencana"
-            title="Pilih..."
-            required
-            label="Jenis Bencana"
-          >
-            <Option value="Banjir">Banjir</Option>
-            <Option value="Cuaca Ekstrem">Cuaca Ekstrem</Option>
-            <Option value="Gempa Bumi">Gempa Bumi</Option>
-            <Option value="Kebakaran">Kebakaran</Option>
-            <Option value="Longsor">Longsor</Option>
-            <Option value="Tsunami">Tsunami</Option>
-          </SelectOption>
+         <SelectOptionFragment label="Daerah" name="daerah" title="Pilih..." />
           <Input name="tanggal" type="date" label="Tanggal" required />
 
           <div className="mt-3">
@@ -184,7 +172,7 @@ const ModalAddPost = (props: propsTypes) => {
               name="desc"
               required
               className="py-3 px-4 block w-full border-gray-200 border rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none "
-              rows={3}
+              rows={15}
               placeholder="Masukan Deskripsi..."
             ></textarea>
           </div>

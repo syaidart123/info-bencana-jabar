@@ -6,6 +6,7 @@ import ModalAddPost from "./ModalAddPost";
 import ModalUpdatePost from "./ModalUpdatePost";
 import ModalDeletePost from "./ModalDeletePost";
 import Image from "next/image";
+import formatTanggal from "@/utils/formatTanggal";
 
 const PostAdminView = (props: any) => {
   const {posts}=props;
@@ -58,7 +59,7 @@ useEffect(()=>{
                           scope="col"
                           className="px-6 py-3 text-start text-xs font-medium text-white uppercase"
                         >
-                          Jenis Bencana
+                          Daerah
                         </th>
                         <th
                           scope="col"
@@ -67,7 +68,6 @@ useEffect(()=>{
                           Tanggal
                         </th>
                       
-
                         <th
                           scope="col"
                           className="px-6 py-3 text-start text-xs font-medium text-white uppercase"
@@ -93,10 +93,10 @@ useEffect(()=>{
                                <p className="truncate max-w-[200px]">{sub.title}</p>
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                              {sub.jenisBencana}
+                              {sub.daerah}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                              {sub.tanggal}
+                              {formatTanggal(sub.tanggal)}
                             </td>
 
                             <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">

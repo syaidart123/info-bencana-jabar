@@ -12,7 +12,10 @@ const listNavbar = [
     title: "Home",
     link: "/",
   },
-
+  {
+    title: "Berita",
+    link: "/berita",
+  },
   {
     title: "Data Bencana",
     link: "/bencana",

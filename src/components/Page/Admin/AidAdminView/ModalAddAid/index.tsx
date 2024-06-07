@@ -1,11 +1,9 @@
 import Modal from "@/components/UI/Modal";
-import submissionService from "@/services/submission";
 import React, {
   Dispatch,
   FormEvent,
   SetStateAction,
   useContext,
-  useEffect,
   useState,
 } from "react";
 import Button from "@/components/UI/Button";
@@ -16,6 +14,7 @@ import SelectOption from "@/components/UI/SelectOption";
 import Option from "@/components/UI/Option";
 import SelectOptionFragment from "@/components/Fragment/OptionDaerah";
 import aidService from "@/services/aid";
+import formatRupiah from "@/utils/formatRupiah";
 
 type propsTypes = {
   setModalAddAid: Dispatch<SetStateAction<boolean>>;
@@ -24,43 +23,17 @@ type propsTypes = {
 
 const ModalAddAid = (props: propsTypes) => {
   const { setModalAddAid, setAidData } = props;
-  
   const [isLoading, setIsLoading] = useState(false);
   const { setToaster } = useContext(ToasterContext);
   const [aidCount, setAidCount] = useState([
-    { lembaga: "", jenisBantuan: "", namaBantuan: "", qty: 0, nominal: 0 },
+    { lembaga: "", jenisBantuan: "", namaBantuan: "", nominal: 0 },
   ]);
 
-  // const handleUpdate = async (e: FormEvent<HTMLFormElement>) => {
+  
 
-  //   e.preventDefault();
-  //   setIsLoading(true);
-  //   const form = e.target as HTMLFormElement;
-  //   const data = {
-  //     status: form.status.value,
-  //   };
-
-  //   const result = await submissionService.updateSubmission(
-  //     updatedSubmission.id,
-  //     data
-  //   );
-  //   if (result.status === 200) {
-  //     setIsLoading(false);
-  //     setUpdatedSubmission({});
-  //     const { data } = await submissionService.getSubmission();
-  //     setDataSubmission(data.data);
-  //     setToaster({
-  //       variant: "success",
-  //       message: "Pengajuan Berhasil Di Update",
-  //     });
-  //   } else {
-  //     setIsLoading(false);
-  //     setToaster({
-  //       variant: "danger",
-  //       message: "Pengajuan Gagal Di Update",
-  //     });
-  //   }
-  // };
+  const totalNominalAid = aidCount
+  .map((item: any) => parseInt(item.nominal) || 0)  
+  .reduce((total: any, item: any) => total + item, 0);  
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -71,7 +44,6 @@ const ModalAddAid = (props: propsTypes) => {
         lembaga: item.lembaga,
         jenisBantuan: item.jenisBantuan,
         namaBantuan: item.namaBantuan,
-        qty: parseInt(`${item.qty}`),
         nominal: parseInt(`${item.nominal}`),
       };
     });
@@ -91,7 +63,7 @@ const ModalAddAid = (props: propsTypes) => {
       const { data } = await aidService.getAid();
       setAidData(data.data);
       setAidCount([
-        { lembaga: "", jenisBantuan: "", namaBantuan: "", qty: 0, nominal: 0 },
+        { lembaga: "", jenisBantuan: "", namaBantuan: "", nominal: 0 },
       ]);
       
       setToaster({
@@ -102,7 +74,7 @@ const ModalAddAid = (props: propsTypes) => {
       setIsLoading(false);
       setModalAddAid(false);
       setAidCount([
-        { lembaga: "", jenisBantuan: "", namaBantuan: "", qty: 0, nominal: 0 },
+        { lembaga: "", jenisBantuan: "", namaBantuan: "", nominal: 0 },
       ]);
       setToaster({
         variant: "danger",
@@ -157,13 +129,12 @@ const ModalAddAid = (props: propsTypes) => {
                   lembaga: string;
                   jenisBantuan: string;
                   namaBantuan: string;
-                  qty: number;
                   nominal: number;
                 },
                 i: number
               ) => (
                 <div key={i}>
-                  <div className="grid grid-cols-5 gap-4">
+                  <div className="grid grid-cols-4 gap-4">
                     <SelectOption
                       name="lembaga"
                       title="Pilih..."
@@ -192,35 +163,15 @@ const ModalAddAid = (props: propsTypes) => {
                       type="text"
                       onChange={(e) => handleAid(e, i, "namaBantuan")}
                     />
-                    <Input
-                      name="qty"
-                      label="Qty"
-                      placeholder="Qty"
-                      type="number"
-                      onChange={(e) => handleAid(e, i, "qty")}
-                      disabled={
-                        bantuan.jenisBantuan === "Rupiah" ||
-                        bantuan.jenisBantuan === ""
-                      }
-                      required={
-                        bantuan.jenisBantuan === "Rupiah" ||
-                        bantuan.jenisBantuan === ""
-                      }
-                    />
+                   
                     <Input
                       name="nominal"
                       label="Nominal"
                       placeholder="Nominal"
                       type="number"
+                      disabled={aidCount[i].jenisBantuan === "" ? true : false}
                       onChange={(e) => handleAid(e, i, "nominal")}
-                      disabled={
-                        bantuan.jenisBantuan === "Barang" ||
-                        bantuan.jenisBantuan === ""
-                      }
-                      required={
-                        bantuan.jenisBantuan === "Barang" ||
-                        bantuan.jenisBantuan === ""
-                      }
+                      required
                     />
                   </div>
                 </div>
@@ -228,7 +179,7 @@ const ModalAddAid = (props: propsTypes) => {
             )}
           </div>
 
-          <div className="flex flex-col items-start">
+          <div className="flex justify-between items-center">
             <Button
               type="button"
               className={"my-2"}
@@ -239,7 +190,6 @@ const ModalAddAid = (props: propsTypes) => {
                     lembaga: "",
                     jenisBantuan: "",
                     namaBantuan: "",
-                    qty: 0,
                     nominal: 0,
                   },
                 ])
@@ -249,14 +199,16 @@ const ModalAddAid = (props: propsTypes) => {
                 Tambah Bantuan
               </span>
             </Button>
-
+            <p className="text-md font-bold">Total Nominal : {formatRupiah(totalNominalAid)}</p>
+            </div>
+            <div className="flex justify-between items-center">
             <button
               type="submit"
               className="px-4 py-2 bg-sky-500 text-white rounded-md mt-5"
-            >
+              >
               {isLoading ? "Loading...": "Kirim"}
             </button>
-          </div>
+              </div>
         </form>
       </Modal>
     </>

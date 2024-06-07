@@ -30,11 +30,12 @@ const ModalUpdatePengajuan = (props: any) => {
   ) => {
     const data = {
       namaPelapor: form.namaPelapor.value,
+      noTelp: form.noTelp.value.replace(/\./g, "") || 0,
       jenisBencana: form.jenisBencana.value,
       tanggal: form.tanggal.value,
       daerah: form.daerah.value,
       lokasi: form.lokasi.value,
-      penyebab: form.penyebab.value,
+      deskripsiKejadian: form.deskripsiKejadian.value,
       image: newImageURL,
       kerusakan: {
         rumah: parseInt(form.rumah.value) || 0,
@@ -46,7 +47,9 @@ const ModalUpdatePengajuan = (props: any) => {
         hilang: parseInt(form.hilang.value) || 0,
         terluka: parseInt(form.terluka.value) || 0,
       },
-
+      taksiranKerugian: parseInt(
+        form.taksiranKerugian.value.replace(/\./g, "")
+      ),
       pengungsian: {
         lokasiPengungsian: form.lokasiPengungsian?.value,
         tenda: parseInt(form.tenda?.value) || 0,
@@ -87,7 +90,7 @@ const ModalUpdatePengajuan = (props: any) => {
     const file = form.image.files[0];
 
     if (file) {
-      const allowedExtensions = ["jpg", "jpeg", "png", "pdf"];
+      const allowedExtensions = ["jpg", "jpeg", "png"];
       const fileExtension = file.name.split(".").pop().toLowerCase();
 
       if (!allowedExtensions.includes(fileExtension)) {
@@ -96,7 +99,7 @@ const ModalUpdatePengajuan = (props: any) => {
         setToaster({
           variant: "danger",
           message:
-            "Ekstensi file tidak sesuai. Hanya jpg, jpeg, png, dan pdf yang diizinkan.",
+            "Ekstensi file tidak sesuai. Hanya jpg, jpeg dan png yang diizinkan.",
         });
         return;
       }
@@ -150,6 +153,13 @@ const ModalUpdatePengajuan = (props: any) => {
             required
             defaultValue={updatedSubmission?.namaPelapor}
           />
+          <Input
+            name="noTelp"
+            type="number"
+            label="No. Telp"
+            required
+            defaultValue={updatedSubmission?.noTelp}
+          />
           <SelectOption
             label="Jenis Bencana"
             name="jenisBencana"
@@ -172,7 +182,12 @@ const ModalUpdatePengajuan = (props: any) => {
             required
             defaultValue={updatedSubmission?.tanggal}
           />
-         <SelectOptionFragment label="Daerah" name="daerah" title="Pilih Daerah..." defaultValue={updatedSubmission?.daerah} />
+          <SelectOptionFragment
+            label="Daerah"
+            name="daerah"
+            title="Pilih Daerah..."
+            defaultValue={updatedSubmission?.daerah}
+          />
           <Input
             name="lokasi"
             placeholder="Masukan lokasi"
@@ -181,14 +196,23 @@ const ModalUpdatePengajuan = (props: any) => {
             defaultValue={updatedSubmission?.lokasi}
             required
           />
-          <Input
-            name="penyebab"
-            type="text"
-            placeholder="Penyebab terjadi bencana"
-            label="Penyebab"
-            defaultValue={updatedSubmission?.penyebab}
-          />
-
+          <div className="mt-3">
+            <label
+              htmlFor="deskripsiKejadian"
+              className="block text-sm font-medium mb-2"
+            >
+              Deskripsi Kejadian
+            </label>
+            <textarea
+              id="deskripsiKejadian"
+              name="deskripsiKejadian"
+              defaultValue={updatedSubmission?.deskripsiKejadian}
+              required
+              className="py-3 px-4 block w-full border-gray-200 border rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none "
+              rows={3}
+              placeholder="Masukan deskripsi singkat terkait kejadian"
+            ></textarea>
+          </div>
           <InputGroup name="Kerusakan" title="Kerusakan">
             <InputField
               name="rumah"
@@ -242,6 +266,14 @@ const ModalUpdatePengajuan = (props: any) => {
             />
           </InputGroup>
 
+          <Input
+            name="taksiranKerugian"
+            type="number"
+            defaultValue={updatedSubmission.taksiranKerugian}
+            label="Taksiran Kerugian"
+            placeholder="Masukan nominal kerugian *1000000"
+          />
+
           <InputGroup name="Pengungsian" title="Pengungsian">
             <InputField
               name="lokasiPengungsian"
@@ -276,7 +308,7 @@ const ModalUpdatePengajuan = (props: any) => {
               alt="image"
               width={200}
               height={200}
-              className=" w-[15%] aspect-square h-auto rounded-md bg-slate-200 flex justify-center items-center "
+              className=" w-[15%] aspect-square h-auto rounded-md bg-slate-200 flex justify-center items-center"
             />
             <InputFile
               name="image"

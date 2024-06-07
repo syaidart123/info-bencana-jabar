@@ -6,6 +6,7 @@ import {
   updateData,
 } from "@/lib/firebase/service";
 import {
+  apiResponseAccessDenied,
   apiResponseFailed,
   apiResponseInternalError,
   apiResponseMethodNotAllowed,
@@ -45,7 +46,12 @@ export default async function handler(
     verify(req, res, false, async (decoded: any) => {
       const { submission }: any = req.query;
       const { data } = req.body;
+
       if (decoded) {
+        if (decoded.role === "user" && data.bantuan && data.status) {
+          apiResponseAccessDenied(res)
+        }
+
         await updateData(
           "submissions",
           submission[0],
@@ -62,7 +68,7 @@ export default async function handler(
     });
   } else if (req.method === "DELETE") {
     const { submission }: any = req.query;
-    verify(req, res, false, async () => {
+    verify(req, res, true, async () => {
       await deleteData("submissions", submission[0], (result: boolean) => {
         if (result) {
           apiResponseSuccess(res);

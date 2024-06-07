@@ -3,7 +3,11 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Chart as ChartJS, Tooltip, Legend, ArcElement } from "chart.js";
 import PieChart from "../../PieChart";
-import { Doughnut } from "react-chartjs-2";
+import formatRupiah from "@/utils/formatRupiah";
+import TextInput from "../../TextInput";
+import SelectOption from "../../SelectOption";
+import Option from "../../Option";
+import formatTanggal from "@/utils/formatTanggal";
 
 ChartJS.register(Tooltip, Legend, ArcElement);
 
@@ -118,67 +122,26 @@ const ModalDetailPengajuan = (props: any) => {
                   />
                 </div>
                 <div className="xl:w-2/4">
-                  <div className="mb-4">
-                    <p className="text-sm font-medium text-gray-700">
-                      Nama Pelapor:
-                    </p>
-                    <p className="text-lg font-semibold">
-                      {detailSubmission.namaPelapor}
-                    </p>
-                  </div>
-                  <div className="mb-4">
-                    <p className="text-sm font-medium text-gray-700">
-                      Jenis Bencana:
-                    </p>
-                    <p className="text-lg font-semibold">
-                      {detailSubmission.jenisBencana}
-                    </p>
-                  </div>
-                  <div className="mb-4">
-                    <p className="text-sm font-medium text-gray-700">
-                      Penyebab:
-                    </p>
-                    <p className="text-md font-medium">
-                      {detailSubmission.penyebab}
-                    </p>
-                  </div>
-                  <div className="mb-4">
-                    <p className="text-sm font-medium text-gray-700">Daerah:</p>
-                    <p className="text-lg font-semibold">
-                      {detailSubmission.daerah}
-                    </p>
-                  </div>
-                  <div className="mb-4">
-                    <p className="text-sm font-medium text-gray-700">Lokasi:</p>
-                    <p className="text-lg font-semibold">
-                      {detailSubmission.lokasi}
-                    </p>
-                  </div>
-                  <div className="mb-4">
-                    <p className="text-sm font-medium text-gray-700">
-                      Lokasi Pengungsian:
-                    </p>
-                    <p className="text-lg font-semibold">
-                      {detailSubmission.pengungsian.lokasiPengungsian}
-                    </p>
-                  </div>
-                  <div className="mb-4">
-                    <p className="text-sm font-medium text-gray-700">
-                      Jumlah Tenda:
-                    </p>
-                    <p className="text-lg font-semibold">
-                      {detailSubmission.pengungsian.tenda}
-                    </p>
-                  </div>
-                  <div className="mb-4">
-                    <p className="text-sm font-medium text-gray-700">
-                      Jumlah Pengungsi:
-                    </p>
-                    <p className="text-lg font-semibold">
-                      {detailSubmission.pengungsian.pengungsi}
-                    </p>
-                  </div>
-
+                  <TextInput title="Nama Pelapor:">
+                    {detailSubmission.namaPelapor}
+                  </TextInput>
+                  <TextInput title="Jenis Bencana:">
+                    {detailSubmission.jenisBencana}
+                  </TextInput>
+                  <TextInput title="Deskripsi Kejadian:">
+                    {detailSubmission.deskripsiKejadian}
+                  </TextInput>
+                  <TextInput title="Daerah:">
+                    {detailSubmission.daerah}
+                  </TextInput>
+                  <TextInput title="Lokasi:">
+                    {detailSubmission.lokasi}
+                  </TextInput>
+                  <TextInput title="Tanggal">{formatTanggal(detailSubmission.tanggal)}</TextInput>
+                  
+                  <TextInput title="Taksiran Kerugian:">
+                    {formatRupiah(detailSubmission.taksiranKerugian)}
+                  </TextInput>
                   <div className="mb-4 w-full">
                     <label className="block text-sm font-medium text-gray-700">
                       Status

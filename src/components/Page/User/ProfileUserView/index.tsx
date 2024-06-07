@@ -42,13 +42,13 @@ const ProfileUserView = ({ profile, setProfile }: any) => {
 
       // Update Profile Photo if file exists
       if (file) {
-        const allowedExtensions = ["jpg", "jpeg", "png", "pdf"];
+        const allowedExtensions = ["jpg", "jpeg", "png"];
         const fileExtension = file.name.split(".").pop().toLowerCase();
 
         if (!allowedExtensions.includes(fileExtension)) {
           setToaster({
             variant: "danger",
-            message: "Ekstensi file tidak sesuai. Hanya jpg, jpeg, png, dan pdf yang diizinkan.",
+            message: "Ekstensi file tidak sesuai. Hanya jpg, jpeg dan png yang diizinkan.",
           })
           setChangeName({});
           return;

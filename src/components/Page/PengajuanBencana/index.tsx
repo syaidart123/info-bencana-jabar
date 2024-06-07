@@ -21,11 +21,12 @@ const PengajuanBencana = () => {
         fullname: session.data?.user.fullname,
       },
       namaPelapor: form.namaPelapor.value,
+      noTelp: form.noTelp.value,
       jenisBencana: form.jenisBencana.value,
       tanggal: form.tanggal.value,
       daerah: form.daerah.value,
       lokasi: form.lokasi.value,
-      penyebab: form.penyebab.value,
+      deskripsiKejadian: form.deskripsiKejadian.value,
       image: "",
       kerusakan: {
         rumah: parseInt(form.rumah.value) || 0,
@@ -37,6 +38,7 @@ const PengajuanBencana = () => {
         hilang: parseInt(form.hilang.value) || 0,
         terluka: parseInt(form.terluka.value) || 0,
       },
+      taksiranKerugian: parseInt(form.taksiranKerugian.value.replace(/\./g, '')) || 0,
 
       pengungsian: {
         lokasiPengungsian: form.lokasiPengungsian?.value,
@@ -45,10 +47,12 @@ const PengajuanBencana = () => {
       },
     };
 
+
+
     const file = form.image.files[0];
 
     if (file) {
-      const allowedExtensions = ["jpg", "jpeg", "png", "pdf"];
+      const allowedExtensions = ["jpg", "jpeg", "png"];
       const fileExtension = file.name.split(".").pop().toLowerCase();
 
       if (!allowedExtensions.includes(fileExtension)) {
@@ -57,7 +61,7 @@ const PengajuanBencana = () => {
         setToaster({
           variant: "danger",
           message:
-            "Ekstensi file tidak sesuai. Hanya jpg, jpeg, png, dan pdf yang diizinkan.",
+            "Ekstensi file tidak sesuai. Hanya jpg, jpeg dan png yang diizinkan.",
         });
         return;
       }

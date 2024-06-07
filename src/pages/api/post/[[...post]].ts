@@ -18,7 +18,8 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    const { post } = req.query;
+    const { post } : any= req.query;
+    
     if (post && post[0]) {
       const data = await retrieveDataById("posts", post[0]);
       apiResponseSuccess(res, data);

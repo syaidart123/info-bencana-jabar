@@ -17,19 +17,23 @@ const Tabel = (props: propTypes) => {
   const [detailSubmission, setDetailSubmission] = useState({});
   const [selectedBencana, setSelectedBencana] = useState("");
   const [selectedDaerah, setSelectedDaerah] = useState("");
-
+  const [selectedStartDate, setSelectedStartDate] = useState("");
+  const [selectedEndDate, setSelectedEndDate] = useState("");
+  
+  // Convert string dates to Date objects for comparison
+  const startDate = selectedStartDate ? new Date(selectedStartDate) : null;
+  const endDate = selectedEndDate ? new Date(selectedEndDate) : null;
+  
   const filteredData = dataSubmission.filter((item: any) => {
-    if (selectedBencana && selectedDaerah) {
-      return (
-        item.jenisBencana === selectedBencana && item.daerah === selectedDaerah
-      );
-    } else if (selectedBencana) {
-      return item.jenisBencana === selectedBencana;
-    } else if (selectedDaerah) {
-      return item.daerah === selectedDaerah;
-    }
-    return true;
+    const itemDate = new Date(item.tanggal); // Convert the item's date to a Date object
+    const matchesBencana = selectedBencana ? item.jenisBencana === selectedBencana : true;
+    const matchesDaerah = selectedDaerah ? item.daerah === selectedDaerah : true;
+    const matchesStartDate = startDate ? itemDate >= startDate : true;
+    const matchesEndDate = endDate ? itemDate <= endDate : true;
+  
+    return matchesBencana && matchesDaerah && matchesStartDate && matchesEndDate;
   });
+  
 
   return (
     <>
@@ -38,6 +42,8 @@ const Tabel = (props: propTypes) => {
         <FilterSelect
           setSelectedBencana={setSelectedBencana}
           setSelectedDaerah={setSelectedDaerah}
+          setSelectedStartDate={setSelectedStartDate}
+          setSelectedEndDate={setSelectedEndDate}
         />
         <div className="flex w-full">
           <table className="w-3/6 min-w-full divide-y divide-gray-200">

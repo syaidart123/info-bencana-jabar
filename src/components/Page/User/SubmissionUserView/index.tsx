@@ -93,18 +93,11 @@ const StatusPengajuanView = (props: any) => {
                           type="button"
                           onClick={() => setUpdatedSubmission(sub)}
                         >
-                          <div className="bg-yellow-500 px-4 py-2 rounded-md text-white ">
+                          <div className="bg-green-500 px-4 py-2 rounded-md text-white ">
                             <ClipboardPen />
                           </div>
                         </Button>
-                        <Button
-                          type="button"
-                          onClick={() => setDeletedSubmission(sub)}
-                        >
-                          <div className="bg-red-500 px-4 py-2 rounded-md text-white ">
-                            <Trash2 />
-                          </div>
-                        </Button>
+                       
                       </div>
                     </td>
                   </tr>

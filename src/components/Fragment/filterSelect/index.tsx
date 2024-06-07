@@ -5,11 +5,24 @@ import React from 'react'
 type propsTypes = {
     setSelectedBencana: any
     setSelectedDaerah: any
+    setSelectedStartDate?: any
+    setSelectedEndDate?: any
     
 }
 
 const FilterSelect = (props :propsTypes) => {
-    const {setSelectedBencana,setSelectedDaerah}=props
+    const {setSelectedBencana,setSelectedDaerah,setSelectedStartDate,setSelectedEndDate}=props
+    const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSelectedStartDate(e.target.value);
+    };
+  
+    const handleEndDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSelectedEndDate(e.target.value);
+    };
+    
+
+
+
   return (
         <div className="flex justify-start gap-10 items-center mb-5">
           <SelectOption
@@ -61,6 +74,39 @@ const FilterSelect = (props :propsTypes) => {
             <Option value="Kabupaten Tasikmalaya">Kabupaten Tasikmalaya</Option>
             <Option value="Kota Tasikmalaya">Kota Tasikmalaya</Option>
           </SelectOption>
+
+          {/* <SelectOption
+        name="daerah"
+        title="Pilih Daerah..."
+        onChange={(e: any) => setSelectedDaerah(e.target.value)}
+      >
+        {/* ... Options lainnya */}
+      {/* </SelectOption> */} 
+
+      {/* Input tipe number untuk memilih Tahun */}
+        {/* Input Tipe Date untuk Tanggal Awal */}
+        <div>
+        <label className="block mb-2 text-sm font-medium text-gray-900 mt-3">
+          Tanggal Awal
+          <input
+            type="date"
+            onChange={handleStartDateChange}
+            className="border py-3 px-4 pe-9 mt-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500"
+          />
+        </label>
+      </div>
+
+      {/* Input Tipe Date untuk Tanggal Akhir */}
+      <div>
+        <label className="block mb-2 text-sm font-medium text-gray-900 mt-3">
+          Tanggal Akhir
+          <input
+            type="date"
+            onChange={handleEndDateChange}
+            className="border py-3 px-4 pe-9 mt-3 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500"
+          />
+        </label>
+      </div>
         </div>
     
   )

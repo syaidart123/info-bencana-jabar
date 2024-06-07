@@ -1,4 +1,4 @@
-import AboutPageView from "@/components/Page/About";
+import AboutPageView from "@/components/Page/Berita";
 import React from "react";
 
 const AboutPage = () => {

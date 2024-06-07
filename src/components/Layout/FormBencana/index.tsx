@@ -33,6 +33,7 @@ const FormBencana = (props: propTypes) => {
             label="Nama Pelapor"
             required
           />
+          <Input name="noTelp" placeholder="Masukan No. Telp" type="number" label="No. Telp" required />
           <SelectOption
             label="Jenis Bencana"
             name="jenisBencana"
@@ -56,12 +57,20 @@ const FormBencana = (props: propTypes) => {
             label="Lokasi Bencana"
             required
           />
-          <Input
-            name="penyebab"
-            type="text"
-            placeholder="Penyebab terjadi bencana"
-            label="Penyebab"
-          />
+          
+          <div className="mt-3">
+            <label htmlFor="deskripsiKejadian" className="block text-sm font-medium mb-2">
+              Deskripsi Kejadian
+            </label>
+            <textarea
+              id="deskripsiKejadian"
+              name="deskripsiKejadian"
+              required
+              className="py-3 px-4 block w-full border-gray-200 border rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none "
+              rows={3}
+              placeholder="Masukan deskripsi singkat terkait kejadian"
+            ></textarea>
+          </div>
 
           <InputGroup name="Kerusakan" title="Kerusakan">
             <InputField
@@ -106,6 +115,8 @@ const FormBencana = (props: propTypes) => {
               placeholder="Jumlah korban terluka"
             />
           </InputGroup>
+
+          <Input name="taksiranKerugian" type="number" label="Taksiran Kerugian" placeholder="Masukan nominal kerugian *1000000" />
 
           <InputGroup name="Pengungsian" title="Pengungsian">
             <InputField

@@ -27,7 +27,7 @@ const ModalUpdatePost = (props: any) => {
   ) => {
     const data = {
       title: form.judul.value,
-      jenisBencana: form.jenisBencana.value,
+      daerah: form.daerah.value,
       tanggal: form.tanggal.value,
       deskripsi: form.desc.value,
       image: newImageURL,
@@ -63,7 +63,7 @@ const ModalUpdatePost = (props: any) => {
     const form = e.target as HTMLFormElement;
     const file = form.image.files[0];
     if (file) {
-      const allowedExtensions = ["jpg", "jpeg", "png", "pdf"];
+      const allowedExtensions = ["jpg", "jpeg", "png"];
       const fileExtension = file.name.split(".").pop().toLowerCase();
 
       if (!allowedExtensions.includes(fileExtension)) {
@@ -72,7 +72,7 @@ const ModalUpdatePost = (props: any) => {
         setToaster({
           variant: "danger",
           message:
-            "Ekstensi file tidak sesuai. Hanya jpg, jpeg, png, dan pdf yang diizinkan.",
+            "Ekstensi file tidak sesuai. Hanya jpg, jpeg dan png yang diizinkan.",
         });
         return;
       }
@@ -132,20 +132,7 @@ const ModalUpdatePost = (props: any) => {
             defaultValue={updatedPost.title}
             required
           />
-          <SelectOption
-            name="jenisBencana"
-            title="Pilih..."
-            defaultValue={updatedPost.jenisBencana}
-            required
-            label="Jenis Bencana"
-          >
-            <Option value="Banjir">Banjir</Option>
-            <Option value="Cuaca Ekstrem">Cuaca Ekstrem</Option>
-            <Option value="Gempa Bumi">Gempa Bumi</Option>
-            <Option value="Kebakaran">Kebakaran</Option>
-            <Option value="Longsor">Longsor</Option>
-            <Option value="Tsunami">Tsunami</Option>
-          </SelectOption>
+       <SelectOptionFragment label="Daerah" name="daerah" title="Pilih Daerah..." defaultValue={updatedPost.daerah}  />
           <Input
             name="tanggal"
             type="date"
@@ -164,7 +151,7 @@ const ModalUpdatePost = (props: any) => {
               defaultValue={updatedPost.deskripsi}
               required
               className="py-3 px-4 block w-full border-gray-200 border rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none "
-              rows={3}
+              rows={15}
               placeholder="Masukan Deskripsi..."
             ></textarea>
           </div>

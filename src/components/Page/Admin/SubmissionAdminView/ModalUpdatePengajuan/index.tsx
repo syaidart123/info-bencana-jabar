@@ -5,11 +5,32 @@ import Image from "next/image";
 import PieChart from "@/components/UI/PieChart";
 import Button from "@/components/UI/Button";
 import { ToasterContext } from "@/context/ToasterContext";
+import formatRupiah from "@/utils/formatRupiah";
+import Input from "@/components/UI/Input";
+import SelectOption from "@/components/UI/SelectOption";
+import Option from "@/components/UI/Option";
 
 const ModalUpdatePengajuan = (props: any) => {
   const { updatedSubmission, setUpdatedSubmission, setDataSubmission } = props;
   const [isLoading, setIsLoading] = useState(false);
   const { setToaster } = useContext(ToasterContext);
+  const [aidCount, setAidCount] = useState(updatedSubmission.bantuan || [
+    { lembaga: "", jenisBantuan: "", namaBantuan: "", nominal: 0 },
+  ]);
+
+  
+
+  const totalNominalAid = aidCount
+  .map((item: any) => parseInt(item.nominal) || 0)  
+  .reduce((total: any, item: any) => total + item, 0);  
+
+  const handleAid = (e: any, i: number, type: string) => {
+    const newAidCount: any = [...aidCount];
+    newAidCount[i][type] = e.target.value;
+    setAidCount(newAidCount);
+  };
+
+
   const [korban, setKorban] = useState<any>({
     datasets: [
       {
@@ -102,8 +123,17 @@ const ModalUpdatePengajuan = (props: any) => {
     e.preventDefault();
     setIsLoading(true);
     const form = e.target as HTMLFormElement;
+    const Bantuan = aidCount.map((item: any) => {
+      return{
+        lembaga: item.lembaga,
+        jenisBantuan: item.jenisBantuan,
+        namaBantuan: item.namaBantuan,
+        nominal: parseInt(`${item.nominal}`),
+      }
+    })
     const data = {
       status: form.status.value,
+      bantuan: Bantuan,
     };
 
     const result = await submissionService.updateSubmission(
@@ -251,6 +281,95 @@ const ModalUpdatePengajuan = (props: any) => {
                   <PieChart data={korban} option={option} />
                 </div>
               </div>
+            </div>
+            <div className="bg-white mx-5 shadow-md border rounded-md p-4 my-10">
+              <p>Bantuan</p>
+              <hr className="my-3" />
+              <div className="mt-5">
+            <label htmlFor="bantuan" className="text-lg font-bold">
+              Bantuan
+            </label>
+            {aidCount.map(
+              (
+                bantuan: {
+                  lembaga: string;
+                  jenisBantuan: string;
+                  namaBantuan: string;
+                  nominal: number;
+                },
+                i: number
+              ) => (
+                <div key={i}>
+                  <div className="grid grid-cols-4 gap-4">
+                    <SelectOption
+                      name="lembaga"
+                      title="Pilih..."
+                      label="Lembaga"
+                      onChange={(e) => handleAid(e, i, "lembaga")}
+                      defaultValue={bantuan.lembaga}
+                      required
+                    >
+                      <Option value="Human Initiative">Human Initiative</Option>
+                      <Option value="IZI">IZI</Option>
+                    </SelectOption>
+
+                    <SelectOption
+                      name="jenisBantuan"
+                      title="Pilih..."
+                      label="Jenis Bantuan"
+                      onChange={(e) => handleAid(e, i, "jenisBantuan")}
+                      defaultValue={bantuan.jenisBantuan}
+                      required
+                    >
+                      <Option value="Rupiah">Rupiah</Option>
+                      <Option value="Barang">Barang</Option>
+                    </SelectOption>
+                    <Input
+                      name="namaBantuan"
+                      label="Nama Bantuan"
+                      placeholder="Nama Bantuan"
+                      defaultValue={bantuan.namaBantuan}
+                      type="text"
+                      onChange={(e) => handleAid(e, i, "namaBantuan")}
+                    />
+                   
+                    <Input
+                      name="nominal"
+                      label="Nominal"
+                      placeholder="Nominal"
+                      type="number"
+                      defaultValue={bantuan.nominal}
+                      disabled={bantuan.jenisBantuan === "" ? true : false}
+                      onChange={(e) => handleAid(e, i, "nominal")}
+                      required
+                    />
+                  </div>
+                </div>
+              )
+            )}
+          </div>
+              <div className="flex justify-between items-center">
+            <Button
+              type="button"
+              className={"my-2"}
+              onClick={() =>
+                setAidCount([
+                  ...aidCount,
+                  {
+                    lembaga: "",
+                    jenisBantuan: "",
+                    namaBantuan: "",
+                    nominal: 0,
+                  },
+                ])
+              }
+            >
+              <span className="bg-sky-500 rounded-md text-white py-2 px-4">
+                Tambah Bantuan
+              </span>
+            </Button>
+            <p className="text-md font-bold">Total Nominal : {formatRupiah(totalNominalAid)}</p>
+            </div>
             </div>
           </div>
         </form>
