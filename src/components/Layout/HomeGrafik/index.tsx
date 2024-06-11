@@ -1,6 +1,7 @@
 import FilterSelect from "@/components/Fragment/filterSelect";
 import BarChart from "@/components/UI/BarChart";
 import PieChart from "@/components/UI/PieChart";
+import formatRupiah from "@/utils/formatRupiah";
 import React, { useEffect, useMemo, useState } from "react";
 
 type propsTypes = {
@@ -14,22 +15,35 @@ const HomeGrafikLayout = (props: propsTypes) => {
   const [selectedDaerah, setSelectedDaerah] = useState("");
   const [selectedStartDate, setSelectedStartDate] = useState("");
   const [selectedEndDate, setSelectedEndDate] = useState("");
+
   const filteredData = useMemo(() => {
     const startDate = selectedStartDate ? new Date(selectedStartDate) : null;
     const endDate = selectedEndDate ? new Date(selectedEndDate) : null;
     return submission.filter(
-      (item: { jenisBencana: string; daerah: string, tanggal: string }) => {
+      (item: { jenisBencana: string; daerah: string; tanggal: string }) => {
         const itemDate = new Date(item.tanggal);
 
-      const matchesBencana = selectedBencana ? item.jenisBencana === selectedBencana : true;
-      const matchesDaerah = selectedDaerah ? item.daerah === selectedDaerah : true;
-      const matchesStartDate = startDate ? itemDate >= startDate : true;
-      const matchesEndDate = endDate ? itemDate <= endDate : true;
+        const matchesBencana = selectedBencana
+          ? item.jenisBencana === selectedBencana
+          : true;
+        const matchesDaerah = selectedDaerah
+          ? item.daerah === selectedDaerah
+          : true;
+        const matchesStartDate = startDate ? itemDate >= startDate : true;
+        const matchesEndDate = endDate ? itemDate <= endDate : true;
 
-      return matchesBencana && matchesDaerah && matchesStartDate && matchesEndDate;
+        return (
+          matchesBencana && matchesDaerah && matchesStartDate && matchesEndDate
+        );
       }
     );
-  }, [submission, selectedBencana, selectedDaerah, selectedStartDate, selectedEndDate]);
+  }, [
+    submission,
+    selectedBencana,
+    selectedDaerah,
+    selectedStartDate,
+    selectedEndDate,
+  ]);
 
   const [kerusakan, setKerusakan] = useState<any>({
     datasets: [
@@ -97,14 +111,35 @@ const HomeGrafikLayout = (props: propsTypes) => {
       (total: any, item: { hilang: any }) => total + item.hilang,
       0
     );
-    const jenisBencanaCounts: { [jenis: string]: number } = {};
-    filteredData.forEach((item: { jenisBencana: string | number }) => {
-      jenisBencanaCounts[item.jenisBencana] =
-        (jenisBencanaCounts[item.jenisBencana] || 0) + 1;
+    const jenisDaerahCounts: { [key: string]: { [daerah: string]: number } } = {};
+
+    filteredData.forEach((item: { jenisBencana: string; daerah: string }) => {
+      if (!jenisDaerahCounts[item.jenisBencana]) {
+        jenisDaerahCounts[item.jenisBencana] = {};
+      }
+      if (!jenisDaerahCounts[item.jenisBencana][item.daerah]) {
+        jenisDaerahCounts[item.jenisBencana][item.daerah] = 0;
+      }
+      jenisDaerahCounts[item.jenisBencana][item.daerah] += 1;
     });
 
-    const labels = Object.keys(jenisBencanaCounts);
-    const data = labels.map((label) => jenisBencanaCounts[label]);
+    const labels = Object.keys(jenisDaerahCounts);
+    const daerahs = filteredData
+    .map((item: { daerah: string }) => item.daerah)
+    .filter((value:any, index:any, self:any) => self.indexOf(value) === index);
+
+    const datasets = daerahs.map((daerah:any) => {
+      return {
+        label: daerah,
+        data: labels.map((label) => jenisDaerahCounts[label][daerah] || 0),
+        backgroundColor: getRandomColor(), // Use a function to generate distinct colors
+      };
+    });
+
+    const jenisDaerahData = {
+      labels,
+      datasets,
+    };
 
     const kerusakanChartData = {
       labels: [
@@ -135,20 +170,20 @@ const HomeGrafikLayout = (props: propsTypes) => {
         },
       ],
     };
-    const jenisBencanaData = {
-      labels,
-      datasets: [
-        {
-          label: "Total",
-          data,
-          backgroundColor: "#36A2EB",
-        },
-      ],
-    };
-    setJenisBencana(jenisBencanaData);
+
+    setJenisBencana(jenisDaerahData);
     setKerusakan(kerusakanChartData);
     setKorban(korbanChartData);
   }, [filteredData, submission]);
+
+  const getRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
 
   const option: any = {
     responsive: true,
@@ -182,13 +217,22 @@ const HomeGrafikLayout = (props: propsTypes) => {
     },
   };
 
+  const totalKerugian = filteredData
+    .map((item: { taksiranKerugian: number }) => item.taksiranKerugian)
+    .reduce((total: number, item: number) => total + item, 0);
+
+  const totalBantuan = filteredData.filter((item: { bantuan: any; }) => item && item.bantuan)
+    .flatMap((item: any) => item.bantuan)
+    .reduce((total: any, bantuanItem: any) => total + (bantuanItem.nominal || 0), 0);
+
   return (
     <div className="w-full min-h-screen">
-      <div className=" mx-5 py-10">
+      <div className="mx-5 my-2">
         <div className="flex flex-col lg:flex-row gap-2">
           <div className="w-full lg:w-1/2 bg-white rounded-md border px-3">
-            <div className="ml-5">
+            <div className="">
               <FilterSelect
+                className="w-full"
                 setSelectedBencana={setSelectedBencana}
                 setSelectedDaerah={setSelectedDaerah}
                 setSelectedStartDate={setSelectedStartDate}
@@ -199,22 +243,28 @@ const HomeGrafikLayout = (props: propsTypes) => {
               <BarChart data={jenisBencana} options={optionBar} />
             </div>
           </div>
-          <div className="w-full lg:w-1/2 flex flex-col gap-2 lg:flex-row ">
-            <div className="bg-white rounded-md border px-3 lg:w-1/2">
-              <p className="text-xl text-center font-bold py-2">
-                Total Kerusakan
-              </p>
-              <hr className="my-2" />
-              <div className="my-3 flex items-center justify-center">
-                <PieChart data={kerusakan} option={option} />
+          <div className="w-full lg:w-1/2 flex flex-col gap-2">
+            <div className="flex flex-col lg:flex-row gap-2 h-full">
+              <div className="bg-white rounded-md h-full border px-3 lg:w-1/2">
+                <p className="text-xl text-center font-bold py-2">
+                  Total Kerusakan
+                </p>
+                <hr className="my-2" />
+                <div className="my-3 flex items-center justify-center h-3/4">
+                  <PieChart data={kerusakan} option={option} />
+                </div>
+              </div>
+              <div className="bg-white rounded-md border px-3 lg:w-1/2">
+                <p className="text-xl text-center font-bold py-2">Total Korban</p>
+                <hr className="my-2" />
+                <div className="my-3 flex items-center justify-center h-3/4">
+                  <PieChart data={korban} option={option} />
+                </div>
               </div>
             </div>
-            <div className="bg-white rounded-md border px-3 lg:w-1/2">
-              <p className="text-xl text-center font-bold py-2">Total Korban</p>
-              <hr className="my-2" />
-              <div className="my-3 flex items-center justify-center">
-                <PieChart data={korban} option={option} />
-              </div>
+            <div className="h-1/4 flex items-center justify-center bg-white border w-full rounded-md">
+              <p className="p-8 border-r-2 text-sm xl:text-lg w-1/2  text-center">Total Kerugian Material: <span className="italic text-md font-bold">{formatRupiah(totalKerugian)}</span></p>
+              <p className="p-8 w-1/2  text-center text-sm xl:text-lg">Total Bantuan Sudah Diterima : <span className="italic text-md font-bold">{formatRupiah(totalBantuan)}</span></p>
             </div>
           </div>
         </div>

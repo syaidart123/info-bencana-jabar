@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from "react";
 
 const listNavbar = [
   {
-    title: "Home",
+    title: "Beranda",
     link: "/",
   },
   {

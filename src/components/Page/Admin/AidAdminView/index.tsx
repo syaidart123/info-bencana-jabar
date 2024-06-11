@@ -13,12 +13,7 @@ import formatRupiah from "@/utils/formatRupiah";
 const AidAdminView = (props: any) => {
   const { aids } = props;
   const [aidData, setAidData] = useState<Aid[]>([]);
-  // console.log(aidData);
 
-  // const totalNominalAid = aidData
-  // .flatMap((item: any) => item.bantuan)
-  // .reduce((total: any, item: any) => total + (item.nominal || 0), 0);  
-  // console.log(totalNominalAid);
 
   const totalNominal = (data:any)=>data.map((item: any) => parseInt(item.nominal) || 0)  
   .reduce((total: any, item: any) => total + item, 0);  

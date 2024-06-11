@@ -9,9 +9,11 @@ import formatRupiah from "@/utils/formatRupiah";
 import Input from "@/components/UI/Input";
 import SelectOption from "@/components/UI/SelectOption";
 import Option from "@/components/UI/Option";
+import TextInput from "@/components/UI/TextInput";
+import formatTanggal from "@/utils/formatTanggal";
 
 const ModalUpdatePengajuan = (props: any) => {
-  const { updatedSubmission, setUpdatedSubmission, setDataSubmission } = props;
+  const { updatedSubmission, setUpdatedSubmission, setDataSubmission } = props;  
   const [isLoading, setIsLoading] = useState(false);
   const { setToaster } = useContext(ToasterContext);
   const [aidCount, setAidCount] = useState(updatedSubmission.bantuan || [
@@ -19,11 +21,12 @@ const ModalUpdatePengajuan = (props: any) => {
   ]);
 
   
+  const totalBantuan = updatedSubmission.bantuan ? updatedSubmission.bantuan.reduce((total:any,item:any)=> total + (item.nominal || 0), 0) : 0;
 
   const totalNominalAid = aidCount
   .map((item: any) => parseInt(item.nominal) || 0)  
   .reduce((total: any, item: any) => total + item, 0);  
-
+  
   const handleAid = (e: any, i: number, type: string) => {
     const newAidCount: any = [...aidCount];
     newAidCount[i][type] = e.target.value;
@@ -179,68 +182,39 @@ const ModalUpdatePengajuan = (props: any) => {
                   />
                 </div>
                 <div className="xl:w-2/4">
-                  <div className="mb-4">
-                    <p className="text-sm font-medium text-gray-700">
-                      Nama Pelapor:
-                    </p>
-                    <p className="text-lg font-semibold">
-                      {updatedSubmission.namaPelapor}
-                    </p>
-                  </div>
-                  <div className="mb-4">
-                    <p className="text-sm font-medium text-gray-700">
-                      Jenis Bencana:
-                    </p>
-                    <p className="text-lg font-semibold">
-                      {updatedSubmission.jenisBencana}
-                    </p>
-                  </div>
-                  <div className="mb-4">
-                    <p className="text-sm font-medium text-gray-700">
-                      Penyebab:
-                    </p>
-                    <p className="text-md font-medium">
-                      {updatedSubmission.penyebab}
-                    </p>
-                  </div>
-                  <div className="mb-4">
-                    <p className="text-sm font-medium text-gray-700">Daerah:</p>
-                    <p className="text-lg font-semibold">
-                      {updatedSubmission.daerah}
-                    </p>
-                  </div>
-                  <div className="mb-4">
-                    <p className="text-sm font-medium text-gray-700">Lokasi:</p>
-                    <p className="text-lg font-semibold">
-                      {updatedSubmission.lokasi}
-                    </p>
-                  </div>
-                  <div className="mb-4">
-                    <p className="text-sm font-medium text-gray-700">
-                      Lokasi Pengungsian:
-                    </p>
-                    <p className="text-lg font-semibold">
-                      {updatedSubmission.pengungsian.lokasiPengungsian}
-                    </p>
-                  </div>
-                  <div className="mb-4">
-                    <p className="text-sm font-medium text-gray-700">
-                      Jumlah Tenda:
-                    </p>
-                    <p className="text-lg font-semibold">
-                      {updatedSubmission.pengungsian.tenda}
-                    </p>
-                  </div>
-                  <div className="mb-4">
-                    <p className="text-sm font-medium text-gray-700">
-                      Jumlah Pengungsi:
-                    </p>
-                    <p className="text-lg font-semibold">
-                      {updatedSubmission.pengungsian.pengungsi}
-                    </p>
-                  </div>
+                <TextInput title="Nama Pelapor:">
+                    {updatedSubmission.namaPelapor}
+                  </TextInput>
+                  <TextInput title="Jenis Bencana:">
+                    {updatedSubmission.jenisBencana}
+                  </TextInput>
+                  <TextInput title="Deskripsi Kejadian:">
+                    {updatedSubmission.deskripsiKejadian}
+                  </TextInput>
+                  <TextInput title="Daerah:">
+                    {updatedSubmission.daerah}
+                  </TextInput>
+                  <TextInput title="Lokasi:">
+                    {updatedSubmission.lokasi}
+                  </TextInput>
+                  <TextInput title="Tanggal">
+                    {formatTanggal(updatedSubmission.tanggal)}
+                  </TextInput>
+                  <TextInput title="Taksiran Kerugian:">
+                    {formatRupiah(updatedSubmission.taksiranKerugian)}
+                  </TextInput>
+                  <TextInput title="Total Bantuan:">
+                    {updatedSubmission.bantuan ? formatRupiah(totalBantuan) : formatRupiah(0)}
+                  </TextInput>
+                  <TextInput title="Jumlah Tenda:">
+                    {updatedSubmission.pengungsian.tenda}
+                  </TextInput>
+                  <TextInput title="Jumlah Pengungsi:">
+                    {updatedSubmission.pengungsian.pengungsi}
+                  </TextInput>
+                 
 
-                  <div className="mb-4 w-full">
+                  {/* <div className="mb-4 w-full">
                     <label className="block text-sm font-medium text-gray-700">
                       Status
                     </label>
@@ -262,7 +236,7 @@ const ModalUpdatePengajuan = (props: any) => {
                     >
                       {isLoading ? "Loading..." : "Update"}
                     </Button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -283,11 +257,11 @@ const ModalUpdatePengajuan = (props: any) => {
               </div>
             </div>
             <div className="bg-white mx-5 shadow-md border rounded-md p-4 my-10">
-              <p>Bantuan</p>
-              <hr className="my-3" />
+              {/* <p className="text-lg font-bold ">Bantuan</p>
+              <hr className="my-3" /> */}
               <div className="mt-5">
             <label htmlFor="bantuan" className="text-lg font-bold">
-              Bantuan
+            <p></p> Tambahkan Bantuan
             </label>
             {aidCount.map(
               (
@@ -370,7 +344,33 @@ const ModalUpdatePengajuan = (props: any) => {
             </Button>
             <p className="text-md font-bold">Total Nominal : {formatRupiah(totalNominalAid)}</p>
             </div>
+            <div className="mt-5">
+            <div className="mb-4 w-full">
+                    <label className="block text-sm font-medium text-gray-700">
+                      Status
+                    </label>
+                    <select
+                      defaultValue={updatedSubmission.status}
+                      name="status"
+                      className="border py-3 px-4 mt-1 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                    >
+                      <option disabled>Status...</option>
+                      <option value="Terkirim">Terkirim</option>
+                      <option value="Diproses">Diproses</option>
+                      <option value="Selesai">Selesai</option>
+                    </select>
+                  </div>
+                  <div>
+                    <Button
+                      type="submit"
+                      className="w-full bg-sky-500 text-white"
+                    >
+                      {isLoading ? "Loading..." : "Update"}
+                    </Button>
+                  </div>
             </div>
+            </div>
+            
           </div>
         </form>
       </Modal>

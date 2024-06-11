@@ -40,6 +40,7 @@ const Tabel = (props: propTypes) => {
       <div className="px-10 h-screen">
         <p className="text-2xl my-10 mx-3">Data Bencana</p>
         <FilterSelect
+        className="w-full lg:w-1/2"
           setSelectedBencana={setSelectedBencana}
           setSelectedDaerah={setSelectedDaerah}
           setSelectedStartDate={setSelectedStartDate}

@@ -5,14 +5,15 @@ import { Chart as ChartJS, Tooltip, Legend, ArcElement } from "chart.js";
 import PieChart from "../../PieChart";
 import formatRupiah from "@/utils/formatRupiah";
 import TextInput from "../../TextInput";
-import SelectOption from "../../SelectOption";
-import Option from "../../Option";
 import formatTanggal from "@/utils/formatTanggal";
 
 ChartJS.register(Tooltip, Legend, ArcElement);
 
 const ModalDetailPengajuan = (props: any) => {
   const { detailSubmission, setDetailSubmission } = props;
+
+  const totalBantuan = detailSubmission.bantuan ? detailSubmission.bantuan.reduce((total:any,item:any)=> total + (item.nominal || 0), 0) : 0;
+
 
   const [isLoading, setIsLoading] = useState(false);
   const [korban, setKorban] = useState<any>({
@@ -137,10 +138,15 @@ const ModalDetailPengajuan = (props: any) => {
                   <TextInput title="Lokasi:">
                     {detailSubmission.lokasi}
                   </TextInput>
-                  <TextInput title="Tanggal">{formatTanggal(detailSubmission.tanggal)}</TextInput>
-                  
+                  <TextInput title="Tanggal">
+                    {formatTanggal(detailSubmission.tanggal)}
+                  </TextInput>
+
                   <TextInput title="Taksiran Kerugian:">
                     {formatRupiah(detailSubmission.taksiranKerugian)}
+                  </TextInput>
+                  <TextInput title="Total Bantuan:">
+                    {detailSubmission.bantuan ? formatRupiah(totalBantuan) : formatRupiah(0)}
                   </TextInput>
                   <div className="mb-4 w-full">
                     <label className="block text-sm font-medium text-gray-700">

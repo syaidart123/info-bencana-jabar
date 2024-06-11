@@ -111,10 +111,10 @@ const Sidebar = (props: any) => {
             {showDropdown && (
               <div className="translate-x-6 -translate-y-5 absolute flex flex-col items-center bg-white min-w-[160px] border z-10 rounded-md">
                 <Link
-                  href="/admin/profile"
+                  href="/"
                   className="hover:bg-slate-50 w-full h-full text-center py-2 border-b"
                 >
-                  Profile
+                  Beranda
                 </Link>
                 <Link
                   href="/auth/login"
