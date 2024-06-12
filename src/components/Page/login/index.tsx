@@ -28,8 +28,9 @@ const LoginPage = () => {
         password,
         callbackUrl,
       });
+      
       if (!res?.error) {
-        push(callbackUrl);
+        push(callbackUrl || "/");
         setToaster({ variant: "success", message: "Login Berhasil" });
       } else {
         setToaster({ variant: "danger", message: "Password atau Email salah" });
