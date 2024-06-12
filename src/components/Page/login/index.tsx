@@ -28,8 +28,8 @@ const LoginPage = () => {
         password,
         callbackUrl,
       });
-      
-      if (!res?.error) {
+
+      if (res?.status === 200) {
         push(callbackUrl || "/");
         setToaster({ variant: "success", message: "Login Berhasil" });
       } else {
