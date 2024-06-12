@@ -14,7 +14,6 @@ const ModalDetailPengajuan = (props: any) => {
 
   const totalBantuan = detailSubmission.bantuan ? detailSubmission.bantuan.reduce((total:any,item:any)=> total + (item.nominal || 0), 0) : 0;
 
-
   const [isLoading, setIsLoading] = useState(false);
   const [korban, setKorban] = useState<any>({
     datasets: [

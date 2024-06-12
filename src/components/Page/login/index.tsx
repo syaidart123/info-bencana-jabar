@@ -9,23 +9,24 @@ import React, { FormEvent, useContext, useState } from "react";
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const { query, push } = useRouter();
-  const callbackUrl: any = query.callbackUrl || "/";
   const { setToaster } = useContext(ToasterContext);
+
+  const callbackUrl: any = query.callbackUrl || "/";
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     const form = e.target as HTMLFormElement;
     try {
-      const response = await signIn("credentials", {
+      const res = await signIn("credentials", {
         redirect: false,
         email: form.email.value,
         password: form.password.value,
         callbackUrl,
       });
-      if (!response?.error) {
-        form.reset();
+      if (!res?.error) {
         setLoading(false);
+        form.reset();
         push(callbackUrl);
         setToaster({ variant: "success", message: "Login Berhasil" });
       } else {
@@ -73,7 +74,7 @@ const LoginPage = () => {
         </Button>
       </form>
       <Button
-        onClick={() => signIn("google", { redirect: false })}
+        onClick={() => signIn("google", { callbackUrl, redirect: false })}
         type="button"
         className="w-full border"
       >
