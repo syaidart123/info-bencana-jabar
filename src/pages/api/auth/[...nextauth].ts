@@ -9,6 +9,7 @@ import jwt from "jsonwebtoken";
 const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
+    maxAge: 3600,
   },
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
@@ -46,7 +47,7 @@ const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, account, user }: any) {
+    async jwt({ token, account, profile, user }: any) {
       if (account?.provider === "credentials") {
         token.email = user.email;
         token.fullname = user.fullname;

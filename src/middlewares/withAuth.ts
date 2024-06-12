@@ -6,17 +6,17 @@ import {
   NextResponse,
 } from "next/server";
 
-const adminPage = ["admin"];
+const onlyAdmin = ["admin"];
 const authPage = ["auth"];
 
 export default function withAuth(
   middleware: NextMiddleware,
-  pathAuth: string[] = []
+  requireAuth: string[] = []
 ) {
   return async (req: NextRequest, next: NextFetchEvent) => {
     const pathname = req.nextUrl.pathname.split("/")[1];
 
-    if (pathAuth.includes(pathname)) {
+    if (requireAuth.includes(pathname)) {
       const token = await getToken({
         req,
         secret: process.env.NEXTAUTH_SECRET,
@@ -30,7 +30,7 @@ export default function withAuth(
         if (authPage.includes(pathname)) {
           return NextResponse.redirect(new URL("/", req.url));
         }
-        if (token.role !== "admin" && adminPage.includes(pathname)) {
+        if (token.role !== "admin" && onlyAdmin.includes(pathname)) {
           return NextResponse.redirect(new URL("/", req.url));
         }
       }
