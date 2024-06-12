@@ -8,34 +8,36 @@ import React, { FormEvent, useContext, useState } from "react";
 
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
-  const { query, push } = useRouter();
+  const router = useRouter();
+  const { query, push } = router;
   const { setToaster } = useContext(ToasterContext);
-
-  const callbackUrl: any = query.callbackUrl || "/";
+  const callbackUrl: string = (query.callbackUrl as string) || "/";
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    const form = e.target as HTMLFormElement;
+
+    const formData = new FormData(e.target as HTMLFormElement);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
     try {
       const res = await signIn("credentials", {
         redirect: false,
-        email: form.email.value,
-        password: form.password.value,
+        email,
+        password,
         callbackUrl,
       });
       if (!res?.error) {
-        setLoading(false);
-        form.reset();
         push(callbackUrl);
         setToaster({ variant: "success", message: "Login Berhasil" });
       } else {
-        setLoading(false);
         setToaster({ variant: "danger", message: "Password atau Email salah" });
       }
     } catch (error) {
-      setLoading(false);
       setToaster({ variant: "danger", message: "Login Gagal" });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -69,6 +71,7 @@ const LoginPage = () => {
         <Button
           type="submit"
           className="w-full text-white bg-sky-600 hover:bg-sky-700  focus:ring-sky-300 font-medium text-center"
+          disabled={loading}
         >
           {loading ? "Loading" : "Login"}
         </Button>
