@@ -1,5 +1,5 @@
 import StatusPengajuanView from "@/components/Page/User/SubmissionUserView";
-import React, { useState } from "react";
+import React from "react";
 import useSWR from "swr";
 import fetcher from "@/lib/swr/fetcher";
 
