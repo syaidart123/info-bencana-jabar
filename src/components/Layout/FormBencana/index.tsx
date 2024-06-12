@@ -23,7 +23,7 @@ const FormBencana = (props: propTypes) => {
     <div className="flex flex-col bg-white xl:w-2/4 w-11/12  border border-t-4 border-t-blue-600 shadow-sm rounded-xl">
       <div className="p-4 md:p-5">
         <h3 className="text-lg font-bold text-gray-800 pb-5">
-          Form Pengajuan Bencana
+          Form Laporan Bencana
         </h3>
         <form onSubmit={handleSubmit}>
           <Input

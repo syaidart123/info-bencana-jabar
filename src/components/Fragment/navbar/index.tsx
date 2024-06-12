@@ -21,8 +21,8 @@ const listNavbar = [
     link: "/bencana",
   },
   {
-    title: "Ajukan Bencana",
-    link: "/pengajuanBencana",
+    title: "Lapor Bencana",
+    link: "/lapor",
   },
 ];
 

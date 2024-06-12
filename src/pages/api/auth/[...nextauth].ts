@@ -46,6 +46,7 @@ const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET || "",
     }),
   ],
+
   callbacks: {
     async jwt({ token, account, profile, user }: any) {
       if (account?.provider === "credentials") {

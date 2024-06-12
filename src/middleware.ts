@@ -9,6 +9,6 @@ export function mainMiddleware() {
 export default withAuth(mainMiddleware, [
   "admin",
   "auth",
-  "pengajuanBencana",
+  "lapor",
   "dashboard",
 ]);
