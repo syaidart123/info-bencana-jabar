@@ -1,4 +1,3 @@
-import serviceProfile from "@/services/profile";
 import {
   ChevronRight,
   ChevronsLeft,
@@ -11,7 +10,7 @@ import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 
 const Sidebar = (props: any) => {
   const { profile } = props;

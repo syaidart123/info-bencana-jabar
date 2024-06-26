@@ -33,7 +33,13 @@ const FormBencana = (props: propTypes) => {
             label="Nama Pelapor"
             required
           />
-          <Input name="noTelp" placeholder="Masukan No. Telp" type="number" label="No. Telp" required />
+          <Input
+            name="noTelp"
+            placeholder="Masukan No. Telp"
+            type="number"
+            label="No. Telp"
+            required
+          />
           <SelectOption
             label="Jenis Bencana"
             name="jenisBencana"
@@ -49,7 +55,11 @@ const FormBencana = (props: propTypes) => {
           </SelectOption>
 
           <Input name="tanggal" label="Tanggal" type="date" required />
-          <SelectOptionFragment label="Daerah" name="daerah" title="Pilih Daerah..."  />
+          <SelectOptionFragment
+            label="Daerah"
+            name="daerah"
+            title="Pilih Daerah..."
+          />
           <Input
             name="lokasi"
             placeholder="Masukan lokasi"
@@ -57,9 +67,12 @@ const FormBencana = (props: propTypes) => {
             label="Lokasi Bencana"
             required
           />
-          
+
           <div className="mt-3">
-            <label htmlFor="deskripsiKejadian" className="block text-sm font-medium mb-2">
+            <label
+              htmlFor="deskripsiKejadian"
+              className="block text-sm font-medium mb-2"
+            >
               Deskripsi Kejadian
             </label>
             <textarea
@@ -77,21 +90,21 @@ const FormBencana = (props: propTypes) => {
               name="rumah"
               type="number"
               titleName="Rumah"
-              placeholder="Jumlah kerusakan rumah"
+              placeholder="Masukan jumlah"
             />
 
             <InputField
               name="rumahTerendam"
               type="number"
               titleName="Rumah Terendam "
-              placeholder="Jumlah kerusakan rumah terendam"
+              placeholder="Masukan jumlah"
               disabled={jenisBencana !== "Banjir"}
             />
             <InputField
               name="fasilitasUmum"
               type="number"
               titleName="Fasilitas Umum"
-              placeholder="Jumlah kerusakan fasilitas umum"
+              placeholder="Masukan jumlah"
             />
           </InputGroup>
 
@@ -100,30 +113,35 @@ const FormBencana = (props: propTypes) => {
               name="meninggal"
               type="number"
               titleName="Meninggal"
-              placeholder="Jumlah korban meninggal"
+              placeholder="Masukan jumlah"
             />
             <InputField
               name="hilang"
               type="number"
               titleName="Hilang"
-              placeholder="Jumlah korban hilang"
+              placeholder="Masukan jumlah"
             />
             <InputField
               name="terluka"
               type="number"
               titleName="Terluka"
-              placeholder="Jumlah korban terluka"
+              placeholder="Masukan jumlah"
             />
           </InputGroup>
 
-          <Input name="taksiranKerugian" type="number" label="Taksiran Kerugian" placeholder="Masukan nominal kerugian *1000000" />
+          <Input
+            name="taksiranKerugian"
+            type="number"
+            label="Taksiran Kerugian"
+            placeholder="Masukan nominal kerugian *1000000"
+          />
 
           <InputGroup name="Pengungsian" title="Pengungsian">
             <InputField
               name="lokasiPengungsian"
               type="text"
               titleName="Lokasi Pengungsian"
-              placeholder="Masukan lokasi pengungsian"
+              placeholder="Masukan lokasi"
             />
             <InputField
               name="jumlahTenda"

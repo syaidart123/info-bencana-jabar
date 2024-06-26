@@ -24,7 +24,7 @@ const Input = (props: propsTypes) => {
     defaultValue,
     disabled,
     autoFocus,
-    onChange
+    onChange,
   } = props;
   return (
     <div>
@@ -44,7 +44,9 @@ const Input = (props: propsTypes) => {
         onChange={onChange}
         min={0}
         id={name}
-        className={`${className} ${disabled ? "cursor-not-allowed" : ""} text-sm border border-gray-300 text-gray-900 sm:text-sm mt-3 rounded-lg block w-full p-2.5 truncate`}
+        className={`${className} ${
+          disabled ? "cursor-not-allowed" : ""
+        } text-sm border border-gray-300 text-gray-900 sm:text-sm mt-3 rounded-lg block w-full p-2.5 truncate`}
         placeholder={placeholder}
         required={required}
         disabled={disabled}

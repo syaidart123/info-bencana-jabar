@@ -27,7 +27,7 @@ const ModalDeletePengajuan = (props: any) => {
             if (status) {
               setToaster({
                 variant: "success",
-                message: "Pengajuan Berhasil Dihapus",
+                message: "Laporan Berhasil Dihapus",
               });
               setDeletedSubmission({});
               const { data } = await serviceUser.getSubmissionByUser();
@@ -39,7 +39,7 @@ const ModalDeletePengajuan = (props: any) => {
         setDeletedSubmission({});
         setToaster({
           variant: "success",
-          message: "Pengajuan Berhasil Dihapus",
+          message: "Laporan Berhasil Dihapus",
         });
         const { data } = await serviceUser.getSubmissionByUser();
         setDataSubmission(data.data);
@@ -48,7 +48,7 @@ const ModalDeletePengajuan = (props: any) => {
       setIsLoading(false);
       setToaster({
         variant: "danger",
-        message: "Gagal Menghapus Pengajuan",
+        message: "Gagal Menghapus Laporan",
       });
     }
   };

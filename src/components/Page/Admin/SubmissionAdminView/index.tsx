@@ -6,10 +6,8 @@ import { ClipboardPen, Trash2 } from "lucide-react";
 import ModalDeletePengajuan from "./ModalDeletePengajuan";
 import Image from "next/image";
 
-
-
 const PengajuanView = (props: any) => {
-  const { submission } = props;  
+  const { submission } = props;
   const [dataSubmission, setDataSubmission] = useState<any>(submission);
   const [deletedSubmission, setDeletedSubmission] = useState({});
   const [updatedSubmission, setUpdatedSubmission] = useState({});
@@ -21,7 +19,7 @@ const PengajuanView = (props: any) => {
   return (
     <div>
       <DashboardLayout type="Admin">
-        <p className="text-xl font-bold mb-10">Pengajuan Bencana</p>
+        <p className="text-xl font-bold mb-10">Laporan Bencana</p>
         <div className="w-full border">
           <div className="flex flex-col">
             <div className="-m-1.5 overflow-x-auto">
@@ -29,7 +27,7 @@ const PengajuanView = (props: any) => {
                 <div className="overflow-hidden">
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-sky-500">
-                      <tr >
+                      <tr>
                         <th
                           scope="col"
                           className="px-6 py-3 text-start text-xs font-medium text-white uppercase"
@@ -98,22 +96,22 @@ const PengajuanView = (props: any) => {
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                               <div className="flex gap-2">
-                              <Button
-                                type="button"
-                                onClick={() => setUpdatedSubmission(sub)}
-                              >
-                                 <div className="bg-yellow-500 px-4 py-2 rounded-md text-white ">
-                                <ClipboardPen />
-                                </div>
-                              </Button>
-                              <Button
-                                type="button"
-                                onClick={() => setDeletedSubmission(sub)}
-                              >
-                                <div className="bg-red-500 px-4 py-2 rounded-md text-white ">
-                                <Trash2 />
-                                </div>
-                              </Button>
+                                <Button
+                                  type="button"
+                                  onClick={() => setUpdatedSubmission(sub)}
+                                >
+                                  <div className="bg-yellow-500 px-4 py-2 rounded-md text-white ">
+                                    <ClipboardPen />
+                                  </div>
+                                </Button>
+                                <Button
+                                  type="button"
+                                  onClick={() => setDeletedSubmission(sub)}
+                                >
+                                  <div className="bg-red-500 px-4 py-2 rounded-md text-white ">
+                                    <Trash2 />
+                                  </div>
+                                </Button>
                               </div>
                             </td>
                           </tr>

@@ -1,10 +1,16 @@
-import RegisterPage from '@/components/Page/register'
-import React from 'react'
+import RegisterPage from "@/components/Page/register";
+import Head from "next/head";
+import React from "react";
 
 const Register = () => {
   return (
-    <RegisterPage/>
-  )
-}
+    <>
+      <Head>
+        <title>Register | Info Bencana Jabar</title>
+      </Head>
+      <RegisterPage />
+    </>
+  );
+};
 
-export default Register
+export default Register;

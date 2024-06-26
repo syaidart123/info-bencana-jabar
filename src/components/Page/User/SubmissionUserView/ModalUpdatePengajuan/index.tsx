@@ -69,7 +69,7 @@ const ModalUpdatePengajuan = (props: any) => {
       setDataSubmission(data.data);
       setToaster({
         variant: "success",
-        message: "Pengajuan Berhasil Diupdate",
+        message: "Laporan Berhasil Diupdate",
       });
     } else {
       setIsLoading(false);
@@ -78,7 +78,7 @@ const ModalUpdatePengajuan = (props: any) => {
       setUpdatedSubmission(false);
       setToaster({
         variant: "danger",
-        message: "Pengajuan Gagal Diupdate",
+        message: "laporan Gagal Diupdate",
       });
     }
   };
@@ -143,7 +143,7 @@ const ModalUpdatePengajuan = (props: any) => {
   return (
     <>
       <Modal onClose={() => setUpdatedSubmission(false)}>
-        <p className="text-3xl font-bold mb-5 ">Update Pengajuan</p>
+        <p className="text-3xl font-bold mb-5 ">Update Laporan</p>
         <form onSubmit={handleUpdate}>
           <Input
             name="namaPelapor"

@@ -15,8 +15,17 @@ type PropsTypes = {
 };
 
 const SelectOption = (props: PropsTypes) => {
-  const { label, name, title, children, disabled, onChange, id, defaultValue,required } =
-    props;
+  const {
+    label,
+    name,
+    title,
+    children,
+    disabled,
+    onChange,
+    id,
+    defaultValue,
+    required,
+  } = props;
   const [selectedValue, setSelectedValue] = useState("");
 
   useEffect(() => {
@@ -54,7 +63,7 @@ const SelectOption = (props: PropsTypes) => {
           defaultValue={defaultValue}
           required={required}
           id={id}
-          className="border truncate p-2.5 mt-3 block w-full border-gray-200 rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none"
+          className="border truncate p-2.5 mt-3 block w-full border-gray-200 shadow-sm rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none"
         >
           <option value="" disabled>
             {title}

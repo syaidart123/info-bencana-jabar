@@ -4,7 +4,6 @@ import type { AppProps } from "next/app";
 import { ToasterProvider } from "@/context/ToasterContext";
 import AppShell from "@/components/Fragment/AppShell";
 
-
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
@@ -12,9 +11,9 @@ export default function App({
   return (
     <SessionProvider session={session}>
       <ToasterProvider>
-      <AppShell>
-        <Component {...pageProps} />
-      </AppShell>
+        <AppShell>
+          <Component {...pageProps} />
+        </AppShell>
       </ToasterProvider>
     </SessionProvider>
   );

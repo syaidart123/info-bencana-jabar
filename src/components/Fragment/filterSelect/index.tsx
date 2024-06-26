@@ -18,7 +18,7 @@ const FilterSelect = (props: propsTypes) => {
     setSelectedDaerah,
     setSelectedStartDate,
     setSelectedEndDate,
-    className
+    className,
   } = props;
   const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedStartDate(e.target.value);
@@ -30,7 +30,7 @@ const FilterSelect = (props: propsTypes) => {
 
   return (
     <div className={`${className} flex gap-2 flex-col-reverse md:flex-row`}>
-      <div className="flex flex-col justify-center items-center lg:w-1/2">
+      <div className="flex flex-col mt-1 md:w-1/2">
         <InputField
           name="startDate"
           titleName="Tanggal Awal"
@@ -44,7 +44,7 @@ const FilterSelect = (props: propsTypes) => {
           onChange={handleEndDateChange}
         />
       </div>
-      <div className="flex lg:block lg:w-1/2 lg:flex-col gap-1 lg:gap-0">
+      <div className="md:block md:w-1/2 md:flex-col md:gap-0">
         <SelectOption
           name="jenisBencana"
           title="Pilih Jenis Bencana..."

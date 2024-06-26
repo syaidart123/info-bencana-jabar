@@ -111,7 +111,8 @@ const HomeGrafikLayout = (props: propsTypes) => {
       (total: any, item: { hilang: any }) => total + item.hilang,
       0
     );
-    const jenisDaerahCounts: { [key: string]: { [daerah: string]: number } } = {};
+    const jenisDaerahCounts: { [key: string]: { [daerah: string]: number } } =
+      {};
 
     filteredData.forEach((item: { jenisBencana: string; daerah: string }) => {
       if (!jenisDaerahCounts[item.jenisBencana]) {
@@ -125,10 +126,12 @@ const HomeGrafikLayout = (props: propsTypes) => {
 
     const labels = Object.keys(jenisDaerahCounts);
     const daerahs = filteredData
-    .map((item: { daerah: string }) => item.daerah)
-    .filter((value:any, index:any, self:any) => self.indexOf(value) === index);
+      .map((item: { daerah: string }) => item.daerah)
+      .filter(
+        (value: any, index: any, self: any) => self.indexOf(value) === index
+      );
 
-    const datasets = daerahs.map((daerah:any) => {
+    const datasets = daerahs.map((daerah: any) => {
       return {
         label: daerah,
         data: labels.map((label) => jenisDaerahCounts[label][daerah] || 0),
@@ -177,13 +180,13 @@ const HomeGrafikLayout = (props: propsTypes) => {
   }, [filteredData, submission]);
 
   const getRandomColor = () => {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
+    const letters = "0123456789ABCDEF";
+    let color = "#";
     for (let i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
-}
+  };
 
   const option: any = {
     responsive: true,
@@ -199,7 +202,7 @@ const HomeGrafikLayout = (props: propsTypes) => {
   };
 
   const optionBar: any = {
-    indexAxis: "y",
+    indexAxis: "x",
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -221,16 +224,20 @@ const HomeGrafikLayout = (props: propsTypes) => {
     .map((item: { taksiranKerugian: number }) => item.taksiranKerugian)
     .reduce((total: number, item: number) => total + item, 0);
 
-  const totalBantuan = filteredData.filter((item: { bantuan: any; }) => item && item.bantuan)
+  const totalBantuan = filteredData
+    .filter((item: { bantuan: any }) => item && item.bantuan)
     .flatMap((item: any) => item.bantuan)
-    .reduce((total: any, bantuanItem: any) => total + (bantuanItem.nominal || 0), 0);
+    .reduce(
+      (total: any, bantuanItem: any) => total + (bantuanItem.nominal || 0),
+      0
+    );
 
   return (
-    <div className="w-full min-h-screen">
+    <main className=" min-h-[calc(100vh-90px)] flex flex-col justify-center">
       <div className="mx-5 my-2">
-        <div className="flex flex-col lg:flex-row gap-2">
-          <div className="w-full lg:w-1/2 bg-white rounded-md border px-3">
-            <div className="">
+        <div className="flex flex-col xl:flex-row gap-2 min-h-[calc(100svh-100px)]">
+          <div className="w-full xl:w-1/2 rounded-md border px-3 py-7 xl:py-1">
+            <div>
               <FilterSelect
                 className="w-full"
                 setSelectedBencana={setSelectedBencana}
@@ -239,13 +246,16 @@ const HomeGrafikLayout = (props: propsTypes) => {
                 setSelectedEndDate={setSelectedEndDate}
               />
             </div>
-            <div className="px-2 my-5 border rounded-md h-80">
+            <div className="px-2 my-5 border rounded-md h-96 xl:h-3/4">
+              <p className="text-xl text-center font-bold py-2">
+                Grafik Data Bencana
+              </p>
               <BarChart data={jenisBencana} options={optionBar} />
             </div>
           </div>
-          <div className="w-full lg:w-1/2 flex flex-col gap-2">
-            <div className="flex flex-col lg:flex-row gap-2 h-full">
-              <div className="bg-white rounded-md h-full border px-3 lg:w-1/2">
+          <div className="w-full xl:w-1/2 flex flex-col gap-2">
+            <div className="flex flex-col sm:flex-row gap-2 h-full">
+              <div className="bg-white sm:w-1/2 rounded-md h-full border px-3 xl:w-1/2">
                 <p className="text-xl text-center font-bold py-2">
                   Total Kerusakan
                 </p>
@@ -254,22 +264,34 @@ const HomeGrafikLayout = (props: propsTypes) => {
                   <PieChart data={kerusakan} option={option} />
                 </div>
               </div>
-              <div className="bg-white rounded-md border px-3 lg:w-1/2">
-                <p className="text-xl text-center font-bold py-2">Total Korban</p>
+              <div className="bg-white sm:w-1/2 rounded-md border px-3 xl:w-1/2">
+                <p className="text-xl text-center font-bold py-2">
+                  Total Korban
+                </p>
                 <hr className="my-2" />
                 <div className="my-3 flex items-center justify-center h-3/4">
                   <PieChart data={korban} option={option} />
                 </div>
               </div>
             </div>
-            <div className="h-1/4 flex items-center justify-center bg-white border w-full rounded-md">
-              <p className="p-8 border-r-2 text-sm xl:text-lg w-1/2  text-center">Total Kerugian Material: <span className="italic text-md font-bold">{formatRupiah(totalKerugian)}</span></p>
-              <p className="p-8 w-1/2  text-center text-sm xl:text-lg">Total Bantuan Sudah Diterima : <span className="italic text-md font-bold">{formatRupiah(totalBantuan)}</span></p>
+            <div className=" flex items-center justify-center bg-white border w-full rounded-md">
+              <p className="p-8 w-1/2 text-center text-sm xl:text-lg">
+                Total Kerugian Material:{" "}
+                <span className="italic text-md font-bold">
+                  {formatRupiah(totalKerugian)}
+                </span>
+              </p>
+              <p className="p-8 w-1/2 border-l-2 text-center text-sm xl:text-lg">
+                Total Bantuan Sudah Diterima :{" "}
+                <span className="italic text-md font-bold">
+                  {formatRupiah(totalBantuan)}
+                </span>
+              </p>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

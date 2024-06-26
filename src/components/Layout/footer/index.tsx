@@ -6,8 +6,8 @@ import React from "react";
 const Footer = () => {
   return (
     <>
-      <div className="w-full h-96 bg-sky-600 flex justify-around items-start px-5">
-        <div className="mt-10 w-3/12 p-5 ">
+      <div className=" h-96 bg-sky-600 flex justify-around items-start">
+        <div className="mt-10 w-3/12 p-5">
           <Image
             src="/images/hi.png"
             width={500}
@@ -39,7 +39,7 @@ const Footer = () => {
       <hr className="text-white w-6/12" />
       <div className=" bg-sky-600 py-5 flex justify-center items-center flex-col">
         <p className="text-white">
-           &copy; {new Date().getFullYear()} Info Bencana
+          &copy; {new Date().getFullYear()} Info Bencana
         </p>
       </div>
     </>

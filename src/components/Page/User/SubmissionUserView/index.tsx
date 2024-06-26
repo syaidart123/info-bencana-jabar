@@ -19,7 +19,7 @@ const StatusPengajuanView = (props: any) => {
   return (
     <div>
       <DashboardLayout type="User">
-        <p className="text-xl font-bold mb-10">Pengajuan Bencana</p>
+        <p className="text-xl font-bold mb-10">Laporan Bencana</p>
         <div className="overflow-x-auto border shadow-md rounded-md">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-sky-500">
@@ -97,7 +97,6 @@ const StatusPengajuanView = (props: any) => {
                             <ClipboardPen />
                           </div>
                         </Button>
-                       
                       </div>
                     </td>
                   </tr>

@@ -38,7 +38,8 @@ const PengajuanBencana = () => {
         hilang: parseInt(form.hilang.value) || 0,
         terluka: parseInt(form.terluka.value) || 0,
       },
-      taksiranKerugian: parseInt(form.taksiranKerugian.value.replace(/\./g, '')) || 0,
+      taksiranKerugian:
+        parseInt(form.taksiranKerugian.value.replace(/\./g, "")) || 0,
 
       pengungsian: {
         lokasiPengungsian: form.lokasiPengungsian?.value,
@@ -46,8 +47,6 @@ const PengajuanBencana = () => {
         pengungsi: parseInt(form.jumlahPengungsi?.value) || 0,
       },
     };
-
-
 
     const file = form.image.files[0];
 
@@ -86,7 +85,7 @@ const PengajuanBencana = () => {
         setUploadedImage(null);
         setToaster({
           variant: "danger",
-          message: "Pengajuan Gagal Dikirim",
+          message: "Laporan Gagal Dikirim",
         });
       }
     } catch (error) {
@@ -121,7 +120,7 @@ const PengajuanBencana = () => {
               form.reset();
               setToaster({
                 variant: "success",
-                message: "Pengajuan Berhasil Dikirim",
+                message: "Laporan Berhasil Dikirim",
               });
             } else {
               setIsLoading(false);
@@ -129,7 +128,7 @@ const PengajuanBencana = () => {
               form.reset();
               setToaster({
                 variant: "danger",
-                message: "Pengajuan Gagal Dikirim",
+                message: "Laporan Gagal Dikirim",
               });
             }
           } else {

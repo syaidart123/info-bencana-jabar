@@ -1,14 +1,7 @@
 import Sidebar from "@/components/Fragment/sidebar";
-import serviceProfile from "@/services/profile";
 import useSWR from "swr";
-import {
-  BarChart3,
-  CircleUser,
-  HandCoins,
-  MonitorUp,
-  Newspaper,
-} from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { BarChart3, CircleUser, MonitorUp, Newspaper } from "lucide-react";
+import React from "react";
 import fetcher from "@/lib/swr/fetcher";
 
 type propTypes = {
@@ -24,14 +17,9 @@ const listSidebarAdmin = [
     icon: <BarChart3 />,
   },
   {
-    title: "Pengajuan",
-    link: "/admin/pengajuan",
+    title: "Laporan",
+    link: "/admin/laporan",
     icon: <Newspaper />,
-  },
-  {
-    title: "Bantuan",
-    link: "/admin/bantuan",
-    icon: <HandCoins />,
   },
   {
     title: "Postingan",
@@ -45,13 +33,8 @@ const listSidebarAdmin = [
   },
 ];
 const listSidebarUser = [
-  // {
-  //   title: "Dashboard Pengajuan",
-  //   link: "/dashboard",
-  //   icon: <BarChart3 />,
-  // },
   {
-    title: "Pengajuan",
+    title: "Laporan",
     link: "/dashboard",
     icon: <Newspaper />,
   },

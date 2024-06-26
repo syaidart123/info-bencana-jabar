@@ -2,8 +2,6 @@ import Image from "next/image";
 import React, { useState } from "react";
 import Button from "../Button";
 import { Scaling } from "lucide-react";
-import SelectOption from "../SelectOption";
-import Option from "../Option";
 import ModalDetailPengajuan from "./ModalDetailPengajuan";
 import FilterSelect from "@/components/Fragment/filterSelect";
 
@@ -19,28 +17,33 @@ const Tabel = (props: propTypes) => {
   const [selectedDaerah, setSelectedDaerah] = useState("");
   const [selectedStartDate, setSelectedStartDate] = useState("");
   const [selectedEndDate, setSelectedEndDate] = useState("");
-  
+
   // Convert string dates to Date objects for comparison
   const startDate = selectedStartDate ? new Date(selectedStartDate) : null;
   const endDate = selectedEndDate ? new Date(selectedEndDate) : null;
-  
+
   const filteredData = dataSubmission.filter((item: any) => {
     const itemDate = new Date(item.tanggal); // Convert the item's date to a Date object
-    const matchesBencana = selectedBencana ? item.jenisBencana === selectedBencana : true;
-    const matchesDaerah = selectedDaerah ? item.daerah === selectedDaerah : true;
+    const matchesBencana = selectedBencana
+      ? item.jenisBencana === selectedBencana
+      : true;
+    const matchesDaerah = selectedDaerah
+      ? item.daerah === selectedDaerah
+      : true;
     const matchesStartDate = startDate ? itemDate >= startDate : true;
     const matchesEndDate = endDate ? itemDate <= endDate : true;
-  
-    return matchesBencana && matchesDaerah && matchesStartDate && matchesEndDate;
+
+    return (
+      matchesBencana && matchesDaerah && matchesStartDate && matchesEndDate
+    );
   });
-  
 
   return (
     <>
-      <div className="px-10 h-screen">
+      <main className="px-10 h-screen">
         <p className="text-2xl my-10 mx-3">Data Bencana</p>
         <FilterSelect
-        className="w-full lg:w-1/2"
+          className="w-full lg:w-1/2"
           setSelectedBencana={setSelectedBencana}
           setSelectedDaerah={setSelectedDaerah}
           setSelectedStartDate={setSelectedStartDate}
@@ -129,7 +132,7 @@ const Tabel = (props: propTypes) => {
             </tbody>
           </table>
         </div>
-      </div>
+      </main>
       {Object.keys(detailSubmission).length > 0 ? (
         <ModalDetailPengajuan
           setDetailSubmission={setDetailSubmission}
