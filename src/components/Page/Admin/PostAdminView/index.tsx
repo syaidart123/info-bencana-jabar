@@ -9,15 +9,15 @@ import Image from "next/image";
 import formatTanggal from "@/utils/formatTanggal";
 
 const PostAdminView = (props: any) => {
-  const {posts}=props;
+  const { posts } = props;
   const [modalAddPost, setModalAddPost] = useState(false);
   const [postData, setPostData] = useState<any>(posts);
   const [deletedPost, setDeletedPost] = useState({});
   const [updatedPost, setUpdatedPost] = useState({});
 
-useEffect(()=>{
-  setPostData(posts);
-},[posts])
+  useEffect(() => {
+    setPostData(posts);
+  }, [posts]);
 
   return (
     <>
@@ -29,11 +29,11 @@ useEffect(()=>{
             <CirclePlus width={20} height={20} />
           </span>
         </Button>
-        <div className="w-full border">
+        <div className="border">
           <div className="flex flex-col">
             <div className="-m-1.5 overflow-x-auto">
               <div className="p-1.5 min-w-full inline-block align-middle">
-                <div className="overflow-hidden">
+                <div className="overflow-x-auto border shadow-md rounded-md">
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-sky-500">
                       <tr>
@@ -67,7 +67,7 @@ useEffect(()=>{
                         >
                           Tanggal
                         </th>
-                      
+
                         <th
                           scope="col"
                           className="px-6 py-3 text-start text-xs font-medium text-white uppercase"
@@ -87,10 +87,18 @@ useEffect(()=>{
                               {index + 1}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm rounded-md font-medium text-gray-800 ">
-                              <Image src={sub.image} alt="foto" width={100} height={100}  />
+                              <Image
+                                src={sub.image}
+                                alt="foto"
+                                width={100}
+                                height={100}
+                                className="rounded-lg shadow-lg max-h-20 object-cover"
+                              />
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                               <p className="truncate max-w-[200px]">{sub.title}</p>
+                              <p className="truncate max-w-[200px]">
+                                {sub.title}
+                              </p>
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                               {sub.daerah}

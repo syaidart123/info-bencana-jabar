@@ -77,7 +77,9 @@ const Navbar = () => {
   }, [ref]);
 
   return (
-    <nav className="sticky flex top-0 z-50 py-5 justify-between px-6 md:justify-around items-center border-b bg-white ">
+    <nav
+      className={`sticky flex top-0 z-50 py-5 justify-between px-6 md:justify-around items-center border-b bg-white`}
+    >
       <div>
         <Image
           src="/images/hi.png"
@@ -94,7 +96,7 @@ const Navbar = () => {
             return (
               <Link
                 href={list.link}
-                className={`text-sky-500 hover:border-b-2 hover:border-sky-600 hover:text-sky-600 ${
+                className={`text-sky-500 hover:text-sky-700 ${
                   pathname === list.link
                     ? "font-bold text-sky-600 border-b-2 border-sky-600"
                     : ""
@@ -128,7 +130,7 @@ const Navbar = () => {
               </div>
             )}
             <div
-              className={`absolute border right-0 top-[45px] rounded-md flex-col ${
+              className={`absolute border -right-10 top-[45px] rounded-md flex-col ${
                 showDropdown ? "flex z-10" : "hidden"
               }`}
             >
@@ -155,7 +157,7 @@ const Navbar = () => {
             </div>
             <div
               className={`${
-                isActive ? "translate-x-0" : "translate-x-full"
+                isActive ? "translate-x-0" : "translate-x-[110%]"
               } bg-slate-50 w-1/2 shadow-md overflow-hidden rounded-md fixed right-2 top-16 border py-2 px-2 transition-transform duration-500 ease-in-out`}
             >
               <nav>
@@ -194,7 +196,7 @@ const Navbar = () => {
             </div>
             <div
               className={`${
-                isActive ? "translate-x-0" : "translate-x-full"
+                isActive ? "translate-x-0" : "translate-x-[110%]"
               } bg-slate-50 w-1/2 shadow-md overflow-hidden rounded-md fixed right-2 top-14 border py-2 px-2 transition-transform duration-500 ease-in-out`}
             >
               <nav>

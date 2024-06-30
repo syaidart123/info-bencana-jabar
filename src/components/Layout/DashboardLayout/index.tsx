@@ -58,7 +58,7 @@ const DashboardLayout = (props: propTypes) => {
       ) : (
         <Sidebar links={listSidebarUser} profile={data} />
       )}
-      <div className="w-full p-10">{children}</div>
+      <div className="w-full p-2 lg:p-10">{children}</div>
     </div>
   );
 };

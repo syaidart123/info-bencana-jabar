@@ -41,7 +41,7 @@ const Tabel = (props: propTypes) => {
   return (
     <>
       <main className="px-10 h-screen">
-        <p className="text-2xl my-10 mx-3">Data Bencana</p>
+        <p className="text-2xl my-5">Data Bencana</p>
         <FilterSelect
           className="w-full lg:w-1/2"
           setSelectedBencana={setSelectedBencana}
@@ -49,7 +49,8 @@ const Tabel = (props: propTypes) => {
           setSelectedStartDate={setSelectedStartDate}
           setSelectedEndDate={setSelectedEndDate}
         />
-        <div className="flex w-full">
+        <table className="min-w-full divide-y divide-gray-200"></table>
+        <div className="flex w-full overflow-x-auto border shadow-md rounded-md">
           <table className="w-3/6 min-w-full divide-y divide-gray-200">
             <thead className="bg-sky-500">
               <tr>

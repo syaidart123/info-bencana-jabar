@@ -233,10 +233,10 @@ const HomeGrafikLayout = (props: propsTypes) => {
     );
 
   return (
-    <main className=" min-h-[calc(100vh-90px)] flex flex-col justify-center">
+    <main className="min-h-[90svh] flex flex-col justify-center bg-white">
       <div className="mx-5 my-2">
-        <div className="flex flex-col xl:flex-row gap-2 min-h-[calc(100svh-100px)]">
-          <div className="w-full xl:w-1/2 rounded-md border px-3 py-7 xl:py-1">
+        <div className="flex  flex-col xl:flex-row gap-2 min-h-[calc(100svh-90px)] ">
+          <div className="w-full xl:w-1/2 bg-white rounded-md border px-3 py-7 xl:py-1">
             <div>
               <FilterSelect
                 className="w-full"
@@ -254,7 +254,7 @@ const HomeGrafikLayout = (props: propsTypes) => {
             </div>
           </div>
           <div className="w-full xl:w-1/2 flex flex-col gap-2">
-            <div className="flex flex-col sm:flex-row gap-2 h-full">
+            <div className="flex flex-col sm:flex-row gap-2 h-full ">
               <div className="bg-white sm:w-1/2 rounded-md h-full border px-3 xl:w-1/2">
                 <p className="text-xl text-center font-bold py-2">
                   Total Kerusakan

@@ -20,11 +20,11 @@ const PengajuanView = (props: any) => {
     <div>
       <DashboardLayout type="Admin">
         <p className="text-xl font-bold mb-10">Laporan Bencana</p>
-        <div className="w-full border">
+        <div className="border">
           <div className="flex flex-col">
             <div className="-m-1.5 overflow-x-auto">
               <div className="p-1.5 min-w-full inline-block align-middle">
-                <div className="overflow-hidden">
+                <div className="overflow-x-auto border shadow-md rounded-md">
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-sky-500">
                       <tr>

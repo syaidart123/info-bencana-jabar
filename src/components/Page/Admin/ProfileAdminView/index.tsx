@@ -8,7 +8,7 @@ import Image from "next/image";
 import React, { FormEvent, useContext, useEffect, useState } from "react";
 
 const ProfileAdminView = (props: any) => {
-  const { bio } = props;  
+  const { bio } = props;
   const { setToaster } = useContext(ToasterContext);
   const [profileData, setProfileData] = useState<any>(bio);
   const [changeName, setChangeName] = useState<any>({});
@@ -115,7 +115,7 @@ const ProfileAdminView = (props: any) => {
   return (
     <DashboardLayout type="Admin">
       <p className="text-xl font-bold mb-10">Profile Page</p>
-      <div className="w-full border rounded-md p-5">
+      <div className=" border rounded-md mb-28 p-4">
         <form
           onSubmit={handleUpdate}
           className="flex flex-col lg:flex-row justify-start items-center lg:items-start space-y-5 lg:space-y-0 lg:space-x-10"
@@ -128,7 +128,7 @@ const ProfileAdminView = (props: any) => {
                 height={250}
                 alt="profile"
                 loading="lazy"
-                className="rounded-full object-cover w-auto h-auto lg:w-[250px] lg:h-[250px] bg-gray-200 border text-3xl font-bold"
+                className="rounded-full object-cover w-40 h-40  lg:w-[250px] lg:h-[250px] bg-gray-200 border text-3xl font-bold"
               />
             ) : (
               <div className="rounded-full w-[250px] h-[250px] flex justify-center items-center object-cover bg-gray-200 text-3xl font-bold">
