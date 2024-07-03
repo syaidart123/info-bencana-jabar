@@ -29,7 +29,11 @@ const LoginPage = () => {
       });
 
       if (res?.status === 200) {
-        if (callbackUrl === `${process.env.NEXT_PUBLIC_API_URL}/lapor` && `/`) {
+        if (callbackUrl === `${process.env.NEXT_PUBLIC_API_URL}/lapor`) {
+          const currentUrl = new URL(window.location.href);
+          currentUrl.searchParams.set("redirect", callbackUrl);
+          window.location.href = currentUrl.toString();
+        } else if (callbackUrl === `/`) {
           const currentUrl = new URL(window.location.href);
           currentUrl.searchParams.set("redirect", callbackUrl);
           window.location.href = currentUrl.toString();
