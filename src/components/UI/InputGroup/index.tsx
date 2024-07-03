@@ -4,15 +4,15 @@ import InputField from "../InputField";
 type propTypes = {
   name: string;
   title: string;
-  children:React.ReactNode;
+  children: React.ReactNode;
 };
 
 const InputGroup = (props: propTypes) => {
-  const { name, title,children } = props;
+  const { name, title, children } = props;
   return (
     <label
       htmlFor={name}
-      className=" block  mb-2 text-sm font-medium text-gray-900 mt-3"
+      className="mb-2 mt-3 block text-sm font-medium text-gray-900"
     >
       {title}
       {children}

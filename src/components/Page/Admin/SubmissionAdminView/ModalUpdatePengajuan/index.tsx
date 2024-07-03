@@ -19,13 +19,13 @@ const ModalUpdatePengajuan = (props: any) => {
   const [aidCount, setAidCount] = useState(
     updatedSubmission.bantuan || [
       { lembaga: "", jenisBantuan: "", namaBantuan: "", nominal: 0 },
-    ]
+    ],
   );
 
   const totalBantuan = updatedSubmission.bantuan
     ? updatedSubmission.bantuan.reduce(
         (total: any, item: any) => total + (item.nominal || 0),
-        0
+        0,
       )
     : 0;
 
@@ -66,7 +66,7 @@ const ModalUpdatePengajuan = (props: any) => {
         return `${label} : ${jumlah} `;
       });
       const dataKerusakan = kerusakanLabels.map(
-        (label: any) => updatedSubmission.kerusakan[label]
+        (label: any) => updatedSubmission.kerusakan[label],
       );
 
       const korbanLabels = Object.keys(updatedSubmission.korban);
@@ -75,7 +75,7 @@ const ModalUpdatePengajuan = (props: any) => {
         return `${label} : ${jumlah} `;
       });
       const dataKorban = korbanLabels.map(
-        (label: any) => updatedSubmission.korban[label]
+        (label: any) => updatedSubmission.korban[label],
       );
       setKerusakan({
         labels: labelkerusakan,
@@ -146,7 +146,7 @@ const ModalUpdatePengajuan = (props: any) => {
 
     const result = await submissionService.updateSubmission(
       updatedSubmission.id,
-      data
+      data,
     );
     if (result.status === 200) {
       setIsLoading(false);
@@ -171,19 +171,19 @@ const ModalUpdatePengajuan = (props: any) => {
       <Modal onClose={() => setUpdatedSubmission({})}>
         <form onSubmit={handleUpdate}>
           <div className="flex flex-col">
-            <p className="text-xl xl:text-3xl font-semibold px-5 py-2">
+            <p className="px-5 py-2 text-xl font-semibold xl:text-3xl">
               Update Laporan Bencana
             </p>
-            <hr className="my-5 xl:my-2 " />
-            <div className="flex gap-5 flex-col items-start mx-5 border p-5 bg-white rounded-md shadow-md">
+            <hr className="my-5 xl:my-2" />
+            <div className="mx-5 flex flex-col items-start gap-5 rounded-md border bg-white p-5 shadow-md">
               <div className="w-full xl:flex xl:justify-between xl:gap-7">
-                <div className="xl:w-2/4 flex flex-col items-start  mb-5">
+                <div className="mb-5 flex flex-col items-start xl:w-2/4">
                   <Image
                     src={updatedSubmission.image}
                     width={1000}
                     height={1000}
                     alt="foto"
-                    className="rounded-md w-full border object-contain object-top"
+                    className="w-full rounded-md border object-contain object-top"
                   />
                 </div>
                 <div className="xl:w-2/4">
@@ -246,23 +246,23 @@ const ModalUpdatePengajuan = (props: any) => {
                 </div>
               </div>
             </div>
-            <div className="bg-white mx-5 shadow-md border rounded-md p-4 my-10">
-              <p className="text-lg font-bold ">Grafik Kerusakan & Korban</p>
+            <div className="mx-5 my-10 rounded-md border bg-white p-4 shadow-md">
+              <p className="text-lg font-bold">Grafik Kerusakan & Korban</p>
               <hr className="my-3" />
-              <div className="flex flex-col xl:flex-row justify-center py-10 items-center gap-5">
-                <div className="w-full lg:w-1/2 max-w-xs p-3 border rounded-md shadow-md">
-                  <p className="text-xl text-center">Kerusakan</p>
+              <div className="flex flex-col items-center justify-center gap-5 py-10 xl:flex-row">
+                <div className="w-full max-w-xs rounded-md border p-3 shadow-md lg:w-1/2">
+                  <p className="text-center text-xl">Kerusakan</p>
                   <hr className="my-3" />
                   <PieChart data={kerusakan} option={option} />
                 </div>
-                <div className="w-full lg:w-1/2  max-w-xs p-3 border rounded-md shadow-md">
-                  <p className="text-xl text-center">Korban</p>
+                <div className="w-full max-w-xs rounded-md border p-3 shadow-md lg:w-1/2">
+                  <p className="text-center text-xl">Korban</p>
                   <hr className="my-3" />
                   <PieChart data={korban} option={option} />
                 </div>
               </div>
             </div>
-            <div className="bg-white mx-5 shadow-md border rounded-md p-4 my-10">
+            <div className="mx-5 my-10 rounded-md border bg-white p-4 shadow-md">
               {/* <p className="text-lg font-bold ">Bantuan</p>
               <hr className="my-3" /> */}
               <div className="mt-5">
@@ -277,7 +277,7 @@ const ModalUpdatePengajuan = (props: any) => {
                       namaBantuan: string;
                       nominal: number;
                     },
-                    i: number
+                    i: number,
                   ) => (
                     <div key={i}>
                       <div className="grid grid-cols-4 gap-4">
@@ -327,10 +327,10 @@ const ModalUpdatePengajuan = (props: any) => {
                         />
                       </div>
                     </div>
-                  )
+                  ),
                 )}
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex items-center justify-between">
                 <Button
                   type="button"
                   className={"my-2"}
@@ -346,7 +346,7 @@ const ModalUpdatePengajuan = (props: any) => {
                     ])
                   }
                 >
-                  <span className="bg-sky-500 rounded-md text-white py-2 px-4">
+                  <span className="rounded-md bg-sky-500 px-4 py-2 text-white">
                     Tambah Bantuan
                   </span>
                 </Button>
@@ -362,7 +362,7 @@ const ModalUpdatePengajuan = (props: any) => {
                   <select
                     defaultValue={updatedSubmission.status}
                     name="status"
-                    className="border py-3 px-4 mt-1 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                    className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50"
                   >
                     <option disabled>Status...</option>
                     <option value="Terkirim">Terkirim</option>

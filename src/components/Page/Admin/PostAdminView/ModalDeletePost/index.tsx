@@ -28,7 +28,7 @@ const ModalDeletePost = (props: any) => {
               message: "Postingan Berhasil Dihapus",
             });
           }
-        }
+        },
       );
     } else {
       setIsLoading(false);
@@ -49,16 +49,16 @@ const ModalDeletePost = (props: any) => {
           onClick={() => handleDelete()}
           className="mt-3 px-5"
         >
-          <p className="text-white bg-red-500 rounded-md w-full py-2 px-8 hover:bg-red-600">
+          <p className="w-full rounded-md bg-red-500 px-8 py-2 text-white hover:bg-red-600">
             {isLoading ? "Loading..." : "Delete"}
           </p>
         </Button>
         <Button
           type="button"
           onClick={() => setDeletedPost({})}
-          className=" mt-3 px-5"
+          className="mt-3 px-5"
         >
-          <p className="border rounded-md w-full py-2 px-8 hover:bg-gray-100">
+          <p className="w-full rounded-md border px-8 py-2 hover:bg-gray-100">
             Cencel
           </p>
         </Button>

@@ -4,14 +4,14 @@ import Head from "next/head";
 import React from "react";
 
 const BeritaPage = (props: any) => {
-  const { posts } = props;
+  const { postData } = props;
 
   return (
     <>
       <Head>
         <title>Info Bencana Jabar | Berita</title>
       </Head>
-      <BeritaPageView posts={posts} />;
+      <BeritaPageView postData={postData} />;
     </>
   );
 };
@@ -22,7 +22,7 @@ export async function getServerSideProps() {
   const { data } = await postService.getPost();
   return {
     props: {
-      posts: data.data,
+      postData: data.data,
     },
   };
 }

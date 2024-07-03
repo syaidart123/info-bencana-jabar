@@ -139,7 +139,7 @@ const PengajuanBencana = () => {
               message: "Ukuran file maksimal 1 MB",
             });
           }
-        }
+        },
       );
     } else {
       setIsLoading(false);
@@ -152,7 +152,7 @@ const PengajuanBencana = () => {
   };
 
   return (
-    <div className=" py-10 flex justify-center items-center ">
+    <div className="flex items-center justify-center py-10">
       <FormBencana
         handleSubmit={handleSubmit}
         isLoading={isLoading}

@@ -1,24 +1,22 @@
 import Modal from "@/components/UI/Modal";
-import submissionService from "@/services/submission";
 import React, {
   Dispatch,
   FormEvent,
   SetStateAction,
   useContext,
-  useEffect,
   useState,
 } from "react";
 import Button from "@/components/UI/Button";
 import { ToasterContext } from "@/context/ToasterContext";
 import Input from "@/components/UI/Input";
-import SelectOption from "@/components/UI/SelectOption";
-import Option from "@/components/UI/Option";
 import { Post } from "@/types/post.type";
 import postService from "@/services/post";
 import InputFile from "@/components/UI/InputFile";
 import Image from "next/image";
 import { uploadFile } from "@/lib/firebase/service";
 import SelectOptionFragment from "@/components/Fragment/OptionDaerah";
+import SelectOption from "@/components/UI/SelectOption";
+import Option from "@/components/UI/Option";
 
 type propsTypes = {
   setModalAddPost: Dispatch<SetStateAction<boolean>>;
@@ -77,7 +75,7 @@ const ModalAddPost = (props: propsTypes) => {
               message: "Postingan Gagal Di Tambah",
             });
           }
-        }
+        },
       );
     }
   };
@@ -88,6 +86,7 @@ const ModalAddPost = (props: propsTypes) => {
     const data = {
       title: form.judul.value,
       daerah: form.daerah.value,
+      jenisBencana: form.jenisBencana.value,
       tanggal: form.tanggal.value,
       deskripsi: form.desc.value,
       image: "",
@@ -142,12 +141,6 @@ const ModalAddPost = (props: propsTypes) => {
     }
   };
 
-  const handlePost = (e: any, i: number, type: string) => {
-    const newPostCount: any = [...PostCount];
-    newPostCount[i][type] = e.target.value;
-    setPostCount(newPostCount);
-  };
-
   return (
     <>
       <Modal onClose={() => setModalAddPost(false)}>
@@ -160,33 +153,50 @@ const ModalAddPost = (props: propsTypes) => {
             placeholder="Masukan Judul"
             required
           />
-         <SelectOptionFragment label="Daerah" name="daerah" title="Pilih..." />
+          <SelectOption
+            label="Jenis Bencana"
+            name="jenisBencana"
+            title="Pilih Jenis Bencana..."
+          >
+            <Option value="Banjir">Banjir</Option>
+            <Option value="Cuaca Ekstrem">Cuaca Ekstrem</Option>
+            <Option value="Gempa Bumi">Gempa Bumi</Option>
+            <Option value="Kebakaran">Kebakaran</Option>
+            <Option value="Longsor">Longsor</Option>
+            <Option value="Tsunami">Tsunami</Option>
+          </SelectOption>
+          <SelectOptionFragment
+            label="Daerah"
+            name="daerah"
+            title="Pilih Daerah..."
+          />
+
           <Input name="tanggal" type="date" label="Tanggal" required />
 
           <div className="mt-3">
-            <label htmlFor="desc" className="block text-sm font-medium mb-2">
+            <label htmlFor="desc" className="mb-2 block text-sm font-medium">
               Deskripsi
             </label>
             <textarea
               id="desc"
               name="desc"
               required
-              className="py-3 px-4 block w-full border-gray-200 border rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none "
+              className="block w-full rounded-lg border border-gray-200 px-4 py-3 text-sm disabled:pointer-events-none disabled:opacity-50"
               rows={15}
               placeholder="Masukan Deskripsi..."
             ></textarea>
           </div>
-          <div className="flex items-center gap-4 my-3">
+          <div className="my-3 flex items-center gap-4">
             {uploadedImage ? (
               <Image
                 src={URL.createObjectURL(uploadedImage)}
                 alt="image"
                 width={200}
                 height={200}
-                className=" w-[15%] aspect-square h-auto rounded-md bg-slate-200 flex justify-center items-center"
+                className="flex aspect-square h-auto w-[15%] items-center justify-center rounded-md bg-slate-200"
               />
             ) : (
-              <div className="w-[15%] aspect-square h-auto rounded-md bg-slate-200 flex justify-center items-center">
+              <div className="flex aspect-square h-auto w-[15%] items-center justify-center rounded-md bg-slate-200">
                 No Image
               </div>
             )}
@@ -197,7 +207,7 @@ const ModalAddPost = (props: propsTypes) => {
               setUploadedImage={setUploadedImage}
             />
           </div>
-          <Button type="submit" className="p-5 bg-sky-600 text-white">
+          <Button type="submit" className="bg-sky-600 p-5 text-white">
             {isLoading ? "Loading..." : "Buat Postingan"}
           </Button>
         </form>

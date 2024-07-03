@@ -1,4 +1,4 @@
-import Tabel from "@/components/UI/Tabel";
+import TabelDetail from "@/components/Fragment/TabelDetail";
 import submissionService from "@/services/submission";
 import Head from "next/head";
 import React from "react";
@@ -10,7 +10,7 @@ const PageDataBencana = (props: any) => {
       <Head>
         <title>Info Bencana Jabar | Data Bencana</title>
       </Head>
-      <Tabel dataSubmission={submission} />;
+      <TabelDetail dataSubmission={submission} />;
     </>
   );
 };

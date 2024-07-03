@@ -20,9 +20,9 @@ const FormBencana = (props: propTypes) => {
   const [jenisBencana, setJenisBencana] = useState("");
 
   return (
-    <div className="flex flex-col bg-white xl:w-2/4 w-11/12  border border-t-4 border-t-blue-600 shadow-sm rounded-xl">
+    <div className="flex w-11/12 flex-col rounded-xl border border-t-4 border-t-blue-600 bg-white shadow-sm xl:w-2/4">
       <div className="p-4 md:p-5">
-        <h3 className="text-lg font-bold text-gray-800 pb-5">
+        <h3 className="inline-block bg-gradient-to-l from-sky-400 to-sky-800 bg-clip-text py-5 text-2xl font-bold text-transparent">
           Form Laporan Bencana
         </h3>
         <form onSubmit={handleSubmit}>
@@ -71,7 +71,7 @@ const FormBencana = (props: propTypes) => {
           <div className="mt-3">
             <label
               htmlFor="deskripsiKejadian"
-              className="block text-sm font-medium mb-2"
+              className="mb-2 block text-sm font-medium"
             >
               Deskripsi Kejadian
             </label>
@@ -79,7 +79,7 @@ const FormBencana = (props: propTypes) => {
               id="deskripsiKejadian"
               name="deskripsiKejadian"
               required
-              className="py-3 px-4 block w-full border-gray-200 border rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none "
+              className="block w-full rounded-lg border border-gray-200 px-4 py-3 text-sm disabled:pointer-events-none disabled:opacity-50"
               rows={3}
               placeholder="Masukan deskripsi singkat terkait kejadian"
             ></textarea>
@@ -163,7 +163,7 @@ const FormBencana = (props: propTypes) => {
             setUploadedImage={setUploadedImage}
             required
           />
-          <Button type="submit" className="p-5 bg-sky-600 text-white my-5">
+          <Button type="submit" className="my-5 bg-sky-600 p-5 text-white">
             {isLoading ? "Loading..." : "Kirim"}
           </Button>
         </form>

@@ -5,7 +5,6 @@ import { useContext } from "react";
 import { ToasterContext } from "@/context/ToasterContext";
 import { ToasterType } from "@/types/toaster.type";
 import Toaster from "@/components/UI/Toaster";
-import Head from "next/head";
 import { Roboto } from "next/font/google";
 
 const montserrat = Roboto({

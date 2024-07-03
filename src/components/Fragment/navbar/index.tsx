@@ -78,7 +78,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`sticky flex top-0 z-50 py-5 justify-between px-6 md:justify-around items-center border-b bg-white`}
+      className={`sticky top-0 z-50 flex items-center justify-between border-b bg-white px-6 py-5 md:justify-around`}
     >
       <div>
         <Image
@@ -86,11 +86,11 @@ const Navbar = () => {
           width={500}
           height={500}
           alt="Human Initiative"
-          className="w-24 h-10 cursor-pointer"
+          className="h-10 w-24 cursor-pointer"
           loading="lazy"
         />
       </div>
-      <div className=" hidden md:flex">
+      <div className="hidden md:flex">
         <ul className="flex gap-3">
           {listNavbar.map((list, i) => {
             return (
@@ -98,7 +98,7 @@ const Navbar = () => {
                 href={list.link}
                 className={`text-sky-500 hover:text-sky-700 ${
                   pathname === list.link
-                    ? "font-bold text-sky-600 border-b-2 border-sky-600"
+                    ? "border-b-2 border-sky-600 font-bold text-sky-600"
                     : ""
                 }`}
                 key={i}
@@ -110,7 +110,7 @@ const Navbar = () => {
         </ul>
       </div>
       {session.data ? (
-        <div className="flex gap-4 items-center" ref={ref}>
+        <div className="flex items-center gap-4" ref={ref}>
           <div className="relative">
             {session.data?.user.image ? (
               <Image
@@ -118,38 +118,38 @@ const Navbar = () => {
                 src={session.data?.user?.image}
                 width={40}
                 height={40}
-                className="rounded-full w-[45px] h-[45px] cursor-pointer object-cover object-center"
+                className="h-[45px] w-[45px] cursor-pointer rounded-full object-cover object-center"
                 onClick={handleProfile}
               />
             ) : (
               <div
-                className="py-1 px-2 cursor-pointer bg-gray flex items-center bg-gray-400 justify-center text-white h-[40px] w-[40px] rounded-full"
+                className="bg-gray flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full bg-gray-400 px-2 py-1 text-white"
                 onClick={handleProfile}
               >
                 <p>{session.data?.user.fullname.charAt(0)}</p>
               </div>
             )}
             <div
-              className={`absolute border -right-10 top-[45px] rounded-md flex-col ${
-                showDropdown ? "flex z-10" : "hidden"
+              className={`absolute -right-10 top-[50px] flex-col rounded-md border ${
+                showDropdown ? "z-10 flex" : "hidden"
               }`}
             >
               <button
                 onClick={handleDashboard}
-                className="w-[150px] flex rounded-t-md  justify-center items-center text-left py-2 px-4 bg-white cursor-pointer border-none text-lg hover:bg-slate-50"
+                className="flex w-[150px] cursor-pointer items-center justify-center rounded-t-md border-none bg-white px-4 py-2 text-left text-lg hover:bg-slate-50"
               >
                 Dashboard
               </button>
               <button
                 onClick={() => signOut()}
-                className="w-[150px] text-red-500 rounded-b-md flex justify-center items-center text-left py-2 px-4 bg-white cursor-pointer border-none text-lg hover:bg-slate-50"
+                className="flex w-[150px] cursor-pointer items-center justify-center rounded-b-md border-none bg-white px-4 py-2 text-left text-lg text-red-500 hover:bg-slate-50"
               >
                 <p className="mr-1">Logout</p>
                 <LogOut size={15} />
               </button>
             </div>
           </div>
-          <div className=" md:hidden relative">
+          <div className="relative md:hidden">
             <div>
               <Button type="button" className={""} onClick={handleNav}>
                 {isActive ? <X color="gray" /> : <AlignJustify color="gray" />}
@@ -158,17 +158,17 @@ const Navbar = () => {
             <div
               className={`${
                 isActive ? "translate-x-0" : "translate-x-[110%]"
-              } bg-slate-50 w-1/2 shadow-md overflow-hidden rounded-md fixed right-2 top-16 border py-2 px-2 transition-transform duration-500 ease-in-out`}
+              } fixed right-2 top-[70px] w-1/2 overflow-hidden rounded-md border bg-slate-50 px-2 py-2 shadow-md transition-transform duration-500 ease-in-out`}
             >
               <nav>
-                <ul className="flex flex-col mt-2">
+                <ul className="mt-2 flex flex-col">
                   {listNavbar.map((list, i) => {
                     return (
                       <Link
                         href={list.link}
-                        className={`text-sky-500 mx-2 rounded-md font-medium hover:bg-slate-100 py-2 px-3 my-1 transition-colors  ${
+                        className={`mx-2 my-1 rounded-md px-3 py-2 font-medium text-sky-500 transition-colors hover:bg-slate-100 ${
                           pathname === list.link
-                            ? " bg-gradient-to-tr from-slate-100 to-sky-200 text-sky-600"
+                            ? "bg-gradient-to-tr from-slate-100 to-sky-200 text-sky-600"
                             : ""
                         }`}
                         key={i}
@@ -184,7 +184,7 @@ const Navbar = () => {
         </div>
       ) : (
         <div className="flex gap-3">
-          <div className=" md:hidden relative">
+          <div className="relative md:hidden">
             <div>
               <Button
                 type="button"
@@ -197,17 +197,17 @@ const Navbar = () => {
             <div
               className={`${
                 isActive ? "translate-x-0" : "translate-x-[110%]"
-              } bg-slate-50 w-1/2 shadow-md overflow-hidden rounded-md fixed right-2 top-14 border py-2 px-2 transition-transform duration-500 ease-in-out`}
+              } fixed right-2 top-14 w-1/2 overflow-hidden rounded-md border bg-slate-50 px-2 py-2 shadow-md transition-transform duration-500 ease-in-out`}
             >
               <nav>
-                <ul className="flex flex-col mt-2">
+                <ul className="mt-2 flex flex-col">
                   {listNavbar.map((list, i) => {
                     return (
                       <Link
                         href={list.link}
-                        className={`text-sky-500 mx-2 rounded-md font-medium hover:bg-slate-100 py-2 px-3 my-1 transition-colors  ${
+                        className={`mx-2 my-1 rounded-md px-3 py-2 font-medium text-sky-500 transition-colors hover:bg-slate-100 ${
                           pathname === list.link
-                            ? " bg-gradient-to-tr from-slate-100 to-sky-200 text-sky-600"
+                            ? "bg-gradient-to-tr from-slate-100 to-sky-200 text-sky-600"
                             : ""
                         }`}
                         key={i}
@@ -217,23 +217,23 @@ const Navbar = () => {
                     );
                   })}
                 </ul>
-                <hr className="my-3 " />
-                <div className="md:hidden flex justify-center gap-3  py-5">
+                <hr className="my-3" />
+                <div className="flex justify-center gap-3 py-5 md:hidden">
                   <Button
                     type="button"
-                    className=" text-sky-500 border border-sky-500"
+                    className="border border-sky-500 text-sky-500"
                   >
                     <Link
                       href="/auth/login"
-                      className="bg-white px-4 py-2 rounded-lg border border-sky-500 hover:bg-slate-50"
+                      className="rounded-lg border border-sky-500 bg-white px-4 py-2 hover:bg-slate-50"
                     >
                       Login
                     </Link>
                   </Button>
-                  <Button type="button" className=" text-white">
+                  <Button type="button" className="text-white">
                     <Link
                       href="/auth/register"
-                      className="bg-sky-500 px-4 py-2 rounded-lg border hover:bg-sky-600"
+                      className="rounded-lg border bg-sky-500 px-4 py-2 hover:bg-sky-600"
                     >
                       Register
                     </Link>
@@ -242,22 +242,22 @@ const Navbar = () => {
               </nav>
             </div>
           </div>
-          <div className=" gap-3 hidden md:flex">
+          <div className="hidden gap-3 md:flex">
             <Button
               type="button"
-              className=" text-sky-500 border border-sky-500"
+              className="border border-sky-500 text-sky-500"
             >
               <Link
                 href="/auth/login"
-                className="bg-white px-4 py-2 rounded-lg border border-sky-500 hover:bg-slate-50"
+                className="rounded-lg border border-sky-500 bg-white px-4 py-2 hover:bg-slate-50"
               >
                 Login
               </Link>
             </Button>
-            <Button type="button" className=" text-white">
+            <Button type="button" className="text-white">
               <Link
                 href="/auth/register"
-                className="bg-sky-500 px-4 py-2 rounded-lg border hover:bg-sky-600"
+                className="rounded-lg border bg-sky-500 px-4 py-2 hover:bg-sky-600"
               >
                 Register
               </Link>

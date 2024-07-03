@@ -1,4 +1,4 @@
-import {  CalendarClock } from "lucide-react";
+import { CalendarClock } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
@@ -7,21 +7,21 @@ const Card = (props: any) => {
 
   return (
     <div>
-      <div className="relative pt-[50%] sm:pt-[60%] lg:pt-[80%] rounded-t-xl overflow-hidden">
+      <div className="relative overflow-hidden rounded-t-xl pt-[50%] sm:pt-[60%] lg:pt-[80%]">
         <Image
           width={700}
           height={700}
-          className="size-full absolute top-0 start-0 object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out rounded-t-xl"
+          className="absolute start-0 top-0 size-full rounded-t-xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
           src={post.image}
           alt="post"
         />
       </div>
-      <div className="p-4 md:p-5 flex flex-col gap-2">
-      <p className="text-sky-500 font-medium">{post.daerah}</p>
-      <div className="flex gap-2">
-        <CalendarClock color="gray" />
-        <p className="font-medium text-gray-400">{post.tanggal}</p>
-      </div>
+      <div className="flex flex-col gap-2 p-4 md:p-5">
+        <p className="font-medium text-sky-500">{post.daerah}</p>
+        <div className="flex gap-2">
+          <CalendarClock color="gray" />
+          <p className="font-medium text-gray-400">{post.tanggal}</p>
+        </div>
         <h3 className="text-lg font-bold text-gray-800">{post.title}</h3>
       </div>
     </div>

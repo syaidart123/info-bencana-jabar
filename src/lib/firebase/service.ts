@@ -25,11 +25,11 @@ const storage = getStorage(app);
 export async function retrieveDataByField(
   collectionName: string,
   field: string,
-  result: string
+  result: string,
 ) {
   const q = query(
     collection(firestore, collectionName),
-    where(field, "==", result)
+    where(field, "==", result),
   );
   const snapshot = await getDocs(q);
   const data = snapshot.docs.map((doc) => ({
@@ -42,7 +42,7 @@ export async function retrieveDataByField(
 export async function addData(
   collectionName: string,
   data: any,
-  callback: Function
+  callback: Function,
 ) {
   await addDoc(collection(firestore, collectionName), data)
     .then((res) => {
@@ -70,11 +70,11 @@ export async function retrieveDataById(collectionName: string, id: string) {
 
 export async function retrieveDataByUser(
   collectionName: string,
-  email: string
+  email: string,
 ) {
   const q = query(
     collection(firestore, collectionName),
-    where("user.email", "==", email)
+    where("user.email", "==", email),
   );
   const querySnapshot = await getDocs(q);
   const data: any[] = [];
@@ -92,7 +92,7 @@ export async function updateData(
   collectionName: string,
   id: string,
   data: any,
-  callback: Function
+  callback: Function,
 ) {
   const docRef = doc(firestore, collectionName, id);
   await updateDoc(docRef, data)
@@ -107,7 +107,7 @@ export async function updateData(
 export async function deleteData(
   collectionName: string,
   id: string,
-  callback: Function
+  callback: Function,
 ) {
   const docRef = doc(firestore, collectionName, id);
   await deleteDoc(docRef)
@@ -124,7 +124,7 @@ export async function uploadFile(
   file: any,
   newName: string,
   collection: string,
-  callback: Function
+  callback: Function,
 ) {
   if (file) {
     if (file.size < 1000000) {
@@ -143,7 +143,7 @@ export async function uploadFile(
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL: any) => {
             callback(true, downloadURL);
           });
-        }
+        },
       );
     } else {
       return callback(false);

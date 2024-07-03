@@ -1,8 +1,8 @@
-import Input from "@/components/UI/Input";
 import InputField from "@/components/UI/InputField";
 import Option from "@/components/UI/Option";
 import SelectOption from "@/components/UI/SelectOption";
 import React from "react";
+import SelectOptionFragment from "../OptionDaerah";
 
 type propsTypes = {
   setSelectedBencana: any;
@@ -29,8 +29,8 @@ const FilterSelect = (props: propsTypes) => {
   };
 
   return (
-    <div className={`${className} flex gap-2 flex-col-reverse md:flex-row`}>
-      <div className="flex flex-col mt-1 md:w-1/2">
+    <div className={`${className} flex flex-col-reverse gap-2 md:flex-row`}>
+      <div className="mt-1 flex flex-col md:w-1/2">
         <InputField
           name="startDate"
           titleName="Tanggal Awal"
@@ -59,41 +59,11 @@ const FilterSelect = (props: propsTypes) => {
           <Option value="Longsor">Longsor</Option>
           <Option value="Tsunami">Tsunami</Option>
         </SelectOption>
-        <SelectOption
+        <SelectOptionFragment
           name="daerah"
           title="Pilih Daerah..."
           onChange={(e: any) => setSelectedDaerah(e.target.value)}
-        >
-          <Option value="Kota Bandung">Kota Bandung</Option>
-          <Option value="Kabupaten Bandung">Kabupaten Bandung</Option>
-          <Option value="Kabupaten Bandung Barat">
-            Kabupaten Bandung Barat
-          </Option>
-          <Option value="Kota Banjar">Kota Banjar</Option>
-          <Option value="Kabupaten Bekasi">Kabupaten Bekasi</Option>
-          <Option value="Kota Bekasi">Kota Bekasi</Option>
-          <Option value="Kabupaten Bogor">Kabupaten Bogor</Option>
-          <Option value="Kota Bogor">Kota Bogor</Option>
-          <Option value="Kabupaten Ciamis">Kabupaten Ciamis</Option>
-          <Option value="Kabupaten Cirebon">Kabupaten Cirebon</Option>
-          <Option value="Kota Cirebon">Kota Cirebon</Option>
-          <Option value="Kabupaten Cianjur">Kabupaten Cianjur</Option>
-          <Option value="Kota Cimahi">Kota Cimahi</Option>
-          <Option value="Kota Depok">Kota Depok</Option>
-          <Option value="Kabupaten Garut">Kabupaten Garut</Option>
-          <Option value="Kabupaten Indramayu">Kabupaten Indramayu</Option>
-          <Option value="Kabupaten Karawang">Kabupaten Karawang</Option>
-          <Option value="Kabupaten Kuningan">Kabupaten Kuningan</Option>
-          <Option value="Kabupaten Majalengka">Kabupaten Majalengka</Option>
-          <Option value="Kabupaten Pangandaran">Kabupaten Pangandaran</Option>
-          <Option value="Kabupaten Purwakarta">Kabupaten Purwakarta</Option>
-          <Option value="Kabupaten Subang">Kabupaten Subang</Option>
-          <Option value="Kabupaten Sukabumi">Kabupaten Sukabumi</Option>
-          <Option value="Kabupaten Sumedang">Kabupaten Sumedang</Option>
-          <Option value="Kota Sukabumi">Kota Sukabumi</Option>
-          <Option value="Kabupaten Tasikmalaya">Kabupaten Tasikmalaya</Option>
-          <Option value="Kota Tasikmalaya">Kota Tasikmalaya</Option>
-        </SelectOption>
+        />
       </div>
     </div>
   );

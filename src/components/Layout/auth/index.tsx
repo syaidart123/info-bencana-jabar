@@ -18,21 +18,21 @@ const AuthLayout = (props: propsTypes) => {
 
   return (
     <section className="bg-gray-50">
-      <div className="flex flex-col items-center justify-center px-6 py-6 h-screen">
-        <div className="w-full bg-white rounded-lg shadow border md:mt-0 sm:max-w-md xl:p-0">
-          <div className=" p-6 space-y-4 md:space-y-3 sm:p-8">
+      <div className="flex h-screen flex-col items-center justify-center px-6 py-6">
+        <div className="w-full rounded-lg border bg-white shadow sm:max-w-md md:mt-0 xl:p-0">
+          <div className="space-y-4 p-6 sm:p-8 md:space-y-3">
             <Button type="button" className="border" onClick={() => push("/")}>
               <Home color="gray" />
             </Button>
-            <p className="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
+            <p className="text-center text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
               {title}
             </p>
             {children}
-            <p className="text-sm font-light text-gray-500 ">
+            <p className="text-sm font-light text-gray-500">
               {linktext}
               <Link
                 href={link}
-                className="font-medium text-primary-600 hover:underline"
+                className="text-primary-600 font-medium hover:underline"
               >
                 Disini
               </Link>

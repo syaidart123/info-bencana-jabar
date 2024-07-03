@@ -31,7 +31,7 @@ const Input = (props: propsTypes) => {
       {label && (
         <label
           htmlFor={label}
-          className="block mb-2 text-sm font-medium text-gray-900 mt-3"
+          className="mb-2 mt-3 block text-sm font-medium text-gray-900"
         >
           {label}
         </label>
@@ -46,7 +46,7 @@ const Input = (props: propsTypes) => {
         id={name}
         className={`${className} ${
           disabled ? "cursor-not-allowed" : ""
-        } text-sm border border-gray-300 text-gray-900 sm:text-sm mt-3 rounded-lg block w-full p-2.5 truncate`}
+        } mt-3 block w-full truncate rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 sm:text-sm`}
         placeholder={placeholder}
         required={required}
         disabled={disabled}

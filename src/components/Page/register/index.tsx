@@ -1,4 +1,3 @@
-"use client";
 import AuthLayout from "@/components/Layout/auth";
 import Button from "@/components/UI/Button";
 import Input from "@/components/UI/Input";
@@ -8,11 +7,11 @@ import { useRouter } from "next/navigation";
 import React, { FormEvent, useContext, useState } from "react";
 
 const RegisterPage = () => {
-  const [loading,setLoading]=useState(false);
-  const {push} = useRouter();
-  const {setToaster} = useContext(ToasterContext);
+  const [loading, setLoading] = useState(false);
+  const { push } = useRouter();
+  const { setToaster } = useContext(ToasterContext);
 
-  const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
@@ -24,19 +23,18 @@ const RegisterPage = () => {
     };
     try {
       const result = await authService.registerAccount(data);
-      if(result.status === 200){
-        form.reset()
+      if (result.status === 200) {
+        form.reset();
         setLoading(false);
         push("/auth/login");
-        setToaster({variant:"success",message:"Registrasi Berhasil"});
-      }else{
+        setToaster({ variant: "success", message: "Registrasi Berhasil" });
+      } else {
         setLoading(false);
-        setToaster({variant:"danger",message:"Registrasi Gagal"});
+        setToaster({ variant: "danger", message: "Registrasi Gagal" });
       }
     } catch (error) {
       setLoading(false);
-      setToaster({variant:"danger",message:"Email Already Exist"});
-      
+      setToaster({ variant: "danger", message: "Email Already Exist" });
     }
   };
 
@@ -53,7 +51,7 @@ const RegisterPage = () => {
           type="text"
           placeholder="fullname"
           required={true}
-          className=" focus:border-sky-500"
+          className="focus:border-sky-500"
         />
         <Input
           label="Email"
@@ -61,7 +59,7 @@ const RegisterPage = () => {
           type="email"
           placeholder="email@gmail.com"
           required={true}
-          className=" focus:border-sky-500"
+          className="focus:border-sky-500"
         />
 
         <Input
@@ -71,13 +69,12 @@ const RegisterPage = () => {
           placeholder="••••••"
           required={true}
         />
-        
 
         <Button
           type="submit"
-          className="w-full text-white bg-sky-600 focus:ring-4 hover:bg-sky-700 focus:outline-none focus:ring-sky-300 font-medium text-center"
+          className="w-full bg-sky-600 text-center font-medium text-white hover:bg-sky-700 focus:outline-none focus:ring-4 focus:ring-sky-300"
         >
-          {loading ? "Loading...":"Register"}
+          {loading ? "Loading..." : "Register"}
         </Button>
       </form>
     </AuthLayout>

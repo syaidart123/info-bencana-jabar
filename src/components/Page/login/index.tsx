@@ -30,7 +30,10 @@ const LoginPage = () => {
       });
 
       if (res?.status === 200) {
-        if (callbackUrl === `${process.env.NEXT_PUBLIC_API_URL}/lapor`) {
+        if (
+          callbackUrl === `${process.env.NEXT_PUBLIC_API_URL}/lapor` &&
+          `${process.env.NEXT_PUBLIC_API_URL}/`
+        ) {
           const currentUrl = new URL(window.location.href);
           currentUrl.searchParams.set("redirect", callbackUrl);
           window.location.href = currentUrl.toString();
@@ -62,7 +65,7 @@ const LoginPage = () => {
             type="email"
             placeholder="email@gmail.com"
             required={true}
-            className=" focus:border-sky-500"
+            className="focus:border-sky-500"
             autoFocus
           />
         </div>
@@ -77,7 +80,7 @@ const LoginPage = () => {
         </div>
         <Button
           type="submit"
-          className="w-full text-white bg-sky-600 hover:bg-sky-700  focus:ring-sky-300 font-medium text-center"
+          className="w-full bg-sky-600 text-center font-medium text-white hover:bg-sky-700 focus:ring-sky-300"
           disabled={loading}
         >
           {loading ? "Loading" : "Login"}
@@ -88,7 +91,7 @@ const LoginPage = () => {
         type="button"
         className="w-full border"
       >
-        <div className="flex justify-center items-center border rounded-md gap-2">
+        <div className="flex items-center justify-center gap-2 rounded-md border">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             x="0px"

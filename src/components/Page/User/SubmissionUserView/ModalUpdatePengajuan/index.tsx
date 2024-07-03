@@ -5,7 +5,6 @@ import InputField from "@/components/UI/InputField";
 import InputGroup from "@/components/UI/InputGroup";
 import Option from "@/components/UI/Option";
 import submissionService from "@/services/submission";
-import { useSession } from "next-auth/react";
 import React, { FormEvent, useContext, useState } from "react";
 import SelectOption from "@/components/UI/SelectOption";
 import InputFile from "@/components/UI/InputFile";
@@ -21,12 +20,11 @@ const ModalUpdatePengajuan = (props: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const [jenisBencana, setJenisBencana] = useState("");
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
-  const session: any = useSession();
   const { setToaster } = useContext(ToasterContext);
 
   const updateSubmission = async (
     form: any,
-    newImageURL: string = updatedSubmission.image
+    newImageURL: string = updatedSubmission.image,
   ) => {
     const data = {
       namaPelapor: form.namaPelapor.value,
@@ -48,7 +46,7 @@ const ModalUpdatePengajuan = (props: any) => {
         terluka: parseInt(form.terluka.value) || 0,
       },
       taksiranKerugian: parseInt(
-        form.taksiranKerugian.value.replace(/\./g, "")
+        form.taksiranKerugian.value.replace(/\./g, ""),
       ),
       pengungsian: {
         lokasiPengungsian: form.lokasiPengungsian?.value,
@@ -58,7 +56,7 @@ const ModalUpdatePengajuan = (props: any) => {
     };
     const result = await submissionService.updateSubmission(
       updatedSubmission.id,
-      data
+      data,
     );
     if (result.status === 200) {
       setIsLoading(false);
@@ -133,7 +131,7 @@ const ModalUpdatePengajuan = (props: any) => {
               message: "Maksimal ukuran file 1 MB",
             });
           }
-        }
+        },
       );
     } else {
       updateSubmission(form);
@@ -143,7 +141,7 @@ const ModalUpdatePengajuan = (props: any) => {
   return (
     <>
       <Modal onClose={() => setUpdatedSubmission(false)}>
-        <p className="text-3xl font-bold mb-5 ">Update Laporan</p>
+        <p className="mb-5 text-3xl font-bold">Update Laporan</p>
         <form onSubmit={handleUpdate}>
           <Input
             name="namaPelapor"
@@ -199,7 +197,7 @@ const ModalUpdatePengajuan = (props: any) => {
           <div className="mt-3">
             <label
               htmlFor="deskripsiKejadian"
-              className="block text-sm font-medium mb-2"
+              className="mb-2 block text-sm font-medium"
             >
               Deskripsi Kejadian
             </label>
@@ -208,7 +206,7 @@ const ModalUpdatePengajuan = (props: any) => {
               name="deskripsiKejadian"
               defaultValue={updatedSubmission?.deskripsiKejadian}
               required
-              className="py-3 px-4 block w-full border-gray-200 border rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none "
+              className="block w-full rounded-lg border border-gray-200 px-4 py-3 text-sm disabled:pointer-events-none disabled:opacity-50"
               rows={3}
               placeholder="Masukan deskripsi singkat terkait kejadian"
             ></textarea>
@@ -298,7 +296,7 @@ const ModalUpdatePengajuan = (props: any) => {
             />
           </InputGroup>
 
-          <div className="flex items-center gap-4 my-3">
+          <div className="my-3 flex items-center gap-4">
             <Image
               src={
                 uploadedImage
@@ -308,7 +306,7 @@ const ModalUpdatePengajuan = (props: any) => {
               alt="image"
               width={200}
               height={200}
-              className=" w-[15%] aspect-square h-auto rounded-md bg-slate-200 flex justify-center items-center"
+              className="flex aspect-square h-auto w-[15%] items-center justify-center rounded-md bg-slate-200"
             />
             <InputFile
               name="image"
@@ -316,7 +314,7 @@ const ModalUpdatePengajuan = (props: any) => {
               setUploadedImage={setUploadedImage}
             />
           </div>
-          <Button type="submit" className="p-5 bg-sky-600 text-white">
+          <Button type="submit" className="bg-sky-600 p-5 text-white">
             {isLoading ? "Loading..." : "Update"}
           </Button>
         </form>

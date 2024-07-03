@@ -2,19 +2,23 @@ import Modal from "@/components/UI/Modal";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Chart as ChartJS, Tooltip, Legend, ArcElement } from "chart.js";
-import PieChart from "../../PieChart";
 import formatRupiah from "@/utils/formatRupiah";
-import TextInput from "../../TextInput";
 import formatTanggal from "@/utils/formatTanggal";
+import TextInput from "@/components/UI/TextInput";
+import PieChart from "@/components/UI/PieChart";
 
 ChartJS.register(Tooltip, Legend, ArcElement);
 
 const ModalDetailPengajuan = (props: any) => {
   const { detailSubmission, setDetailSubmission } = props;
 
-  const totalBantuan = detailSubmission.bantuan ? detailSubmission.bantuan.reduce((total:any,item:any)=> total + (item.nominal || 0), 0) : 0;
+  const totalBantuan = detailSubmission.bantuan
+    ? detailSubmission.bantuan.reduce(
+        (total: any, item: any) => total + (item.nominal || 0),
+        0,
+      )
+    : 0;
 
-  const [isLoading, setIsLoading] = useState(false);
   const [korban, setKorban] = useState<any>({
     datasets: [
       {
@@ -42,7 +46,7 @@ const ModalDetailPengajuan = (props: any) => {
         return `${label} : ${jumlah} `;
       });
       const dataKerusakan = kerusakanLabels.map(
-        (label: any) => detailSubmission.kerusakan[label]
+        (label: any) => detailSubmission.kerusakan[label],
       );
 
       const korbanLabels = Object.keys(detailSubmission.korban);
@@ -51,7 +55,7 @@ const ModalDetailPengajuan = (props: any) => {
         return `${label} : ${jumlah} `;
       });
       const dataKorban = korbanLabels.map(
-        (label: any) => detailSubmission.korban[label]
+        (label: any) => detailSubmission.korban[label],
       );
       setKerusakan({
         labels: labelkerusakan,
@@ -108,17 +112,17 @@ const ModalDetailPengajuan = (props: any) => {
       <Modal onClose={() => setDetailSubmission({})}>
         <form>
           <div className="flex flex-col">
-            <p className="text-3xl font-semibold px-5 py-3">Detail Bencana</p>
+            <p className="px-5 py-3 text-3xl font-semibold">Detail Bencana</p>
             <hr />
-            <div className="flex gap-5 flex-col items-start mt-5 mx-5 border p-5 bg-white rounded-md shadow-md">
-              <div className="w-full xl:flex xl:justify-between xl:gap-7 py-5">
-                <div className="xl:w-2/4 flex flex-col items-start  mb-5">
+            <div className="mx-5 mt-5 flex flex-col items-start gap-5 rounded-md border bg-white p-5 shadow-md">
+              <div className="w-full py-5 xl:flex xl:justify-between xl:gap-7">
+                <div className="mb-5 flex flex-col items-start xl:w-2/4">
                   <Image
                     src={detailSubmission.image}
                     width={1000}
                     height={1000}
                     alt="foto"
-                    className="rounded-md w-full border object-contain object-top"
+                    className="w-full rounded-md border object-contain object-top"
                   />
                 </div>
                 <div className="xl:w-2/4">
@@ -145,7 +149,9 @@ const ModalDetailPengajuan = (props: any) => {
                     {formatRupiah(detailSubmission.taksiranKerugian)}
                   </TextInput>
                   <TextInput title="Total Bantuan:">
-                    {detailSubmission.bantuan ? formatRupiah(totalBantuan) : formatRupiah(0)}
+                    {detailSubmission.bantuan
+                      ? formatRupiah(totalBantuan)
+                      : formatRupiah(0)}
                   </TextInput>
                   <div className="mb-4 w-full">
                     <label className="block text-sm font-medium text-gray-700">
@@ -153,7 +159,7 @@ const ModalDetailPengajuan = (props: any) => {
                     </label>
                     <select
                       defaultValue={detailSubmission.status}
-                      className="border py-3 px-4 mt-1 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                      className="mt-1 block w-full rounded-lg border border-gray-200 px-4 py-3 text-sm focus:border-blue-500 focus:ring-blue-500 disabled:pointer-events-none disabled:opacity-50"
                       disabled
                     >
                       <option disabled>Status...</option>
@@ -165,17 +171,17 @@ const ModalDetailPengajuan = (props: any) => {
                 </div>
               </div>
             </div>
-            <div className="bg-white mx-5 shadow-md border rounded-md p-4 my-10">
-              <p className="text-lg font-bold ">Grafik Kerusakan & Korban</p>
+            <div className="mx-5 my-10 rounded-md border bg-white p-4 shadow-md">
+              <p className="text-lg font-bold">Grafik Kerusakan & Korban</p>
               <hr className="my-3" />
-              <div className="flex flex-col xl:flex-row justify-center py-10 items-center gap-5">
-                <div className="w-full lg:w-1/2 max-w-xs p-3 border rounded-md shadow-md">
-                  <p className="text-xl text-center">Kerusakan</p>
+              <div className="flex flex-col items-center justify-center gap-5 py-10 xl:flex-row">
+                <div className="w-full max-w-xs rounded-md border p-3 shadow-md lg:w-1/2">
+                  <p className="text-center text-xl">Kerusakan</p>
                   <hr className="my-3" />
                   <PieChart data={kerusakan} option={option} />
                 </div>
-                <div className="w-full lg:w-1/2  max-w-xs p-3 border rounded-md shadow-md">
-                  <p className="text-xl text-center">Korban</p>
+                <div className="w-full max-w-xs rounded-md border p-3 shadow-md lg:w-1/2">
+                  <p className="text-center text-xl">Korban</p>
                   <hr className="my-3" />
                   <PieChart data={korban} option={option} />
                 </div>

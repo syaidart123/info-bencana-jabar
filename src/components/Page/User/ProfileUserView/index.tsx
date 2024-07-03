@@ -17,7 +17,7 @@ const ProfileUserView = ({ profile, setProfile }: any) => {
     setIsLoading(true);
     const form = e.target as HTMLFormElement;
     const file = form.uploadImage.files[0];
-    
+
     const newProfileData = {
       fullname: form.namaLengkap.value,
       telepon: form.telepon.value,
@@ -25,7 +25,10 @@ const ProfileUserView = ({ profile, setProfile }: any) => {
 
     try {
       // Update Profile Information
-      const profileResult = await serviceProfile.updateProfile(profile.id, newProfileData);
+      const profileResult = await serviceProfile.updateProfile(
+        profile.id,
+        newProfileData,
+      );
       if (profileResult.status === 200) {
         setProfile({
           ...profile,
@@ -48,8 +51,9 @@ const ProfileUserView = ({ profile, setProfile }: any) => {
         if (!allowedExtensions.includes(fileExtension)) {
           setToaster({
             variant: "danger",
-            message: "Ekstensi file tidak sesuai. Hanya jpg, jpeg dan png yang diizinkan.",
-          })
+            message:
+              "Ekstensi file tidak sesuai. Hanya jpg, jpeg dan png yang diizinkan.",
+          });
           setChangeName({});
           return;
         }
@@ -58,7 +62,7 @@ const ProfileUserView = ({ profile, setProfile }: any) => {
           setToaster({
             variant: "danger",
             message: "Ukuran file maksimal 1 MB",
-          })
+          });
           setChangeName({});
           return;
         }
@@ -72,7 +76,10 @@ const ProfileUserView = ({ profile, setProfile }: any) => {
           async (status: boolean, newImageUrl: string) => {
             if (status) {
               const data = { image: newImageUrl };
-              const imageResult = await serviceProfile.updateProfile(profile.id, data);
+              const imageResult = await serviceProfile.updateProfile(
+                profile.id,
+                data,
+              );
               if (imageResult.status === 200) {
                 setProfile({ ...profile, image: newImageUrl });
                 setChangeName({});
@@ -86,7 +93,7 @@ const ProfileUserView = ({ profile, setProfile }: any) => {
             } else {
               throw new Error("Gagal Upload File");
             }
-          }
+          },
         );
       }
     } catch (error) {
@@ -101,12 +108,15 @@ const ProfileUserView = ({ profile, setProfile }: any) => {
     }
   };
 
-  return (  
+  return (
     <DashboardLayout type="User">
-      <p className="text-xl font-bold mb-10">Profile Page</p>
-      <div className="w-full border rounded-md p-5">
-        <form onSubmit={handleUpdate} className="flex flex-col lg:flex-row justify-start items-center lg:items-start space-y-5 lg:space-y-0 lg:space-x-10">
-          <div className="w-full lg:w-1/3 flex flex-col items-center border rounded-md shadow-md p-2">
+      <p className="mb-10 text-xl font-bold">Profile Page</p>
+      <div className="w-full rounded-md border p-5">
+        <form
+          onSubmit={handleUpdate}
+          className="flex flex-col items-center justify-start space-y-5 lg:flex-row lg:items-start lg:space-x-10 lg:space-y-0"
+        >
+          <div className="flex w-full flex-col items-center rounded-md border p-2 shadow-md lg:w-1/3">
             {profile?.image ? (
               <Image
                 src={profile?.image}
@@ -114,17 +124,17 @@ const ProfileUserView = ({ profile, setProfile }: any) => {
                 height={250}
                 alt="Profile"
                 loading="lazy"
-                className="rounded-full object-cover w-auto h-auto lg:w-[250px] lg:h-[250px] bg-gray-200 border text-3xl font-bold"
+                className="h-auto w-auto rounded-full border bg-gray-200 object-cover text-3xl font-bold lg:h-[250px] lg:w-[250px]"
               />
             ) : (
-              <div className="rounded-full w-[250px] h-[250px] flex justify-center items-center object-cover bg-gray-200 text-3xl font-bold">
+              <div className="flex h-[250px] w-[250px] items-center justify-center rounded-full bg-gray-200 object-cover text-3xl font-bold">
                 {profile?.fullname?.charAt(0)}
               </div>
             )}
             <div className="my-5">
               <label
                 htmlFor="upload-image"
-                className="w-full bg-gray-300 flex flex-col justify-center items-center p-5 cursor-pointer rounded-md"
+                className="flex w-full cursor-pointer flex-col items-center justify-center rounded-md bg-gray-300 p-5"
               >
                 {changeName.name ? (
                   <p>{changeName.name}</p>
@@ -138,7 +148,7 @@ const ProfileUserView = ({ profile, setProfile }: any) => {
                 type="file"
                 name="uploadImage"
                 id="upload-image"
-                className="opacity-0 absolute z-[-1]"
+                className="absolute z-[-1] opacity-0"
                 onChange={(e: any) => {
                   e.preventDefault();
                   setChangeName(e.currentTarget.files[0]);
@@ -146,7 +156,7 @@ const ProfileUserView = ({ profile, setProfile }: any) => {
               />
             </div>
           </div>
-          <div className="w-full lg:w-2/3 flex flex-col border rounded-md shadow-md p-4">
+          <div className="flex w-full flex-col rounded-md border p-4 shadow-md lg:w-2/3">
             <Input
               type="text"
               name="namaLengkap"
@@ -159,7 +169,7 @@ const ProfileUserView = ({ profile, setProfile }: any) => {
               name="email"
               label="Email"
               defaultValue={profile.email}
-              className="bg-gray-100 border-gray-300 opacity-40 w-full"
+              className="w-full border-gray-300 bg-gray-100 opacity-40"
               disabled
             />
             <Input
@@ -169,14 +179,15 @@ const ProfileUserView = ({ profile, setProfile }: any) => {
               defaultValue={profile.telepon}
               className="w-full"
             />
-            <hr className="mt-5 mb-2" />
+            <hr className="mb-2 mt-5" />
             <div className="flex justify-end">
-
-            <Button type="submit" className="bg-sky-500 text-white mt-3 w-3/4 lg:w-1/3">
-              {isLoading ? "Loading..." : "Update"}
-            </Button>
+              <Button
+                type="submit"
+                className="mt-3 w-3/4 bg-sky-500 text-white lg:w-1/3"
+              >
+                {isLoading ? "Loading..." : "Update"}
+              </Button>
             </div>
-
           </div>
         </form>
       </div>

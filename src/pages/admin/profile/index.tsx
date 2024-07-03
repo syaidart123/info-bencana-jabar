@@ -1,8 +1,6 @@
 import ProfileAdminView from "@/components/Page/Admin/ProfileAdminView";
 import fetcher from "@/lib/swr/fetcher";
-import serviceProfile from "@/services/profile";
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useSWR from "swr";
 
 const ProfilePage = () => {

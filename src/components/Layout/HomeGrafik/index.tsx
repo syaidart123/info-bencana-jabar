@@ -35,7 +35,7 @@ const HomeGrafikLayout = (props: propsTypes) => {
         return (
           matchesBencana && matchesDaerah && matchesStartDate && matchesEndDate
         );
-      }
+      },
     );
   }, [
     submission,
@@ -89,27 +89,27 @@ const HomeGrafikLayout = (props: propsTypes) => {
 
     const totalFasilitasUmum = kerusakanData.reduce(
       (total: any, item: any) => total + item.fasilitasUmum,
-      0
+      0,
     );
     const totalRumah = kerusakanData.reduce(
       (total: any, item: any) => total + item.rumah,
-      0
+      0,
     );
     const totalRumahTerendam = kerusakanData.reduce(
       (total: any, item: any) => total + item.rumahTerendam,
-      0
+      0,
     );
     const totalMeninggal = korbanData.reduce(
       (total: any, item: { meninggal: any }) => total + item.meninggal,
-      0
+      0,
     );
     const totalTerluka = korbanData.reduce(
       (total: any, item: { terluka: any }) => total + item.terluka,
-      0
+      0,
     );
     const totalHilang = korbanData.reduce(
       (total: any, item: { hilang: any }) => total + item.hilang,
-      0
+      0,
     );
     const jenisDaerahCounts: { [key: string]: { [daerah: string]: number } } =
       {};
@@ -128,7 +128,7 @@ const HomeGrafikLayout = (props: propsTypes) => {
     const daerahs = filteredData
       .map((item: { daerah: string }) => item.daerah)
       .filter(
-        (value: any, index: any, self: any) => self.indexOf(value) === index
+        (value: any, index: any, self: any) => self.indexOf(value) === index,
       );
 
     const datasets = daerahs.map((daerah: any) => {
@@ -221,22 +221,26 @@ const HomeGrafikLayout = (props: propsTypes) => {
   };
 
   const totalKerugian = filteredData
+    .filter((item: { status: string }) => item.status === "Selesai") // Filter by status
     .map((item: { taksiranKerugian: number }) => item.taksiranKerugian)
     .reduce((total: number, item: number) => total + item, 0);
 
   const totalBantuan = filteredData
-    .filter((item: { bantuan: any }) => item && item.bantuan)
+    .filter(
+      (item: { status: string; bantuan: any }) =>
+        item.status === "Selesai" && item.bantuan,
+    ) // Filter by status and bantuan
     .flatMap((item: any) => item.bantuan)
     .reduce(
       (total: any, bantuanItem: any) => total + (bantuanItem.nominal || 0),
-      0
+      0,
     );
 
   return (
-    <main className="min-h-[90svh] flex flex-col justify-center bg-white">
-      <div className="mx-5 my-2">
-        <div className="flex  flex-col xl:flex-row gap-2 min-h-[calc(100svh-90px)] ">
-          <div className="w-full xl:w-1/2 bg-white rounded-md border px-3 py-7 xl:py-1">
+    <main className="flex min-h-[calc(100vh-80px)] flex-col justify-center bg-white">
+      <div className="mx-5 my-5">
+        <div className="flex flex-col gap-2 xl:flex-row">
+          <div className="w-full rounded-md border bg-white px-3 py-7 xl:w-1/2 xl:py-1">
             <div>
               <FilterSelect
                 className="w-full"
@@ -246,44 +250,44 @@ const HomeGrafikLayout = (props: propsTypes) => {
                 setSelectedEndDate={setSelectedEndDate}
               />
             </div>
-            <div className="px-2 my-5 border rounded-md h-96 xl:h-3/4">
-              <p className="text-xl text-center font-bold py-2">
+            <div className="my-5 h-96 rounded-md border px-2 lg:h-[70%] xl:h-[72%]">
+              <p className="py-2 text-center text-xl font-bold">
                 Grafik Data Bencana
               </p>
               <BarChart data={jenisBencana} options={optionBar} />
             </div>
           </div>
-          <div className="w-full xl:w-1/2 flex flex-col gap-2">
-            <div className="flex flex-col sm:flex-row gap-2 h-full ">
-              <div className="bg-white sm:w-1/2 rounded-md h-full border px-3 xl:w-1/2">
-                <p className="text-xl text-center font-bold py-2">
+          <div className="flex w-full flex-col gap-2 xl:w-1/2">
+            <div className="flex h-full flex-col gap-2 sm:flex-row">
+              <div className="h-full rounded-md border bg-white px-3 sm:w-1/2 xl:w-1/2">
+                <p className="py-2 text-center text-xl font-bold">
                   Total Kerusakan
                 </p>
                 <hr className="my-2" />
-                <div className="my-3 flex items-center justify-center h-3/4">
+                <div className="my-3 flex h-3/4 items-center justify-center">
                   <PieChart data={kerusakan} option={option} />
                 </div>
               </div>
-              <div className="bg-white sm:w-1/2 rounded-md border px-3 xl:w-1/2">
-                <p className="text-xl text-center font-bold py-2">
+              <div className="rounded-md border bg-white px-3 sm:w-1/2 xl:w-1/2">
+                <p className="py-2 text-center text-xl font-bold">
                   Total Korban
                 </p>
                 <hr className="my-2" />
-                <div className="my-3 flex items-center justify-center h-3/4">
+                <div className="my-3 flex h-3/4 items-center justify-center">
                   <PieChart data={korban} option={option} />
                 </div>
               </div>
             </div>
-            <div className=" flex items-center justify-center bg-white border w-full rounded-md">
-              <p className="p-8 w-1/2 text-center text-sm xl:text-lg">
+            <div className="flex w-full items-center justify-center rounded-md border bg-white">
+              <p className="w-1/2 p-8 text-center text-sm xl:text-lg">
                 Total Kerugian Material:{" "}
-                <span className="italic text-md font-bold">
+                <span className="text-md font-bold italic">
                   {formatRupiah(totalKerugian)}
                 </span>
               </p>
-              <p className="p-8 w-1/2 border-l-2 text-center text-sm xl:text-lg">
+              <p className="w-1/2 border-l-2 p-8 text-center text-sm xl:text-lg">
                 Total Bantuan Sudah Diterima :{" "}
-                <span className="italic text-md font-bold">
+                <span className="text-md font-bold italic">
                   {formatRupiah(totalBantuan)}
                 </span>
               </p>

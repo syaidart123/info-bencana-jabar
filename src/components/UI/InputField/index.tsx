@@ -23,8 +23,8 @@ const InputField = (props: propTypes) => {
     onChange,
   } = props;
   return (
-    <div className="flex rounded-lg my-2">
-      <span className="px-4 w-8/12 inline-flex items-center min-w-fit rounded-s-md border border-e-0 border-gray-200 bg-gray-50 text-xs md:text-sm text-gray-500 ">
+    <div className="my-2 flex rounded-lg">
+      <span className="inline-flex w-8/12 min-w-fit items-center rounded-s-md border border-e-0 border-gray-200 bg-gray-50 px-4 text-xs text-gray-500 md:text-sm">
         {titleName}
       </span>
       <input
@@ -36,7 +36,7 @@ const InputField = (props: propTypes) => {
         readOnly={readOnly}
         onChange={onChange}
         min={0}
-        className={`appearance-none py-2 px-3 pe-11 block w-full border text-xs md:text-sm border-gray-200 shadow-sm rounded-e-lg truncate  focus:z-10 disabled:opacity-50 disabled:pointer-events-none ${
+        className={`block w-full appearance-none truncate rounded-e-lg border border-gray-200 px-3 py-2 pe-11 text-xs shadow-sm focus:z-10 disabled:pointer-events-none disabled:opacity-50 md:text-sm ${
           disabled ? "cursor-not-allowed" : ""
         }`}
       />

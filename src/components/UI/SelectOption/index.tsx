@@ -52,7 +52,7 @@ const SelectOption = (props: PropsTypes) => {
   };
 
   return (
-    <label className="block mb-2 text-sm font-medium text-gray-900 mt-3">
+    <label className="mb-2 mt-3 block text-sm font-medium text-gray-900">
       {label}
       <div className="relative">
         <select
@@ -63,7 +63,7 @@ const SelectOption = (props: PropsTypes) => {
           defaultValue={defaultValue}
           required={required}
           id={id}
-          className="border truncate p-2.5 mt-3 block w-full border-gray-200 shadow-sm rounded-lg text-sm disabled:opacity-50 disabled:pointer-events-none"
+          className="mt-3 block w-full truncate rounded-lg border border-gray-200 p-2.5 text-sm shadow-sm disabled:pointer-events-none disabled:opacity-50"
         >
           <option value="" disabled>
             {title}
@@ -74,7 +74,7 @@ const SelectOption = (props: PropsTypes) => {
           <Button
             type="button"
             onClick={handleReset}
-            className="absolute inset-y-0 right-0 px-5 mr-3 flex items-center text-gray-500"
+            className="absolute inset-y-0 right-0 mr-3 flex items-center px-5 text-gray-500"
           >
             <XIcon width={20} height={20} />
           </Button>

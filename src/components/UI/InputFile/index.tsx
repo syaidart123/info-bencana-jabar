@@ -13,14 +13,14 @@ const InputFile = (props: propsTypes) => {
     <div className="w-full">
       <label
         htmlFor={name}
-        className="mt-3 bg-slate-100 float-left w-full flex flex-col justify-center items-center gap-5 p-5 cursor-pointer rounded-md"
+        className="float-left mt-3 flex w-full cursor-pointer flex-col items-center justify-center gap-5 rounded-md bg-slate-100 p-5"
       >
         {uploadedImage?.name ? (
           <p>{uploadedImage?.name}</p>
         ) : (
           <>
             <p>Pilih Gambar</p>
-            <Upload className="w-8 h-8" />
+            <Upload className="h-8 w-8" />
             <p>
               Ukuran file maksimal <b>1MB</b>
             </p>
@@ -28,7 +28,7 @@ const InputFile = (props: propsTypes) => {
         )}
       </label>
       <input
-        className="opacity-0 z-[-1]"
+        className="z-[-1] opacity-0"
         required={required}
         type="file"
         name={name}

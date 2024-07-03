@@ -42,14 +42,12 @@ const Toaster = () => {
 
   useEffect(() => {
     if (lengthBar < 0) {
-      setToaster({
-        
-      });
+      setToaster({});
     }
   }, [lengthBar, setToaster]);
 
   return (
-    <div className="fixed bottom-5 right-5 lg:bottom-10 border lg:right-10 z-50  rounded-lg bg-white shadow-lg overflow-hidden">
+    <div className="fixed bottom-5 right-5 z-50 overflow-hidden rounded-lg border bg-white shadow-lg lg:bottom-10 lg:right-10">
       <div className={`h-3 bg-gray-300`}>
         <div
           className={`${
@@ -60,9 +58,9 @@ const Toaster = () => {
           style={{ width: `${lengthBar}%` }}
         ></div>
       </div>
-      <div className="flex items-center px-4 py-2 gap-4 mt-2">
+      <div className="mt-2 flex items-center gap-4 px-4 py-2">
         <div
-          className={`text-3xl p-1 text-white font-bold ${
+          className={`p-1 text-3xl font-bold text-white ${
             toaster &&
             toaster.variant &&
             toasterVariant[toaster.variant]?.barColor
@@ -71,7 +69,7 @@ const Toaster = () => {
           {toaster && toaster.variant && toasterVariant[toaster.variant]?.icon}
         </div>
         <div className="min-w-40">
-          <p className="font-bold mb-1">
+          <p className="mb-1 font-bold">
             {toaster &&
               toaster.variant &&
               toasterVariant[toaster.variant]?.title}
@@ -79,7 +77,7 @@ const Toaster = () => {
           <p>{toaster?.message}</p>
         </div>
         <div
-          className="text-xl cursor-pointer absolute top-4 right-3"
+          className="absolute right-3 top-4 cursor-pointer text-xl"
           onClick={() => setToaster({})}
         >
           <X />

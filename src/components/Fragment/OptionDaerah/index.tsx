@@ -30,17 +30,24 @@ const daerahOptions = [
   { label: "Kota Tasikmalaya", value: "Kota Tasikmalaya" },
 ];
 
-type propsTypes ={
-    label:string
-    name:string
-    title:string
-    defaultValue?:any;
-}
+type propsTypes = {
+  label?: string;
+  name: string;
+  title: string;
+  defaultValue?: any;
+  onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+};
 
-const SelectOptionFragment = (props:propsTypes) => {
-    const {label,name,title,defaultValue}=props
+const SelectOptionFragment = (props: propsTypes) => {
+  const { label, name, title, defaultValue, onChange } = props;
   return (
-    <SelectOption label={label} name={name} title={title} defaultValue={defaultValue}>
+    <SelectOption
+      label={label}
+      name={name}
+      title={title}
+      defaultValue={defaultValue}
+      onChange={onChange}
+    >
       {daerahOptions.map((option) => (
         <Option key={option.value} value={option.value}>
           {option.label}

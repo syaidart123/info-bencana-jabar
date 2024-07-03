@@ -14,7 +14,7 @@ const ModalDeletePengajuan = (props: any) => {
   const handleDelete = async () => {
     setIsLoading(true);
     const result = await submissionService.deleteSubmission(
-      deletedSubmission.id
+      deletedSubmission.id,
     );
     if (result.status === 200) {
       setIsLoading(false);
@@ -33,7 +33,7 @@ const ModalDeletePengajuan = (props: any) => {
               const { data } = await serviceUser.getSubmissionByUser();
               setDataSubmission(data.data);
             }
-          }
+          },
         );
       } else {
         setDeletedSubmission({});
@@ -61,7 +61,7 @@ const ModalDeletePengajuan = (props: any) => {
           onClick={() => handleDelete()}
           className="mt-3 px-5"
         >
-          <p className="text-white bg-red-500 rounded-md w-full py-2 px-8 hover:bg-red-600">
+          <p className="w-full rounded-md bg-red-500 px-8 py-2 text-white hover:bg-red-600">
             {isLoading ? "Loading..." : "Delete"}
           </p>
         </Button>
@@ -69,9 +69,9 @@ const ModalDeletePengajuan = (props: any) => {
         <Button
           type="button"
           onClick={() => setDeletedSubmission({})}
-          className=" mt-3 px-5"
+          className="mt-3 px-5"
         >
-          <p className="border rounded-md w-full py-2 px-8 hover:bg-gray-100">
+          <p className="w-full rounded-md border px-8 py-2 hover:bg-gray-100">
             Cencel
           </p>
         </Button>

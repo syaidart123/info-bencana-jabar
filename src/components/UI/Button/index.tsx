@@ -8,11 +8,17 @@ type propTypes = {
   disabled?: boolean;
 };
 
-const Button = ({ type = "button", className, children, onClick, disabled }: propTypes) => {
+const Button = ({
+  type = "button",
+  className,
+  children,
+  onClick,
+  disabled,
+}: propTypes) => {
   return (
     <button
       type={type}
-      className={`${className} font-medium rounded-lg text-sm px-8 py-3 text-center`}
+      className={`${className} rounded-lg px-8 py-3 text-center text-sm font-medium`}
       onClick={onClick}
       disabled={disabled}
     >
