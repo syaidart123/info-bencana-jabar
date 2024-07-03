@@ -12,7 +12,6 @@ const LoginPage = () => {
   const { query, push } = router;
   const { setToaster } = useContext(ToasterContext);
   const callbackUrl: string = (query.callbackUrl as string) || "/";
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -30,10 +29,7 @@ const LoginPage = () => {
       });
 
       if (res?.status === 200) {
-        if (
-          callbackUrl === `${process.env.NEXT_PUBLIC_API_URL}/lapor` &&
-          `${process.env.NEXT_PUBLIC_API_URL}/`
-        ) {
+        if (callbackUrl === `${process.env.NEXT_PUBLIC_API_URL}/lapor` && `/`) {
           const currentUrl = new URL(window.location.href);
           currentUrl.searchParams.set("redirect", callbackUrl);
           window.location.href = currentUrl.toString();
