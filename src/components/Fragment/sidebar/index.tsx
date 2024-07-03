@@ -18,7 +18,7 @@ const Sidebar = (props: any) => {
   const [showDropdown, setDropdown] = useState(false);
   const [open, setOpen] = useState(true);
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const ref: any = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const session: any = useSession();
   const active = usePathname();
 
@@ -177,7 +177,7 @@ const Sidebar = (props: any) => {
               </span>
             </Link>
           ))}
-          <div className="flex flex-col-reverse" ref={ref}>
+          <div className="flex flex-col-reverse">
             <Button type="button" onClick={() => setDropdown(!showDropdown)}>
               {showDropdown ? (
                 <CircleChevronUp size={20} />
