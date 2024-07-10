@@ -38,7 +38,7 @@ const BeritaPageView = (props: propTypes) => {
   return (
     <div className="min-h-svh px-10 pb-20">
       <div className="flex items-center justify-center lg:items-start lg:justify-start">
-        <p className="my-5 inline-block bg-gradient-to-l from-sky-400 to-sky-800 bg-clip-text text-3xl font-bold text-transparent">
+        <p className="my-5 inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text text-3xl font-bold text-transparent">
           Berita Kebencanaan
         </p>
       </div>

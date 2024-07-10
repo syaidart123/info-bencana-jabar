@@ -5,19 +5,24 @@ import { ToasterContext } from "@/context/ToasterContext";
 import { uploadFile } from "@/lib/firebase/service";
 import serviceProfile from "@/services/profile";
 import Image from "next/image";
-import React, { FormEvent, useContext, useState } from "react";
+import React, { FormEvent, useContext, useEffect, useState } from "react";
 
-const ProfileUserView = ({ profile, setProfile }: any) => {
+const ProfileAdminView = (props: any) => {
+  const { bio } = props;
+  const { setToaster } = useContext(ToasterContext);
+  const [profileData, setProfileData] = useState<any>(bio);
   const [changeName, setChangeName] = useState<any>({});
   const [isLoading, setIsLoading] = useState(false);
-  const { setToaster } = useContext(ToasterContext);
+
+  useEffect(() => {
+    setProfileData(bio);
+  }, [bio]);
 
   const handleUpdate = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     const form = e.target as HTMLFormElement;
     const file = form.uploadImage.files[0];
-
     const newProfileData = {
       fullname: form.namaLengkap.value,
       telepon: form.telepon.value,
@@ -26,12 +31,12 @@ const ProfileUserView = ({ profile, setProfile }: any) => {
     try {
       // Update Profile Information
       const profileResult = await serviceProfile.updateProfile(
-        profile.id,
+        profileData.id,
         newProfileData,
       );
       if (profileResult.status === 200) {
-        setProfile({
-          ...profile,
+        setProfileData({
+          ...profileData,
           fullname: newProfileData.fullname,
           telepon: newProfileData.telepon,
         });
@@ -43,7 +48,6 @@ const ProfileUserView = ({ profile, setProfile }: any) => {
         throw new Error("Profile update failed");
       }
 
-      // Update Profile Photo if file exists
       if (file) {
         const allowedExtensions = ["jpg", "jpeg", "png"];
         const fileExtension = file.name.split(".").pop().toLowerCase();
@@ -66,10 +70,9 @@ const ProfileUserView = ({ profile, setProfile }: any) => {
           setChangeName({});
           return;
         }
-
         const newName = "profile." + file.name.split(".")[1];
         uploadFile(
-          profile.id,
+          profileData.id,
           file,
           newName,
           "users",
@@ -77,11 +80,11 @@ const ProfileUserView = ({ profile, setProfile }: any) => {
             if (status) {
               const data = { image: newImageUrl };
               const imageResult = await serviceProfile.updateProfile(
-                profile.id,
+                profileData.id,
                 data,
               );
               if (imageResult.status === 200) {
-                setProfile({ ...profile, image: newImageUrl });
+                setProfileData({ ...profileData, image: newImageUrl });
                 setChangeName({});
                 setToaster({
                   variant: "success",
@@ -110,25 +113,29 @@ const ProfileUserView = ({ profile, setProfile }: any) => {
 
   return (
     <DashboardLayout type="User">
-      <p className="mb-10 text-xl font-bold">Profile Page</p>
-      <div className="w-full rounded-md border p-5">
+      <div className="flex items-center justify-center lg:items-start lg:justify-start">
+        <p className="my-3 inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text text-3xl font-bold text-transparent">
+          Profile
+        </p>
+      </div>
+      <div className="mb-28 rounded-md border p-4">
         <form
           onSubmit={handleUpdate}
           className="flex flex-col items-center justify-start space-y-5 lg:flex-row lg:items-start lg:space-x-10 lg:space-y-0"
         >
           <div className="flex w-full flex-col items-center rounded-md border p-2 shadow-md lg:w-1/3">
-            {profile?.image ? (
+            {profileData?.image ? (
               <Image
-                src={profile?.image}
+                src={profileData?.image}
                 width={250}
                 height={250}
-                alt="Profile"
+                alt="profile"
                 loading="lazy"
-                className="h-auto w-auto rounded-full border bg-gray-200 object-cover text-3xl font-bold lg:h-[250px] lg:w-[250px]"
+                className="h-40 w-40 rounded-full border bg-gray-200 object-cover text-3xl font-bold lg:h-[250px] lg:w-[250px]"
               />
             ) : (
               <div className="flex h-[250px] w-[250px] items-center justify-center rounded-full bg-gray-200 object-cover text-3xl font-bold">
-                {profile?.fullname?.charAt(0)}
+                {profileData?.fullname?.charAt(0)}
               </div>
             )}
             <div className="my-5">
@@ -157,18 +164,20 @@ const ProfileUserView = ({ profile, setProfile }: any) => {
             </div>
           </div>
           <div className="flex w-full flex-col rounded-md border p-4 shadow-md lg:w-2/3">
+            <p className="py-3 text-2xl font-bold text-primary">Biodata</p>
+
             <Input
               type="text"
               name="namaLengkap"
               label="Nama Lengkap"
-              defaultValue={profile.fullname}
+              defaultValue={profileData.fullname}
               className="w-full"
             />
             <Input
               type="email"
               name="email"
               label="Email"
-              defaultValue={profile.email}
+              defaultValue={profileData.email}
               className="w-full border-gray-300 bg-gray-100 opacity-40"
               disabled
             />
@@ -176,14 +185,14 @@ const ProfileUserView = ({ profile, setProfile }: any) => {
               type="number"
               name="telepon"
               label="No. Telepon"
-              defaultValue={profile.telepon}
+              defaultValue={profileData.telepon}
               className="w-full"
             />
             <hr className="mb-2 mt-5" />
             <div className="flex justify-end">
               <Button
                 type="submit"
-                className="mt-3 w-3/4 bg-sky-500 text-white lg:w-1/3"
+                className={`mt-3 w-3/4 bg-primary text-white lg:w-1/3 ${isLoading && "cursor-not-allowed"}`}
               >
                 {isLoading ? "Loading..." : "Update"}
               </Button>
@@ -195,4 +204,4 @@ const ProfileUserView = ({ profile, setProfile }: any) => {
   );
 };
 
-export default ProfileUserView;
+export default ProfileAdminView;

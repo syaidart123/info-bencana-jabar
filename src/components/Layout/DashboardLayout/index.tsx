@@ -3,6 +3,8 @@ import useSWR from "swr";
 import { BarChart3, CircleUser, MonitorUp, Newspaper } from "lucide-react";
 import React from "react";
 import fetcher from "@/lib/swr/fetcher";
+import LoadingPage from "../LoadingPage";
+import Custom500 from "@/pages/500";
 
 type propTypes = {
   children: React.ReactNode;
@@ -49,8 +51,8 @@ const DashboardLayout = (props: propTypes) => {
   const { children, type } = props;
   const { data, error, isLoading } = useSWR("/api/user/profile", fetcher);
 
-  if (error) return <div>Error loading submissions</div>;
-  if (isLoading) return <div>Loading...</div>;
+  if (error) return <Custom500 />;
+  if (isLoading) return <LoadingPage />;
   return (
     <div className="flex justify-between">
       {type === "Admin" ? (

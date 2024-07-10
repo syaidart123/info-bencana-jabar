@@ -11,7 +11,6 @@ import SelectOption from "@/components/UI/SelectOption";
 import Option from "@/components/UI/Option";
 import TextInput from "@/components/UI/TextInput";
 import formatTanggal from "@/utils/formatTanggal";
-import { PlusIcon } from "lucide-react";
 
 const ModalUpdatePengajuan = (props: any) => {
   const { updatedSubmission, setUpdatedSubmission, setDataSubmission } = props;

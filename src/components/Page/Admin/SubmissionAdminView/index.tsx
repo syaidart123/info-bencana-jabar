@@ -47,7 +47,7 @@ const PengajuanView = (props: any) => {
     <div>
       <DashboardLayout type="Admin">
         <div className="flex items-center justify-center lg:items-start lg:justify-start">
-          <p className="my-3 inline-block bg-gradient-to-l from-sky-400 to-sky-800 bg-clip-text text-3xl font-bold text-transparent">
+          <p className="my-3 inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text text-3xl font-bold text-transparent">
             Laporan Bencana
           </p>
         </div>
@@ -107,7 +107,7 @@ const PengajuanView = (props: any) => {
                                     type="button"
                                     onClick={() => setDeletedSubmission(sub)}
                                   >
-                                    <div className="rounded-md bg-red-500 px-4 py-2 text-white">
+                                    <div className="rounded-md bg-tertiary px-4 py-2 text-white">
                                       <Trash2 />
                                     </div>
                                   </Button>

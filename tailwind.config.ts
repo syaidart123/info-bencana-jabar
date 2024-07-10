@@ -11,6 +11,15 @@ const config: Config = {
       container: {
         center: true,
       },
+      colors: {
+        // primary: "#0284C7",
+        primary: "#457b9d",
+        secondary: "#A8DADC",
+        tertiary: "#E63946",
+        light: "#F1FAEE",
+        dark: "#32739c",
+        basic: "#374151",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

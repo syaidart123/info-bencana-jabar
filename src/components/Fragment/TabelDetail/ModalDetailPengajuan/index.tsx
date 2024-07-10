@@ -64,13 +64,11 @@ const ModalDetailPengajuan = (props: any) => {
             label: "Kerusakan",
             data: dataKerusakan,
             backgroundColor: [
-              "rgba(153, 102, 255, 0.5)",
-              "rgba(75, 192, 192, 0.5)",
-              "rgba(255, 99, 132, 0.5)",
-              "rgba(54, 162, 235, 0.5)",
-              "rgba(255, 206, 86, 0.5)",
+              "rgba(230, 57, 70, 0.7)",
+              "rgba(69, 123, 157, 0.7)",
+              "rgba(168, 218, 220, 0.7)",
             ],
-            hoverOffset: 4,
+            hoverBackgroundColor: ["#E63946", "#457b9d", "#A8DADC"],
           },
         ],
       });
@@ -81,13 +79,11 @@ const ModalDetailPengajuan = (props: any) => {
             label: "Korban",
             data: dataKorban,
             backgroundColor: [
-              "rgba(255, 99, 132, 0.5)",
-              "rgba(54, 162, 235, 0.5)",
-              "rgba(255, 206, 86, 0.5)",
-              "rgba(75, 192, 192, 0.5)",
-              "rgba(153, 102, 255, 0.5)",
+              "rgba(230, 57, 70, 0.7)",
+              "rgba(69, 123, 157, 0.7)",
+              "rgba(168, 218, 220, 0.7)",
             ],
-            hoverOffset: 4,
+            hoverBackgroundColor: ["#E63946", "#457b9d", "#A8DADC"],
           },
         ],
       });
@@ -112,11 +108,13 @@ const ModalDetailPengajuan = (props: any) => {
       <Modal onClose={() => setDetailSubmission({})}>
         <form>
           <div className="flex flex-col">
-            <p className="px-5 py-3 text-3xl font-semibold">Detail Bencana</p>
-            <hr />
-            <div className="mx-5 mt-5 flex flex-col items-start gap-5 rounded-md border bg-white p-5 shadow-md">
-              <div className="w-full py-5 xl:flex xl:justify-between xl:gap-7">
-                <div className="mb-5 flex flex-col items-start xl:w-2/4">
+            <p className="px-5 py-5 text-3xl font-bold text-primary">
+              Detail Bencana
+            </p>
+            <hr className="my-5 md:my-3" />
+            <div className="mx-5 flex flex-col items-start gap-5 rounded-md border bg-white p-5 shadow-md">
+              <div className="w-full md:flex md:gap-7 lg:justify-between">
+                <div className="mb-5 flex flex-col items-start md:w-2/4">
                   <Image
                     src={detailSubmission.image}
                     width={1000}
@@ -125,7 +123,7 @@ const ModalDetailPengajuan = (props: any) => {
                     className="w-full rounded-md border object-contain object-top"
                   />
                 </div>
-                <div className="xl:w-2/4">
+                <div className="md:w-2/4">
                   <TextInput title="Nama Pelapor:">
                     {detailSubmission.namaPelapor}
                   </TextInput>
@@ -174,13 +172,13 @@ const ModalDetailPengajuan = (props: any) => {
             <div className="mx-5 my-10 rounded-md border bg-white p-4 shadow-md">
               <p className="text-lg font-bold">Grafik Kerusakan & Korban</p>
               <hr className="my-3" />
-              <div className="flex flex-col items-center justify-center gap-5 py-10 xl:flex-row">
-                <div className="w-full max-w-xs rounded-md border p-3 shadow-md lg:w-1/2">
+              <div className="flex flex-col gap-5 py-5 md:flex-row md:gap-2">
+                <div className="w-full rounded-md border p-4 shadow-md md:w-1/2">
                   <p className="text-center text-xl">Kerusakan</p>
                   <hr className="my-3" />
                   <PieChart data={kerusakan} option={option} />
                 </div>
-                <div className="w-full max-w-xs rounded-md border p-3 shadow-md lg:w-1/2">
+                <div className="w-full rounded-md border p-4 shadow-md md:w-1/2">
                   <p className="text-center text-xl">Korban</p>
                   <hr className="my-3" />
                   <PieChart data={korban} option={option} />

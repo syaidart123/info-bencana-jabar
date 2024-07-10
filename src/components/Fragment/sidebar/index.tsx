@@ -32,23 +32,26 @@ const Sidebar = (props: any) => {
   };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutsideNav);
+    document.addEventListener("mousemove", handleClickOutsideNav);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutsideNav);
+      document.removeEventListener("mousemove", handleClickOutsideNav);
     };
   }, [ref]);
   return (
-    <aside className="fixed bottom-0 w-full md:sticky md:top-0 md:h-screen md:w-auto">
+    <aside
+      className="fixed bottom-0 w-full md:sticky md:top-0 md:h-screen md:w-auto"
+      ref={ref}
+    >
       <nav className="hidden h-full flex-col border-r bg-white shadow-sm md:flex">
         <div className="flex items-center justify-between border-b p-4 pb-2">
           <Link href="/">
             <Image
-              src="/images/hi.png"
+              src="/images/logo.png"
               alt="logo"
               width={200}
               height={200}
-              className={`overflow-hidden transition-all md:w-0 ${
-                open ? "xl:w-32" : "md:w-32 xl:w-0"
+              className={`h-20 overflow-hidden transition-all md:w-0 ${
+                open ? "xl:w-56" : "md:w-56 xl:w-0"
               }`}
             />
           </Link>
@@ -131,7 +134,7 @@ const Sidebar = (props: any) => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col-reverse" ref={ref}>
+          <div className="flex flex-col-reverse">
             <Button type="button" onClick={() => setDropdown(!showDropdown)}>
               <ChevronRight size={20} />
             </Button>

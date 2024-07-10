@@ -1,28 +1,15 @@
+import LoadingPage from "@/components/Layout/LoadingPage";
 import ProfileUserView from "@/components/Page/User/ProfileUserView";
-import serviceProfile from "@/services/profile";
-import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
+import fetcher from "@/lib/swr/fetcher";
+import Custom500 from "@/pages/500";
+import React from "react";
+import useSWR from "swr";
 
 const ProfileUserPage = () => {
-  const [profile, setProfile] = useState({});
-  const session: any = useSession();
-
-  useEffect(() => {
-    if (session.data?.accessToken && Object.keys(profile).length === 0) {
-      const getProfile = async () => {
-        const { data } = await serviceProfile.getProfile();
-        setProfile(data.data);
-      };
-      getProfile();
-    }
-  }, [session, profile]);
-  return (
-    <ProfileUserView
-      profile={profile}
-      setProfile={setProfile}
-      session={session}
-    />
-  );
+  const { data, error, isLoading } = useSWR("/api/user/profile", fetcher);
+  if (error) return <Custom500 />;
+  if (isLoading) return <LoadingPage />;
+  return <ProfileUserView bio={data} />;
 };
 
 export default ProfileUserPage;

@@ -142,77 +142,82 @@ const ModalAddPost = (props: propsTypes) => {
   };
 
   return (
-    <>
-      <Modal onClose={() => setModalAddPost(false)}>
-        <p className="text-3xl font-bold">Buat Postingan</p>
-        <form onSubmit={handleSubmit}>
-          <Input
-            name="judul"
-            type="text"
-            label="Judul"
-            placeholder="Masukan Judul"
+    <Modal onClose={() => setModalAddPost(false)}>
+      <div className="flex items-center justify-center lg:items-start lg:justify-start">
+        <p className="my-5 inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text text-3xl font-bold text-transparent">
+          Buat Postingan Bencana
+        </p>
+      </div>
+      <form onSubmit={handleSubmit}>
+        <Input
+          name="judul"
+          type="text"
+          label="Judul"
+          placeholder="Masukan Judul"
+          required
+        />
+        <SelectOption
+          label="Jenis Bencana"
+          name="jenisBencana"
+          title="Pilih Jenis Bencana..."
+        >
+          <Option value="Banjir">Banjir</Option>
+          <Option value="Cuaca Ekstrem">Cuaca Ekstrem</Option>
+          <Option value="Gempa Bumi">Gempa Bumi</Option>
+          <Option value="Kebakaran">Kebakaran</Option>
+          <Option value="Longsor">Longsor</Option>
+          <Option value="Tsunami">Tsunami</Option>
+        </SelectOption>
+        <SelectOptionFragment
+          label="Daerah"
+          name="daerah"
+          title="Pilih Daerah..."
+        />
+
+        <Input name="tanggal" type="date" label="Tanggal" required />
+
+        <div className="mt-3">
+          <label htmlFor="desc" className="mb-2 block text-sm font-medium">
+            Deskripsi
+          </label>
+          <textarea
+            id="desc"
+            name="desc"
             required
-          />
-          <SelectOption
-            label="Jenis Bencana"
-            name="jenisBencana"
-            title="Pilih Jenis Bencana..."
-          >
-            <Option value="Banjir">Banjir</Option>
-            <Option value="Cuaca Ekstrem">Cuaca Ekstrem</Option>
-            <Option value="Gempa Bumi">Gempa Bumi</Option>
-            <Option value="Kebakaran">Kebakaran</Option>
-            <Option value="Longsor">Longsor</Option>
-            <Option value="Tsunami">Tsunami</Option>
-          </SelectOption>
-          <SelectOptionFragment
-            label="Daerah"
-            name="daerah"
-            title="Pilih Daerah..."
-          />
-
-          <Input name="tanggal" type="date" label="Tanggal" required />
-
-          <div className="mt-3">
-            <label htmlFor="desc" className="mb-2 block text-sm font-medium">
-              Deskripsi
-            </label>
-            <textarea
-              id="desc"
-              name="desc"
-              required
-              className="block w-full rounded-lg border border-gray-200 px-4 py-3 text-sm disabled:pointer-events-none disabled:opacity-50"
-              rows={15}
-              placeholder="Masukan Deskripsi..."
-            ></textarea>
-          </div>
-          <div className="my-3 flex items-center gap-4">
-            {uploadedImage ? (
-              <Image
-                src={URL.createObjectURL(uploadedImage)}
-                alt="image"
-                width={200}
-                height={200}
-                className="flex aspect-square h-auto w-[15%] items-center justify-center rounded-md bg-slate-200"
-              />
-            ) : (
-              <div className="flex aspect-square h-auto w-[15%] items-center justify-center rounded-md bg-slate-200">
-                No Image
-              </div>
-            )}
-            <InputFile
-              name="image"
-              required
-              uploadedImage={uploadedImage}
-              setUploadedImage={setUploadedImage}
+            className="block w-full rounded-lg border border-gray-200 px-4 py-3 text-sm disabled:pointer-events-none disabled:opacity-50"
+            rows={15}
+            placeholder="Masukan Deskripsi..."
+          ></textarea>
+        </div>
+        <div className="my-3 flex items-center gap-4">
+          {uploadedImage ? (
+            <Image
+              src={URL.createObjectURL(uploadedImage)}
+              alt="image"
+              width={200}
+              height={200}
+              className="flex aspect-square h-auto w-[15%] items-center justify-center rounded-md bg-slate-200"
             />
-          </div>
-          <Button type="submit" className="bg-sky-600 p-5 text-white">
-            {isLoading ? "Loading..." : "Buat Postingan"}
-          </Button>
-        </form>
-      </Modal>
-    </>
+          ) : (
+            <div className="flex aspect-square h-auto w-[15%] items-center justify-center rounded-md bg-slate-200">
+              No Image
+            </div>
+          )}
+          <InputFile
+            name="image"
+            required
+            uploadedImage={uploadedImage}
+            setUploadedImage={setUploadedImage}
+          />
+        </div>
+        <Button
+          type="submit"
+          className={`bg-primary p-5 text-white ${isLoading ? "cursor-not-allowed" : ""}`}
+        >
+          {isLoading ? "Loading..." : "Buat Postingan"}
+        </Button>
+      </form>
+    </Modal>
   );
 };
 

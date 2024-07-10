@@ -44,7 +44,7 @@ const TabelDetail = (props: propTypes) => {
     <>
       <main className="h-screen px-10">
         <div className="flex items-center justify-center lg:items-start lg:justify-start">
-          <p className="my-5 inline-block bg-gradient-to-l from-sky-400 to-sky-800 bg-clip-text text-3xl font-bold text-transparent">
+          <p className="my-5 inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text text-3xl font-bold text-transparent">
             Data Bencana
           </p>
         </div>
@@ -89,7 +89,7 @@ const TabelDetail = (props: propTypes) => {
                           type="button"
                           onClick={() => setDetailSubmission(sub)}
                         >
-                          <div className="rounded-md bg-sky-500 px-4 py-2 text-white">
+                          <div className="rounded-md bg-tertiary px-4 py-2 text-white">
                             <Scaling />
                           </div>
                         </Button>

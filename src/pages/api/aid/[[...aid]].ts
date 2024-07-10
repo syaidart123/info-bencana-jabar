@@ -2,7 +2,6 @@ import {
   addData,
   deleteData,
   retrieveData,
-  retrieveDataById,
   updateData,
 } from "@/lib/firebase/service";
 import {
@@ -15,7 +14,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   if (req.method === "GET") {
     const data = await retrieveData("aids");

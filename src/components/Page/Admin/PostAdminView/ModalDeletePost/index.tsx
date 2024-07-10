@@ -49,7 +49,9 @@ const ModalDeletePost = (props: any) => {
           onClick={() => handleDelete()}
           className="mt-3 px-5"
         >
-          <p className="w-full rounded-md bg-red-500 px-8 py-2 text-white hover:bg-red-600">
+          <p
+            className={`w-full rounded-md bg-red-500 px-8 py-2 text-white hover:bg-red-600 ${isLoading && "cursor-not-allowed"}`}
+          >
             {isLoading ? "Loading..." : "Delete"}
           </p>
         </Button>

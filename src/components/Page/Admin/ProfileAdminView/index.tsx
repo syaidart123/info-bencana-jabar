@@ -114,13 +114,17 @@ const ProfileAdminView = (props: any) => {
 
   return (
     <DashboardLayout type="Admin">
+      <div className="flex items-center justify-center lg:items-start lg:justify-start">
+        <p className="my-3 inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text text-3xl font-bold text-transparent">
+          Profile
+        </p>
+      </div>
       <div className="mb-28 rounded-md border p-4">
         <form
           onSubmit={handleUpdate}
           className="flex flex-col items-center justify-start space-y-5 lg:flex-row lg:items-start lg:space-x-10 lg:space-y-0"
         >
           <div className="flex w-full flex-col items-center rounded-md border p-2 shadow-md lg:w-1/3">
-            <p className="py-3 text-2xl font-bold">Foto Profile</p>
             {profileData?.image ? (
               <Image
                 src={profileData?.image}
@@ -161,6 +165,8 @@ const ProfileAdminView = (props: any) => {
             </div>
           </div>
           <div className="flex w-full flex-col rounded-md border p-4 shadow-md lg:w-2/3">
+            <p className="py-3 text-2xl font-bold text-primary">Biodata</p>
+
             <Input
               type="text"
               name="namaLengkap"
@@ -187,7 +193,7 @@ const ProfileAdminView = (props: any) => {
             <div className="flex justify-end">
               <Button
                 type="submit"
-                className="mt-3 w-3/4 bg-sky-500 text-white lg:w-1/3"
+                className={`mt-3 w-3/4 bg-primary text-white lg:w-1/3 ${isLoading && "cursor-not-allowed"}`}
               >
                 {isLoading ? "Loading..." : "Update"}
               </Button>

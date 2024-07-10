@@ -113,7 +113,11 @@ const ModalUpdatePost = (props: any) => {
   return (
     <>
       <Modal onClose={() => setUpdatedPost({})}>
-        <p className="my-2 text-3xl font-bold">Update Postingan</p>
+        <div className="flex items-center justify-center lg:items-start lg:justify-start">
+          <p className="my-5 inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text text-3xl font-bold text-transparent">
+            Update Postingan
+          </p>
+        </div>
         <form onSubmit={handleUpdate}>
           <Input
             name="judul"
@@ -164,7 +168,7 @@ const ModalUpdatePost = (props: any) => {
               placeholder="Masukan Deskripsi..."
             ></textarea>
           </div>
-          <div className="my-3 flex items-center gap-4">
+          <div className="my-3 flex flex-col items-center gap-4 md:flex-row">
             <Image
               src={
                 uploadedImage
@@ -182,7 +186,10 @@ const ModalUpdatePost = (props: any) => {
               setUploadedImage={setUploadedImage}
             />
           </div>
-          <Button type="submit" className="bg-sky-600 p-5 text-white">
+          <Button
+            type="submit"
+            className={`bg-primary p-5 text-white ${isLoading ? "cursor-not-allowed" : ""}`}
+          >
             {isLoading ? "Loading..." : "Update Postingan"}
           </Button>
         </form>

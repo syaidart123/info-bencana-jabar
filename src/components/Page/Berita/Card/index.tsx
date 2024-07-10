@@ -17,12 +17,12 @@ const Card = (props: any) => {
         />
       </div>
       <div className="flex flex-col gap-2 p-4 md:p-5">
-        <p className="font-medium text-sky-500">{post.daerah}</p>
+        <p className="font-medium text-primary">{post.daerah}</p>
         <div className="flex gap-2">
           <CalendarClock color="gray" />
           <p className="font-medium text-gray-400">{post.tanggal}</p>
         </div>
-        <h3 className="text-lg font-bold text-gray-800">{post.title}</h3>
+        <h3 className="text-xl font-bold text-gray-700">{post.title}</h3>
       </div>
     </div>
   );

@@ -134,7 +134,7 @@ const HomeGrafikLayout = (props: propsTypes) => {
     const datasets = daerahs.map((daerah: any) => {
       return {
         label: daerah,
-        data: labels.map((label) => jenisDaerahCounts[label][daerah] || 0),
+        data: labels.map((label) => jenisDaerahCounts[label][daerah]),
         backgroundColor: getRandomColor(), // Use a function to generate distinct colors
       };
     });
@@ -146,15 +146,19 @@ const HomeGrafikLayout = (props: propsTypes) => {
 
     const kerusakanChartData = {
       labels: [
-        `Fasilitas Umum : ${totalFasilitasUmum}`,
         `Rumah : ${totalRumah}`,
+        `Fasilitas Umum : ${totalFasilitasUmum}`,
         `Rumah Terendam : ${totalRumahTerendam}`,
       ],
       datasets: [
         {
-          data: [totalFasilitasUmum, totalRumah, totalRumahTerendam],
-          backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-          hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+          data: [totalRumah, totalFasilitasUmum, totalRumahTerendam],
+          backgroundColor: [
+            "rgba(230, 57, 70, 0.7)",
+            "rgba(69, 123, 157, 0.7)",
+            "rgba(168, 218, 220, 0.7)",
+          ],
+          hoverBackgroundColor: ["#E63946", "#457b9d", "#A8DADC"],
         },
       ],
     };
@@ -168,8 +172,13 @@ const HomeGrafikLayout = (props: propsTypes) => {
       datasets: [
         {
           data: [totalMeninggal, totalTerluka, totalHilang],
-          backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-          hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+          // backgroundColor: ["#E63946", "#457b9d", "#A8DADC"],
+          backgroundColor: [
+            "rgba(230, 57, 70, 0.7)",
+            "rgba(69, 123, 157, 0.7)",
+            "rgba(168, 218, 220, 0.7)",
+          ],
+          hoverBackgroundColor: ["#E63946", "#457b9d", "#A8DADC"],
         },
       ],
     };
@@ -241,6 +250,11 @@ const HomeGrafikLayout = (props: propsTypes) => {
       <div className="mx-5 my-5">
         <div className="flex flex-col gap-2 xl:flex-row">
           <div className="w-full rounded-md border bg-white px-3 py-7 xl:w-1/2 xl:py-1">
+            <div className="flex items-center justify-center">
+              <p className="my-3 inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text text-3xl font-bold text-transparent">
+                Grafik Data Bencana
+              </p>
+            </div>
             <div>
               <FilterSelect
                 className="w-full"
@@ -250,17 +264,14 @@ const HomeGrafikLayout = (props: propsTypes) => {
                 setSelectedEndDate={setSelectedEndDate}
               />
             </div>
-            <div className="my-5 h-96 rounded-md border px-2 lg:h-[70%] xl:h-[72%]">
-              <p className="py-2 text-center text-xl font-bold">
-                Grafik Data Bencana
-              </p>
+            <div className="my-5 h-96 rounded-md border px-2 lg:h-[70%] xl:h-[70%]">
               <BarChart data={jenisBencana} options={optionBar} />
             </div>
           </div>
           <div className="flex w-full flex-col gap-2 xl:w-1/2">
             <div className="flex h-full flex-col gap-2 sm:flex-row">
               <div className="h-full rounded-md border bg-white px-3 sm:w-1/2 xl:w-1/2">
-                <p className="py-2 text-center text-xl font-bold">
+                <p className="my-3 bg-gradient-to-l from-secondary to-primary bg-clip-text text-center text-2xl font-bold text-transparent">
                   Total Kerusakan
                 </p>
                 <hr className="my-2" />
@@ -269,7 +280,7 @@ const HomeGrafikLayout = (props: propsTypes) => {
                 </div>
               </div>
               <div className="rounded-md border bg-white px-3 sm:w-1/2 xl:w-1/2">
-                <p className="py-2 text-center text-xl font-bold">
+                <p className="my-3 bg-gradient-to-l from-secondary to-primary bg-clip-text text-center text-2xl font-bold text-transparent">
                   Total Korban
                 </p>
                 <hr className="my-2" />

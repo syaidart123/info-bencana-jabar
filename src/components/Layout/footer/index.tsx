@@ -6,14 +6,14 @@ import React from "react";
 const Footer = () => {
   return (
     <>
-      <div className="flex h-96 items-start justify-around bg-sky-600">
+      <div className="flex h-96 items-start justify-around bg-primary">
         <div className="mt-10 w-3/12 p-5">
           <Image
-            src="/images/hi.png"
+            src="/images/logo.png"
             width={500}
             height={500}
             alt="Human Initiative"
-            className="h-10 w-24 cursor-pointer rounded-lg bg-white p-1"
+            className="h-10 h-20 w-56 cursor-pointer rounded-lg bg-white p-1"
           />
           <p className="mt-5 text-white">
             Human Initiative adalah Lorem ipsum dolor, sit amet consectetur
@@ -37,7 +37,7 @@ const Footer = () => {
         </div>
       </div>
       <hr className="w-6/12 text-white" />
-      <div className="flex flex-col items-center justify-center bg-sky-600 py-5">
+      <div className="flex flex-col items-center justify-center bg-primary py-5">
         <p className="text-white">
           &copy; {new Date().getFullYear()} Info Bencana
         </p>

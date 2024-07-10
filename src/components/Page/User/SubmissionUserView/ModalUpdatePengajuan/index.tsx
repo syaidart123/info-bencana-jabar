@@ -141,7 +141,11 @@ const ModalUpdatePengajuan = (props: any) => {
   return (
     <>
       <Modal onClose={() => setUpdatedSubmission(false)}>
-        <p className="mb-5 text-3xl font-bold">Update Laporan</p>
+        <div className="flex items-center justify-center lg:items-start lg:justify-start">
+          <p className="my-5 inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text text-3xl font-bold text-transparent">
+            Update Laporan
+          </p>
+        </div>
         <form onSubmit={handleUpdate}>
           <Input
             name="namaPelapor"
@@ -314,7 +318,10 @@ const ModalUpdatePengajuan = (props: any) => {
               setUploadedImage={setUploadedImage}
             />
           </div>
-          <Button type="submit" className="bg-sky-600 p-5 text-white">
+          <Button
+            type="submit"
+            className={`bg-primary p-5 text-white ${isLoading && "cursor-not-allowed"}`}
+          >
             {isLoading ? "Loading..." : "Update"}
           </Button>
         </form>

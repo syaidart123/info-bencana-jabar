@@ -49,7 +49,7 @@ const PostAdminView = (props: any) => {
     <>
       <DashboardLayout type="Admin">
         <div className="flex items-center justify-center lg:items-start lg:justify-start">
-          <p className="my-3 inline-block bg-gradient-to-l from-sky-400 to-sky-800 bg-clip-text text-3xl font-bold text-transparent">
+          <p className="my-3 inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text text-3xl font-bold text-transparent">
             Postingan Bencana
           </p>
         </div>
@@ -64,7 +64,7 @@ const PostAdminView = (props: any) => {
 
         <div>
           <Button onClick={() => setModalAddPost(true)} className={"my-5"}>
-            <span className="flex gap-3 rounded-md bg-green-500 px-4 py-2 text-white">
+            <span className="flex gap-3 rounded-md bg-green-600 px-4 py-2 text-white hover:shadow-md">
               Tambahkan
               <CirclePlus width={20} height={20} />
             </span>
@@ -112,7 +112,7 @@ const PostAdminView = (props: any) => {
                                   type="button"
                                   onClick={() => setUpdatedPost(sub)}
                                 >
-                                  <div className="rounded-md bg-yellow-500 px-4 py-2 text-white">
+                                  <div className="rounded-md bg-yellow-500 px-4 py-2 text-white hover:shadow-md">
                                     <ClipboardPen />
                                   </div>
                                 </Button>
@@ -120,7 +120,7 @@ const PostAdminView = (props: any) => {
                                   type="button"
                                   onClick={() => setDeletedPost(sub)}
                                 >
-                                  <div className="rounded-md bg-red-500 px-4 py-2 text-white">
+                                  <div className="rounded-md bg-tertiary px-4 py-2 text-white hover:shadow-md">
                                     <Trash2 />
                                   </div>
                                 </Button>

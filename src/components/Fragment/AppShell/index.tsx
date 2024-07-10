@@ -12,7 +12,7 @@ const montserrat = Roboto({
   weight: ["300", "500", "400", "700", "900"],
 });
 
-const navDisable = ["auth", "admin", "dashboard"];
+const navDisable = ["auth", "admin", "dashboard", "404"];
 
 type propsTypes = {
   children: React.ReactNode;

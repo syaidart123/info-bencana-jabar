@@ -9,7 +9,7 @@ const Tabel = (props: propsTypes) => {
   const { children, head } = props;
   return (
     <table className="min-w-full divide-y divide-gray-200">
-      <thead className="bg-sky-500">
+      <thead className="bg-primary">
         <tr>
           {head.map((item: any, index: any) => (
             <th

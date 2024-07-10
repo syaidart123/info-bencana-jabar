@@ -20,9 +20,9 @@ const FormBencana = (props: propTypes) => {
   const [jenisBencana, setJenisBencana] = useState("");
 
   return (
-    <div className="flex w-11/12 flex-col rounded-xl border border-t-4 border-t-blue-600 bg-white shadow-sm xl:w-2/4">
+    <div className="flex w-11/12 flex-col rounded-xl border border-t-4 border-t-primary bg-white shadow-sm xl:w-2/4">
       <div className="p-4 md:p-5">
-        <h3 className="inline-block bg-gradient-to-l from-sky-400 to-sky-800 bg-clip-text py-5 text-2xl font-bold text-transparent">
+        <h3 className="inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text py-5 text-2xl font-bold text-transparent">
           Form Laporan Bencana
         </h3>
         <form onSubmit={handleSubmit}>
@@ -163,7 +163,10 @@ const FormBencana = (props: propTypes) => {
             setUploadedImage={setUploadedImage}
             required
           />
-          <Button type="submit" className="my-5 bg-sky-600 p-5 text-white">
+          <Button
+            type="submit"
+            className={`hover:bg-dark ${isLoading && "cursor-not-allowed"} my-5 bg-primary p-5 text-white`}
+          >
             {isLoading ? "Loading..." : "Kirim"}
           </Button>
         </form>

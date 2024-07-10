@@ -1,4 +1,6 @@
+import LoadingPage from "@/components/Layout/LoadingPage";
 import fetcher from "@/lib/swr/fetcher";
+import Custom500 from "@/pages/500";
 import formatTanggal from "@/utils/formatTanggal";
 import { CalendarClock } from "lucide-react";
 import Head from "next/head";
@@ -12,8 +14,8 @@ const DetailBeritaView = () => {
 
   const { data, error, isLoading } = useSWR(`/api/post/${id}`, fetcher);
 
-  if (error) return <div>Error</div>;
-  if (isLoading) return <div>loading...</div>;
+  if (error) return <Custom500 />;
+  if (isLoading) return <LoadingPage />;
 
   const paragraphs = data.deskripsi
     .split("\n\n")
@@ -28,9 +30,11 @@ const DetailBeritaView = () => {
       <Head>
         <title>{data.title}</title>
       </Head>
-      <div className="container mx-auto my-8 min-h-screen max-w-4xl p-6 px-4 py-8 sm:px-6 lg:px-8">
+      <div className="container my-8 min-h-screen max-w-4xl p-6 px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-10 text-center">
-          <p className="text-4xl font-bold text-gray-900">{data.title}</p>
+          <p className="my-5 inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text text-3xl font-bold text-transparent md:text-4xl">
+            {data.title}
+          </p>
         </div>
 
         <div className="my-5 flex items-center justify-center">
@@ -46,7 +50,7 @@ const DetailBeritaView = () => {
         </div>
 
         <div className="my-5 flex items-center justify-center gap-2 text-sm text-gray-500">
-          <p className="border-r-2 pr-2 font-medium text-sky-500">
+          <p className="border-r-2 pr-2 font-medium text-primary">
             {data.daerah}
           </p>
           <CalendarClock color="gray" />

@@ -78,28 +78,28 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`sticky top-0 z-50 flex items-center justify-between border-b bg-white px-6 py-5 md:justify-around`}
+      className={`sticky top-0 z-50 flex items-center justify-between border-b bg-white px-6 md:justify-around`}
     >
       <div>
         <Image
-          src="/images/hi.png"
-          width={500}
-          height={500}
+          src="/images/logo.png"
+          width={1000}
+          height={1000}
           alt="Human Initiative"
-          className="h-10 w-24 cursor-pointer"
+          className="h-20 w-56 cursor-pointer"
           loading="lazy"
         />
       </div>
-      <div className="hidden md:flex">
+      <div className="mr-32 hidden md:flex">
         <ul className="flex gap-3">
           {listNavbar.map((list, i) => {
             return (
               <Link
                 href={list.link}
-                className={`text-sky-500 hover:text-sky-700 ${
+                className={`cursor-pointer hover:text-primary ${
                   pathname === list.link
-                    ? "border-b-2 border-sky-600 font-bold text-sky-600"
-                    : ""
+                    ? "border-b-2 border-primary font-bold text-primary"
+                    : "text-basic"
                 }`}
                 key={i}
               >
@@ -136,13 +136,13 @@ const Navbar = () => {
             >
               <button
                 onClick={handleDashboard}
-                className="flex w-[150px] cursor-pointer items-center justify-center rounded-t-md border-none bg-white px-4 py-2 text-left text-lg hover:bg-slate-50"
+                className="flex w-[150px] cursor-pointer items-center justify-center rounded-t-md border-none bg-white px-4 py-2 text-left text-lg text-basic hover:bg-slate-50"
               >
                 Dashboard
               </button>
               <button
                 onClick={() => signOut()}
-                className="flex w-[150px] cursor-pointer items-center justify-center rounded-b-md border-none bg-white px-4 py-2 text-left text-lg text-red-500 hover:bg-slate-50"
+                className="flex w-[150px] cursor-pointer items-center justify-center rounded-b-md border-none bg-white px-4 py-2 text-left text-lg text-tertiary hover:bg-slate-50"
               >
                 <p className="mr-1">Logout</p>
                 <LogOut size={15} />
@@ -166,10 +166,10 @@ const Navbar = () => {
                     return (
                       <Link
                         href={list.link}
-                        className={`mx-2 my-1 rounded-md px-3 py-2 font-medium text-sky-500 transition-colors hover:bg-slate-100 ${
+                        className={`mx-2 my-1 rounded-md px-3 py-2 font-medium transition-colors hover:bg-slate-100 ${
                           pathname === list.link
-                            ? "bg-gradient-to-tr from-slate-100 to-sky-200 text-sky-600"
-                            : ""
+                            ? "bg-gradient-to-tr from-slate-50 to-secondary text-primary"
+                            : "text-basic"
                         }`}
                         key={i}
                       >
@@ -205,9 +205,9 @@ const Navbar = () => {
                     return (
                       <Link
                         href={list.link}
-                        className={`mx-2 my-1 rounded-md px-3 py-2 font-medium text-sky-500 transition-colors hover:bg-slate-100 ${
+                        className={`mx-2 my-1 rounded-md px-3 py-2 font-medium transition-colors hover:bg-slate-100 ${
                           pathname === list.link
-                            ? "bg-gradient-to-tr from-slate-100 to-sky-200 text-sky-600"
+                            ? "bg-gradient-to-tr from-slate-50 to-secondary text-primary"
                             : ""
                         }`}
                         key={i}
@@ -221,11 +221,11 @@ const Navbar = () => {
                 <div className="flex justify-center gap-3 py-5 md:hidden">
                   <Button
                     type="button"
-                    className="border border-sky-500 text-sky-500"
+                    className="border border-primary text-primary"
                   >
                     <Link
                       href="/auth/login"
-                      className="rounded-lg border border-sky-500 bg-white px-4 py-2 hover:bg-slate-50"
+                      className="rounded-lg border border-primary bg-white px-4 py-2 hover:bg-slate-50"
                     >
                       Login
                     </Link>
@@ -233,7 +233,7 @@ const Navbar = () => {
                   <Button type="button" className="text-white">
                     <Link
                       href="/auth/register"
-                      className="rounded-lg border bg-sky-500 px-4 py-2 hover:bg-sky-600"
+                      className="rounded-lg border bg-primary px-4 py-2 hover:bg-dark"
                     >
                       Register
                     </Link>
@@ -245,11 +245,11 @@ const Navbar = () => {
           <div className="hidden gap-3 md:flex">
             <Button
               type="button"
-              className="border border-sky-500 text-sky-500"
+              className="border border-primary text-primary"
             >
               <Link
                 href="/auth/login"
-                className="rounded-lg border border-sky-500 bg-white px-4 py-2 hover:bg-slate-50"
+                className="rounded-lg border border-primary bg-white px-4 py-2 hover:bg-slate-50"
               >
                 Login
               </Link>
@@ -257,7 +257,7 @@ const Navbar = () => {
             <Button type="button" className="text-white">
               <Link
                 href="/auth/register"
-                className="rounded-lg border bg-sky-500 px-4 py-2 hover:bg-sky-600"
+                className="rounded-lg border bg-primary px-4 py-2 hover:bg-dark"
               >
                 Register
               </Link>
