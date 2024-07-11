@@ -22,9 +22,7 @@ const StatusPengajuanView = (props: any) => {
   return (
     <div>
       <DashboardLayout type="User">
-        {/* <p className="mb-10 text-xl font-bold">Laporan Bencana</p>
-         */}
-        <div className="flex items-center justify-center lg:items-start lg:justify-start">
+        <div className="my-3 flex">
           <p className="my-3 inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text text-3xl font-bold text-transparent">
             Laporan Bencana
           </p>

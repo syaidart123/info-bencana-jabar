@@ -80,10 +80,10 @@ const LoginPage = () => {
         </div>
         <Button
           type="submit"
-          className={`hover:bg-dark w-full ${loading && "cursor-not-allowed"} bg-primary text-center font-medium text-white focus:ring-sky-300`}
+          className={`w-full hover:bg-dark ${loading && "cursor-not-allowed"} bg-primary text-center font-medium text-white focus:ring-sky-300`}
           disabled={loading}
         >
-          {loading ? "Loading" : "Login"}
+          {loading ? "Loading..." : "Login"}
         </Button>
       </form>
       <Button

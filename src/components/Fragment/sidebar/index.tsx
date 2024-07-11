@@ -47,6 +47,7 @@ const Sidebar = (props: any) => {
           <Link href="/">
             <Image
               src="/images/logo.png"
+              loading="lazy"
               alt="logo"
               width={200}
               height={200}

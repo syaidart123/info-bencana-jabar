@@ -10,6 +10,7 @@ const PengajuanBencana = () => {
   const [uploadedImage, setUploadedImage] = useState<File | any>(null);
   const { setToaster } = useContext(ToasterContext);
   const session: any = useSession();
+  console.log(session);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

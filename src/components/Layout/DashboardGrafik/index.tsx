@@ -142,7 +142,7 @@ const DashboardGrafik = (props: propsTypes) => {
         setSelectedStartDate={setSelectedStartDate}
         setSelectedEndDate={setSelectedEndDate}
       />
-      <div>
+      <div className="h-96">
         <BarChart data={monthlyData} options={optionBar} />
       </div>
     </div>

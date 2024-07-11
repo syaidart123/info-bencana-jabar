@@ -45,22 +45,34 @@ const DashboardAdminView = (props: propsTypes) => {
   return (
     <div>
       <DashboardLayout type="Admin">
-        <div className="flex justify-between gap-5">
-          <div className="rounded-md bg-tertiary px-28 py-8 text-white shadow-md hover:shadow-lg">
-            <p>Jumlah Pengajuan : {dataSubmission.length}</p>
+        <div className="flex lg:items-start lg:justify-start">
+          <p className="my-2 inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text text-3xl font-bold text-transparent">
+            Dashboard
+          </p>
+        </div>
+        <div className="mt-5 grid grid-cols-2 gap-2 lg:grid-cols-4">
+          <div className="rounded-md bg-gradient-to-tr from-purple-400 to-red-400 px-5 py-10 text-white shadow-md hover:shadow-lg lg:py-8">
+            <p className="">Jumlah Pengajuan : {dataSubmission.length}</p>
           </div>
-          <div className="rounded-md bg-tertiary px-28 py-8 text-white shadow-md hover:shadow-lg">
+          <div className="rounded-md bg-gradient-to-tr from-sky-400 to-secondary px-5 py-10 text-white shadow-md hover:shadow-lg lg:py-8">
             <p>Jumlah Postingan : {post.length}</p>
           </div>
-          <div className="rounded-md bg-tertiary px-28 py-8 text-white shadow-md hover:shadow-lg">
-            <p>Jumlah Kerugian : {formatRupiah(totalKerugian)}</p>
+          <div className="to- rounded-md bg-gradient-to-tr from-emerald-400 to-teal-400 px-5 py-10 text-white shadow-md hover:shadow-lg lg:py-8">
+            <p>Kerugian : {formatRupiah(totalKerugian)}</p>
           </div>
-          <div className="rounded-md bg-tertiary px-28 py-8 text-white shadow-md hover:shadow-lg">
-            <p>Jumlah Bantuan : {formatRupiah(totalBantuan)}</p>
+          <div className="rounded-md bg-gradient-to-tr from-rose-400 to-amber-400 px-5 py-10 text-white shadow-md hover:shadow-lg lg:py-8">
+            <p>Bantuan : {formatRupiah(totalBantuan)}</p>
           </div>
         </div>
-        <DashboardGrafik submission={submission} />
-        <div>
+
+        <div className="mb-10 mt-5">
+          <p className="my-3 text-xl font-bold text-primary">
+            Grafik Laporan Bencana
+          </p>
+          <DashboardGrafik submission={submission} />
+        </div>
+        <div className="mb-20">
+          <p className="my-3 text-xl font-bold text-primary">Proses Laporan</p>
           <div className="flex flex-col">
             <div className="-m-1.5 overflow-x-auto">
               <div className="inline-block min-w-full p-1.5 align-middle">
@@ -133,7 +145,7 @@ const DashboardAdminView = (props: propsTypes) => {
                                 className="rounded-lg object-cover"
                               />
                               <p className="py-3 text-lg font-semibold">
-                                Tidak ada laporan
+                                Tidak ada laporan yang diproses
                               </p>
                             </div>
                           </td>

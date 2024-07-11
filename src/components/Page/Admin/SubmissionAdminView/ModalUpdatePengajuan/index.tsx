@@ -11,10 +11,11 @@ import SelectOption from "@/components/UI/SelectOption";
 import Option from "@/components/UI/Option";
 import TextInput from "@/components/UI/TextInput";
 import formatTanggal from "@/utils/formatTanggal";
-import { PlusIcon } from "lucide-react";
 
 const ModalUpdatePengajuan = (props: any) => {
   const { updatedSubmission, setUpdatedSubmission, setDataSubmission } = props;
+  console.log(updatedSubmission);
+
   const [isLoading, setIsLoading] = useState(false);
   const { setToaster } = useContext(ToasterContext);
   const [aidCount, setAidCount] = useState(
@@ -189,6 +190,9 @@ const ModalUpdatePengajuan = (props: any) => {
                   <TextInput title="Nama Pelapor:">
                     {updatedSubmission.namaPelapor}
                   </TextInput>
+                  <TextInput title="No. Telp:">
+                    {updatedSubmission.noTelp}
+                  </TextInput>
                   <TextInput title="Jenis Bencana:">
                     {updatedSubmission.jenisBencana}
                   </TextInput>
@@ -262,10 +266,19 @@ const ModalUpdatePengajuan = (props: any) => {
                           defaultValue={bantuan.lembaga}
                           required
                         >
+                          <Option value="Al Hilal">Al Hilal</Option>
+                          <Option value="BNPB">BNPB</Option>
+                          <Option value="Dompet Dhuafa">Dompet Dhuafa</Option>
+                          <Option value="DT Peduli">DT Peduli</Option>
                           <Option value="Human Initiative">
                             Human Initiative
                           </Option>
                           <Option value="IZI">IZI</Option>
+                          <Option value="MDMC">MDMC</Option>
+                          <Option value="Rumah Zakat">Rumah Zakat</Option>
+                          <Option value="Relawan Nusantara">
+                            Relawan Nusantara
+                          </Option>
                         </SelectOption>
 
                         <SelectOption

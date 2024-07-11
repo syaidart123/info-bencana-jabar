@@ -246,8 +246,8 @@ const HomeGrafikLayout = (props: propsTypes) => {
     );
 
   return (
-    <main className="flex min-h-[calc(100vh-80px)] flex-col justify-center bg-white">
-      <div className="mx-5 my-5">
+    <main className="flex min-h-[calc(100vh-70px)] flex-col justify-center bg-white">
+      <div className="px-5 py-5">
         <div className="flex flex-col gap-2 xl:flex-row">
           <div className="w-full rounded-md border bg-white px-3 py-7 xl:w-1/2 xl:py-1">
             <div className="flex items-center justify-center">
@@ -264,7 +264,7 @@ const HomeGrafikLayout = (props: propsTypes) => {
                 setSelectedEndDate={setSelectedEndDate}
               />
             </div>
-            <div className="my-5 h-96 rounded-md border px-2 lg:h-[70%] xl:h-[70%]">
+            <div className="my-5 h-96 rounded-md border px-2 xl:h-[73%]">
               <BarChart data={jenisBencana} options={optionBar} />
             </div>
           </div>

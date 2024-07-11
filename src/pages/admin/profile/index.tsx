@@ -7,6 +7,7 @@ import useSWR from "swr";
 
 const ProfilePage = () => {
   const { data, error, isLoading } = useSWR("/api/user/profile", fetcher);
+
   if (error) return <Custom500 />;
   if (isLoading) return <LoadingPage />;
 

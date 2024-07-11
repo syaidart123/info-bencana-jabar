@@ -46,7 +46,7 @@ const PengajuanView = (props: any) => {
   return (
     <div>
       <DashboardLayout type="Admin">
-        <div className="flex items-center justify-center lg:items-start lg:justify-start">
+        <div className="flex">
           <p className="my-3 inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text text-3xl font-bold text-transparent">
             Laporan Bencana
           </p>

@@ -1,4 +1,5 @@
 import Button from "@/components/UI/Button";
+import { listNavbar } from "@/utils/listNavbar";
 import { AlignJustify, LogOut, X } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
@@ -6,25 +7,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
-
-const listNavbar = [
-  {
-    title: "Beranda",
-    link: "/",
-  },
-  {
-    title: "Berita",
-    link: "/berita",
-  },
-  {
-    title: "Data Bencana",
-    link: "/bencana",
-  },
-  {
-    title: "Lapor Bencana",
-    link: "/lapor",
-  },
-];
 
 const Navbar = () => {
   const [showDropdown, setDropdown] = useState(false);
@@ -86,11 +68,11 @@ const Navbar = () => {
           width={1000}
           height={1000}
           alt="Human Initiative"
-          className="h-20 w-56 cursor-pointer"
+          className="h-20 w-56 cursor-pointer lg:w-56"
           loading="lazy"
         />
       </div>
-      <div className="mr-32 hidden md:flex">
+      <div className="mr-20 hidden md:flex lg:mr-32">
         <ul className="flex gap-3">
           {listNavbar.map((list, i) => {
             return (
@@ -183,7 +165,7 @@ const Navbar = () => {
           </div>
         </div>
       ) : (
-        <div className="flex gap-3">
+        <div className="flex gap-3" ref={ref}>
           <div className="relative md:hidden">
             <div>
               <Button

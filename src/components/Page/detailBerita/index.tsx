@@ -42,6 +42,7 @@ const DetailBeritaView = () => {
             <Image
               alt={data.title}
               src={data.image}
+              loading="lazy"
               width={500}
               height={500}
               className="w-full max-w-2xl transform transition duration-200 hover:scale-105"
