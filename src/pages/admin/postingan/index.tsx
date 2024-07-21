@@ -1,11 +1,58 @@
+import FilterSelect from "@/components/Fragment/filterSelect";
+import DashboardLayout from "@/components/Layout/DashboardLayout";
 import PostAdminView from "@/components/Page/Admin/PostAdminView";
 import postService from "@/services/post";
-import React from "react";
+import Head from "next/head";
+import React, { useState } from "react";
 
 const PostAdminPage = (props: any) => {
   const { posts } = props;
+  const [selectedBencana, setSelectedBencana] = useState("");
+  const [selectedDaerah, setSelectedDaerah] = useState("");
+  const [selectedStartDate, setSelectedStartDate] = useState("");
+  const [selectedEndDate, setSelectedEndDate] = useState("");
 
-  return <PostAdminView posts={posts} />;
+  const startDate = selectedStartDate ? new Date(selectedStartDate) : null;
+  const endDate = selectedEndDate ? new Date(selectedEndDate) : null;
+
+  const filteredData = posts.filter((item: any) => {
+    const itemDate = new Date(item.tanggal);
+    const matchesBencana = selectedBencana
+      ? item.jenisBencana === selectedBencana
+      : true;
+    const matchesDaerah = selectedDaerah
+      ? item.daerah === selectedDaerah
+      : true;
+    const matchesStartDate = startDate ? itemDate >= startDate : true;
+    const matchesEndDate = endDate ? itemDate <= endDate : true;
+
+    return (
+      matchesBencana && matchesDaerah && matchesStartDate && matchesEndDate
+    );
+  });
+  return (
+    <>
+      <Head>
+        <title>Info Bencana Jabar | Postingan</title>
+      </Head>
+      <DashboardLayout type="Admin">
+        <div className="flex">
+          <p className="my-3 inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text text-3xl font-bold text-transparent">
+            Postingan Bencana
+          </p>
+        </div>
+        <div className="lg:w-1/2">
+          <FilterSelect
+            setSelectedBencana={setSelectedBencana}
+            setSelectedDaerah={setSelectedDaerah}
+            setSelectedStartDate={setSelectedStartDate}
+            setSelectedEndDate={setSelectedEndDate}
+          />
+        </div>
+        <PostAdminView posts={filteredData} />
+      </DashboardLayout>
+    </>
+  );
 };
 
 export default PostAdminPage;

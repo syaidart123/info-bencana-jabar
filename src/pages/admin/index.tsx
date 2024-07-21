@@ -1,13 +1,17 @@
 import DashboardAdminView from "@/components/Page/Admin/DashboardAdminView";
 import postService from "@/services/post";
 import submissionService from "@/services/submission";
+import Head from "next/head";
 import React from "react";
 
 const DashboardAdmin = ({ submission, post }: any) => {
   return (
-    <div>
+    <>
+      <Head>
+        <title>Dashboard Admin</title>
+      </Head>
       <DashboardAdminView submission={submission} post={post} />
-    </div>
+    </>
   );
 };
 export default DashboardAdmin;

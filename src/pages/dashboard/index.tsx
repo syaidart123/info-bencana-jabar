@@ -4,6 +4,7 @@ import useSWR from "swr";
 import fetcher from "@/lib/swr/fetcher";
 import LoadingPage from "@/components/Layout/LoadingPage";
 import Custom500 from "../500";
+import Head from "next/head";
 
 const DashboardUserPage = () => {
   const { data, error, isLoading } = useSWR("/api/user/submission", fetcher);
@@ -11,7 +12,14 @@ const DashboardUserPage = () => {
   if (error) return <Custom500 />;
   if (isLoading) return <LoadingPage />;
 
-  return <StatusPengajuanView submissions={data} />;
+  return (
+    <>
+      <Head>
+        <title>Info Bencana Jabar | Dashboard </title>
+      </Head>
+      <StatusPengajuanView submissions={data} />
+    </>
+  );
 };
 
 export default DashboardUserPage;

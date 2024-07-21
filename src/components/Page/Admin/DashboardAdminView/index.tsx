@@ -8,6 +8,8 @@ import React, { useEffect, useState } from "react";
 import ModalUpdatePengajuan from "./ModalUpdatePengajuan";
 import ModalDeletePengajuan from "./ModalDeletePengajuan";
 import formatRupiah from "@/utils/formatRupiah";
+import { useSearchParams } from "next/navigation";
+import Pagination from "@/components/UI/Pagination";
 
 type propsTypes = {
   submission: any;
@@ -22,9 +24,22 @@ const DashboardAdminView = (props: propsTypes) => {
   const [deletedSubmission, setDeletedSubmission] = useState({});
   const [updatedSubmission, setUpdatedSubmission] = useState({});
 
-  const filteredData = submission.filter((item: any) => {
+  const filteredData = dataSubmission.filter((item: any) => {
     return item.status === "Diproses";
   });
+
+  const router = useSearchParams();
+  const page = router.get("page") ?? "1";
+
+  const per_page = router.get("per_page") ?? "5";
+  const startIndex = (Number(page) - 1) * Number(per_page);
+  const endIndex = Math.min(
+    startIndex + Number(per_page),
+    dataSubmission.length,
+  );
+  const currentPage = Number(page);
+  const totalPages = Math.ceil(filteredData.length / Number(per_page));
+  const currentData = filteredData.slice(startIndex, endIndex);
 
   useEffect(() => {
     setDataSubmission(submission);
@@ -43,9 +58,9 @@ const DashboardAdminView = (props: propsTypes) => {
       0,
     );
   return (
-    <div>
+    <>
       <DashboardLayout type="Admin">
-        <div className="flex lg:items-start lg:justify-start">
+        <div className="flex">
           <p className="my-2 inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text text-3xl font-bold text-transparent">
             Dashboard
           </p>
@@ -65,7 +80,7 @@ const DashboardAdminView = (props: propsTypes) => {
           </div>
         </div>
 
-        <div className="mb-10 mt-5">
+        <div className="mb-10 mt-5 grid grid-cols-1 gap-5 lg:grid-cols-1">
           <p className="my-3 text-xl font-bold text-primary">
             Grafik Laporan Bencana
           </p>
@@ -79,15 +94,15 @@ const DashboardAdminView = (props: propsTypes) => {
                 <div className="overflow-x-auto rounded-md border shadow-md">
                   <Tabel head={head}>
                     <tbody>
-                      {filteredData.length > 0 ? (
-                        filteredData.map((sub: any, index: number) => {
+                      {currentData.length > 0 ? (
+                        currentData.map((sub: any, index: number) => {
                           return (
                             <tr
                               className="odd:bg-white even:bg-gray-100"
                               key={index}
                             >
                               <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-800">
-                                {index + 1}
+                                {startIndex + index + 1}.
                               </td>
                               <td className="whitespace-nowrap rounded-md px-6 py-4 text-sm font-medium text-gray-800">
                                 <Image
@@ -154,6 +169,17 @@ const DashboardAdminView = (props: propsTypes) => {
                     </tbody>
                   </Tabel>
                 </div>
+                <div
+                  className={`${filteredData.length > 0 ? "flex" : "hidden"} mt-5`}
+                >
+                  <Pagination
+                    hasNextPage={endIndex < filteredData.length}
+                    hasPrevPage={startIndex > 0}
+                    perPage="5"
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -173,7 +199,7 @@ const DashboardAdminView = (props: propsTypes) => {
           setDataSubmission={setDataSubmission}
         />
       ) : null}
-    </div>
+    </>
   );
 };
 

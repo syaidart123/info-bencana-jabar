@@ -2,9 +2,10 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { Scaling } from "lucide-react";
 import ModalDetailPengajuan from "./ModalDetailPengajuan";
-import FilterSelect from "@/components/Fragment/filterSelect";
 import Button from "@/components/UI/Button";
 import Tabel from "@/components/UI/Tabel";
+import { useSearchParams } from "next/navigation";
+import Pagination from "@/components/UI/Pagination";
 
 type propTypes = {
   dataSubmission: any;
@@ -16,55 +17,31 @@ const head = ["No", "Foto", "Jenis Bencana", "Daerah", "Status", "Detail"];
 const TabelDetail = (props: propTypes) => {
   const { dataSubmission } = props;
   const [detailSubmission, setDetailSubmission] = useState({});
-  const [selectedBencana, setSelectedBencana] = useState("");
-  const [selectedDaerah, setSelectedDaerah] = useState("");
-  const [selectedStartDate, setSelectedStartDate] = useState("");
-  const [selectedEndDate, setSelectedEndDate] = useState("");
 
-  const startDate = selectedStartDate ? new Date(selectedStartDate) : null;
-  const endDate = selectedEndDate ? new Date(selectedEndDate) : null;
-
-  const filteredData = dataSubmission.filter((item: any) => {
-    const itemDate = new Date(item.tanggal);
-    const matchesBencana = selectedBencana
-      ? item.jenisBencana === selectedBencana
-      : true;
-    const matchesDaerah = selectedDaerah
-      ? item.daerah === selectedDaerah
-      : true;
-    const matchesStartDate = startDate ? itemDate >= startDate : true;
-    const matchesEndDate = endDate ? itemDate <= endDate : true;
-
-    return (
-      matchesBencana && matchesDaerah && matchesStartDate && matchesEndDate
-    );
-  });
+  const searchParams = useSearchParams();
+  const page = searchParams.get("page") ?? "1";
+  const per_page = searchParams.get("per_page") ?? "5";
+  const startIndex = (Number(page) - 1) * Number(per_page);
+  const endIndex = Math.min(
+    startIndex + Number(per_page),
+    dataSubmission.length,
+  );
+  const currentPage = Number(page);
+  const totalPages = Math.ceil(dataSubmission.length / Number(per_page));
+  const currentData = dataSubmission.slice(startIndex, endIndex);
 
   return (
     <>
-      <main className="h-screen px-10">
-        <div className="flex items-center justify-center lg:items-start lg:justify-start">
-          <p className="my-5 inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text text-3xl font-bold text-transparent">
-            Data Bencana
-          </p>
-        </div>
-        <FilterSelect
-          className="mb-5 lg:w-1/2"
-          setSelectedBencana={setSelectedBencana}
-          setSelectedDaerah={setSelectedDaerah}
-          setSelectedStartDate={setSelectedStartDate}
-          setSelectedEndDate={setSelectedEndDate}
-        />
-        <table className="min-w-full divide-y divide-gray-200"></table>
+      <main className="px-10">
         <div className="flex w-full overflow-x-auto rounded-md border shadow-md">
           <Tabel head={head}>
             <tbody>
-              {filteredData.length > 0 ? (
-                filteredData.map((sub: any, index: number) => {
+              {currentData.length > 0 ? (
+                currentData.map((sub: any, index: number) => {
                   return (
                     <tr className="odd:bg-white even:bg-gray-100" key={index}>
                       <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-800">
-                        {index + 1}.
+                        {startIndex + index + 1}.
                       </td>
                       <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-800">
                         <Image
@@ -120,6 +97,17 @@ const TabelDetail = (props: propTypes) => {
               )}
             </tbody>
           </Tabel>
+        </div>
+        <div
+          className={`${dataSubmission.length > 0 ? "flex" : "hidden"} mt-5`}
+        >
+          <Pagination
+            hasNextPage={endIndex < dataSubmission.length}
+            hasPrevPage={startIndex > 0}
+            perPage="5"
+            currentPage={currentPage}
+            totalPages={totalPages}
+          />
         </div>
       </main>
       {Object.keys(detailSubmission).length > 0 ? (

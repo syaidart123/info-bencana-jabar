@@ -6,6 +6,8 @@ import ModalDeletePengajuan from "./ModalDeletePengajuan";
 import ModalUpdatePengajuan from "./ModalUpdatePengajuan";
 import Image from "next/image";
 import Tabel from "@/components/UI/Tabel";
+import { useSearchParams } from "next/navigation";
+import Pagination from "@/components/UI/Pagination";
 
 const head = ["No", "Foto", "Jenis Bencana", "Lokasi", "Status", "Aksi"];
 
@@ -14,6 +16,18 @@ const StatusPengajuanView = (props: any) => {
   const [dataSubmission, setDataSubmission] = useState<any>([]);
   const [deletedSubmission, setDeletedSubmission] = useState({});
   const [updatedSubmission, setUpdatedSubmission] = useState({});
+
+  const searchParams = useSearchParams();
+  const page = searchParams.get("page") ?? "1";
+  const per_page = searchParams.get("per_page") ?? "5";
+  const startIndex = (Number(page) - 1) * Number(per_page);
+  const endIndex = Math.min(
+    startIndex + Number(per_page),
+    dataSubmission.length,
+  );
+  const currentPage = Number(page);
+  const totalPages = Math.ceil(dataSubmission.length / Number(per_page));
+  const currentData = dataSubmission.slice(startIndex, endIndex);
 
   useEffect(() => {
     setDataSubmission(submissions);
@@ -30,12 +44,12 @@ const StatusPengajuanView = (props: any) => {
         <div className="overflow-x-auto rounded-md border shadow-md">
           <Tabel head={head}>
             <tbody>
-              {dataSubmission.length > 0 ? (
-                dataSubmission.map((sub: any, index: number) => {
+              {currentData.length > 0 ? (
+                currentData.map((sub: any, index: number) => {
                   return (
                     <tr className="odd:bg-white even:bg-gray-100" key={index}>
                       <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-800">
-                        {index + 1}.
+                        {startIndex + index + 1}.
                       </td>
                       <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-800">
                         <Image
@@ -93,6 +107,17 @@ const StatusPengajuanView = (props: any) => {
               )}
             </tbody>
           </Tabel>
+        </div>
+        <div
+          className={`${dataSubmission.length > 0 && totalPages > 1 ? "flex" : "hidden"} mt-5`}
+        >
+          <Pagination
+            hasNextPage={endIndex < dataSubmission.length}
+            hasPrevPage={startIndex > 0}
+            perPage="5"
+            currentPage={currentPage}
+            totalPages={totalPages}
+          />
         </div>
       </DashboardLayout>
       {Object.keys(updatedSubmission).length > 0 ? (

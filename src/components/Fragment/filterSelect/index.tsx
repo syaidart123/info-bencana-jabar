@@ -33,13 +33,13 @@ const FilterSelect = (props: propsTypes) => {
       <div className="mt-1 flex flex-col md:w-1/2">
         <InputField
           name="startDate"
-          titleName="Tanggal Awal"
+          titleName="Tanggal Mulai"
           type="date"
           onChange={handleStartDateChange}
         />
         <InputField
           name="endDate"
-          titleName="Tanggal Akhir"
+          titleName="Tanggal Berakhir"
           type="date"
           onChange={handleEndDateChange}
         />
