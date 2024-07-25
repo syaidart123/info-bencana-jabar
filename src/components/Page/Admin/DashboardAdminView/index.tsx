@@ -16,10 +16,19 @@ type propsTypes = {
   post?: any;
 };
 
-const head = ["No", "Foto", "Jenis Bencana", "Lokasi", "Status", "Aksi"];
+const head = [
+  "No",
+  "Foto",
+  "Jenis Bencana",
+  "Lokasi",
+  "Taksiran Kerugian",
+  "Bantuan Terkumpul",
+  "Aksi",
+];
 
 const DashboardAdminView = (props: propsTypes) => {
   const { submission, post } = props;
+
   const [dataSubmission, setDataSubmission] = useState<any>(submission);
   const [deletedSubmission, setDeletedSubmission] = useState({});
   const [updatedSubmission, setUpdatedSubmission] = useState({});
@@ -27,7 +36,6 @@ const DashboardAdminView = (props: propsTypes) => {
   const filteredData = dataSubmission.filter((item: any) => {
     return item.status === "Diproses";
   });
-
   const router = useSearchParams();
   const page = router.get("page") ?? "1";
 
@@ -46,7 +54,6 @@ const DashboardAdminView = (props: propsTypes) => {
   }, [submission]);
 
   const totalKerugian = dataSubmission
-    // .filter((item: { status: string }) => item.status === "Selesai") // Filter by status
     .map((item: { taksiranKerugian: number }) => item.taksiranKerugian)
     .reduce((total: number, item: number) => total + item, 0);
 
@@ -57,6 +64,14 @@ const DashboardAdminView = (props: propsTypes) => {
       (total: any, bantuanItem: any) => total + (bantuanItem.nominal || 0),
       0,
     );
+
+  const total = dataSubmission.bantuan
+    ? dataSubmission.bantuan.reduce(
+        (total: any, item: any) => total + (item.nominal || 0),
+        0,
+      )
+    : 0;
+
   return (
     <>
       <DashboardLayout type="Admin">
@@ -81,13 +96,19 @@ const DashboardAdminView = (props: propsTypes) => {
         </div>
 
         <div className="mb-10 mt-5 grid grid-cols-1 gap-5 lg:grid-cols-1">
-          <p className="my-3 text-xl font-bold text-primary">
-            Grafik Laporan Bencana
-          </p>
+          <div className="flex">
+            <p className="my-2 inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text text-2xl font-bold text-transparent">
+              Grafik Laporan Bencana
+            </p>
+          </div>
           <DashboardGrafik submission={submission} />
         </div>
         <div className="mb-20">
-          <p className="my-3 text-xl font-bold text-primary">Proses Laporan</p>
+          <div className="flex">
+            <p className="my-2 inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text text-2xl font-bold text-transparent">
+              Laporan Sedang Ditangani
+            </p>
+          </div>
           <div className="flex flex-col">
             <div className="-m-1.5 overflow-x-auto">
               <div className="inline-block min-w-full p-1.5 align-middle">
@@ -120,7 +141,16 @@ const DashboardAdminView = (props: propsTypes) => {
                                 {sub.lokasi}
                               </td>
                               <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-800">
-                                {sub.status}
+                                {formatRupiah(sub.taksiranKerugian)}
+                              </td>
+                              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-800">
+                                {formatRupiah(
+                                  sub.bantuan.reduce(
+                                    (total: any, item: any) =>
+                                      total + (item.nominal || 0),
+                                    0,
+                                  ),
+                                )}
                               </td>
                               <td className="whitespace-nowrap px-6 py-4 text-end text-sm font-medium">
                                 <div className="flex gap-2">

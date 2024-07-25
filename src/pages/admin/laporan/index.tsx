@@ -36,7 +36,9 @@ const PengajuanPage = (props: any) => {
         <title>Info Bencana Jabar | Laporan</title>
       </Head>
       <div>
-        <DashboardLayout type="Admin">
+        {/* <DashboardLayout type="Admin"> */}
+
+        <PengajuanView submission={filteredData}>
           <div>
             <div className="flex">
               <p className="my-3 inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text text-3xl font-bold text-transparent">
@@ -51,8 +53,8 @@ const PengajuanPage = (props: any) => {
               setSelectedEndDate={setSelectedEndDate}
             />
           </div>
-          <PengajuanView submission={filteredData} />
-        </DashboardLayout>
+        </PengajuanView>
+        {/* </DashboardLayout> */}
       </div>
     </>
   );

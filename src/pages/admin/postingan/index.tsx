@@ -35,7 +35,9 @@ const PostAdminPage = (props: any) => {
       <Head>
         <title>Info Bencana Jabar | Postingan</title>
       </Head>
-      <DashboardLayout type="Admin">
+      {/* <DashboardLayout type="Admin"> */}
+
+      <PostAdminView posts={filteredData}>
         <div className="flex">
           <p className="my-3 inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text text-3xl font-bold text-transparent">
             Postingan Bencana
@@ -49,8 +51,8 @@ const PostAdminPage = (props: any) => {
             setSelectedEndDate={setSelectedEndDate}
           />
         </div>
-        <PostAdminView posts={filteredData} />
-      </DashboardLayout>
+      </PostAdminView>
+      {/* </DashboardLayout> */}
     </>
   );
 };

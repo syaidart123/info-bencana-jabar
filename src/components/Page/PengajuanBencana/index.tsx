@@ -11,15 +11,36 @@ const PengajuanBencana = () => {
   const { setToaster } = useContext(ToasterContext);
   const session: any = useSession();
 
+  const [kebutuhan, setKebutuhan] = useState([{ namaKebutuhan: "", qty: 0 }]);
+
+  const handleKebutuhan = (e: any, i: number, type: string) => {
+    if (kebutuhan.length > 10) {
+      setToaster({
+        variant: "danger",
+        message: "Maksimal 10 kebutuhan",
+      });
+      return;
+    }
+    const newKebutuhan: any = [...kebutuhan];
+    newKebutuhan[i][type] = e.target.value;
+    setKebutuhan(newKebutuhan);
+  };
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     const form: any = e.target as HTMLFormElement;
+    const kebutuhanBencana = kebutuhan.map((item: any) => {
+      return {
+        namaKebutuhan: item.namaKebutuhan,
+        qty: parseInt(`${item.qty}`),
+      };
+    });
     const data = {
       user: {
         email: session.data?.user.email,
         fullname: session.data?.user.fullname,
       },
+      kebutuhan: kebutuhanBencana,
       namaPelapor: form.namaPelapor.value,
       noTelp: form.noTelp.value,
       jenisBencana: form.jenisBencana.value,
@@ -118,6 +139,7 @@ const PengajuanBencana = () => {
               setIsLoading(false);
               setUploadedImage(null);
               form.reset();
+              setKebutuhan([{ namaKebutuhan: "", qty: 0 }]);
               setToaster({
                 variant: "success",
                 message: "Laporan Berhasil Dikirim",
@@ -158,6 +180,9 @@ const PengajuanBencana = () => {
         isLoading={isLoading}
         setUploadedImage={setUploadedImage}
         uploadedImage={uploadedImage}
+        kebutuhan={kebutuhan}
+        setKebutuhan={setKebutuhan}
+        handleKebutuhan={handleKebutuhan}
       />
     </div>
   );

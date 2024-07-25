@@ -18,7 +18,7 @@ const ModalUpdatePengajuan = (props: any) => {
   const { setToaster } = useContext(ToasterContext);
   const [aidCount, setAidCount] = useState(
     updatedSubmission.bantuan || [
-      { lembaga: "", jenisBantuan: "", namaBantuan: "", nominal: 0 },
+      { lembaga: "", jenisBantuan: "", namaBantuan: "", qty: 0, nominal: 0 },
     ],
   );
 
@@ -132,6 +132,7 @@ const ModalUpdatePengajuan = (props: any) => {
         lembaga: item.lembaga,
         jenisBantuan: item.jenisBantuan,
         namaBantuan: item.namaBantuan,
+        qty: parseInt(`${item.qty}`),
         nominal: parseInt(`${item.nominal}`),
       };
     });
@@ -237,6 +238,35 @@ const ModalUpdatePengajuan = (props: any) => {
               </div>
             </div>
             <div className="mx-5 my-10 rounded-md border bg-white p-4 shadow-md">
+              <p className="text-lg font-bold">Kebutuhan Yang Diperlukan</p>
+              <hr className="my-3" />
+              {updatedSubmission.kebutuhan.map(
+                (
+                  kebutuhan: { namaKebutuhan: string; qty: number },
+                  i: number,
+                ) => (
+                  <div className="mb-4 grid grid-cols-2 gap-4" key={i}>
+                    <Input
+                      name="namaKebutuhan"
+                      label="Nama Kebutuhan"
+                      placeholder="Nama Kebutuhan"
+                      disabled
+                      type="text"
+                      defaultValue={kebutuhan.namaKebutuhan}
+                    />
+                    <Input
+                      name="qty"
+                      label="Qty"
+                      placeholder="Qty"
+                      defaultValue={kebutuhan.qty}
+                      disabled
+                      type="number"
+                    />
+                  </div>
+                ),
+              )}
+            </div>
+            <div className="mx-5 my-10 rounded-md border bg-white p-4 shadow-md">
               <div className="mt-5">
                 <label htmlFor="bantuan" className="text-lg font-bold">
                   <p>Tambahkan Bantuan</p>
@@ -247,12 +277,13 @@ const ModalUpdatePengajuan = (props: any) => {
                       lembaga: string;
                       jenisBantuan: string;
                       namaBantuan: string;
+                      qty: number;
                       nominal: number;
                     },
                     i: number,
                   ) => (
                     <div key={i}>
-                      <div className="mb-4 grid grid-cols-2 gap-4 border-t-2 md:grid-cols-4">
+                      <div className="mb-4 grid grid-cols-2 gap-4 border-t-2 md:grid-cols-3 lg:grid-cols-5">
                         <SelectOption
                           name="lembaga"
                           title="Pilih..."
@@ -261,10 +292,18 @@ const ModalUpdatePengajuan = (props: any) => {
                           defaultValue={bantuan.lembaga}
                           required
                         >
+                          <Option value="Al Hilal">Al Hilal</Option>
+                          <Option value="Dompet Dhuafa">Dompet Dhuafa</Option>
+                          <Option value="DT Peduli">DT Peduli</Option>
                           <Option value="Human Initiative">
                             Human Initiative
                           </Option>
                           <Option value="IZI">IZI</Option>
+                          <Option value="MDMC">MDMC</Option>
+                          <Option value="Rumah Zakat">Rumah Zakat</Option>
+                          <Option value="Relawan Nusantara">
+                            Relawan Nusantara
+                          </Option>
                         </SelectOption>
 
                         <SelectOption
@@ -286,7 +325,20 @@ const ModalUpdatePengajuan = (props: any) => {
                           type="text"
                           onChange={(e) => handleAid(e, i, "namaBantuan")}
                         />
-
+                        <Input
+                          name="qty"
+                          label="Qty"
+                          placeholder="Qty"
+                          defaultValue={bantuan.qty}
+                          onChange={(e) => handleAid(e, i, "qty")}
+                          disabled={
+                            bantuan.jenisBantuan === "Rupiah" ||
+                            bantuan.jenisBantuan === ""
+                              ? true
+                              : false
+                          }
+                          type="number"
+                        />
                         <Input
                           name="nominal"
                           label="Nominal"
@@ -306,6 +358,7 @@ const ModalUpdatePengajuan = (props: any) => {
                 <Button
                   type="button"
                   className={"my-2 text-xs sm:text-sm"}
+                  disabled={aidCount.length > 19 ? true : false}
                   onClick={() =>
                     setAidCount([
                       ...aidCount,
@@ -313,6 +366,7 @@ const ModalUpdatePengajuan = (props: any) => {
                         lembaga: "",
                         jenisBantuan: "",
                         namaBantuan: "",
+                        qty: 0,
                         nominal: 0,
                       },
                     ])

@@ -13,6 +13,7 @@ import { uploadFile } from "@/lib/firebase/service";
 import { ToasterContext } from "@/context/ToasterContext";
 import serviceUser from "@/services/user";
 import SelectOptionFragment from "@/components/Fragment/OptionDaerah";
+import { useSession } from "next-auth/react";
 
 const ModalUpdatePengajuan = (props: any) => {
   const { updatedSubmission, setUpdatedSubmission, setDataSubmission } = props;
@@ -21,12 +22,39 @@ const ModalUpdatePengajuan = (props: any) => {
   const [jenisBencana, setJenisBencana] = useState("");
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const { setToaster } = useContext(ToasterContext);
+  const session: any = useSession();
+  const [kebutuhan, setKebutuhan] = useState(
+    updatedSubmission.kebutuhan || [{ namaKebutuhan: "", qty: 0 }],
+  );
 
+  const handleKebutuhan = (e: any, i: number, type: string) => {
+    if (kebutuhan.length > 10) {
+      setToaster({
+        variant: "danger",
+        message: "Maksimal 10 kebutuhan",
+      });
+      return;
+    }
+    const newKebutuhan: any = [...kebutuhan];
+    newKebutuhan[i][type] = e.target.value;
+    setKebutuhan(newKebutuhan);
+  };
   const updateSubmission = async (
     form: any,
     newImageURL: string = updatedSubmission.image,
   ) => {
+    const kebutuhanBencana = kebutuhan.map((item: any) => {
+      return {
+        namaKebutuhan: item.namaKebutuhan,
+        qty: parseInt(`${item.qty}`),
+      };
+    });
     const data = {
+      user: {
+        email: session.data?.user.email,
+        fullname: session.data?.user.fullname,
+      },
+      kebutuhan: kebutuhanBencana,
       namaPelapor: form.namaPelapor.value,
       noTelp: form.noTelp.value.replace(/\./g, "") || 0,
       jenisBencana: form.jenisBencana.value,
@@ -112,7 +140,6 @@ const ModalUpdatePengajuan = (props: any) => {
         return;
       }
     }
-
     if (file) {
       const newName = "submission." + file.name.split(".")[1];
       uploadFile(
@@ -267,6 +294,62 @@ const ModalUpdatePengajuan = (props: any) => {
               defaultValue={updatedSubmission?.korban.terluka}
             />
           </InputGroup>
+          <div className="mt-5">
+            <label htmlFor="kebutuhan" className="text-lg font-bold">
+              <p>Kebutuhan Yang Diperlukan</p>
+            </label>
+            {kebutuhan.map(
+              (
+                kebutuhan: {
+                  namaKebutuhan: string;
+                  qty: number;
+                },
+                i: number,
+              ) => (
+                <div key={i}>
+                  <div className="mb-4 grid grid-cols-2 gap-4 border-t-2">
+                    <Input
+                      name="namaKebutuhan"
+                      label="Nama Kebutuhan"
+                      placeholder="Nama Kebutuhan"
+                      defaultValue={kebutuhan.namaKebutuhan}
+                      type="text"
+                      onChange={(e) => handleKebutuhan(e, i, "namaKebutuhan")}
+                    />
+                    <Input
+                      name="qty"
+                      label="Qty"
+                      placeholder="Qty"
+                      defaultValue={kebutuhan.qty}
+                      onChange={(e) => handleKebutuhan(e, i, "qty")}
+                      disabled={kebutuhan.namaKebutuhan === "" ? true : false}
+                      type="number"
+                    />
+                  </div>
+                </div>
+              ),
+            )}
+          </div>
+          <div className="flex items-center justify-between">
+            <Button
+              type="button"
+              className={"my-2 text-xs sm:text-sm"}
+              disabled={kebutuhan.length > 9 ? true : false}
+              onClick={() =>
+                setKebutuhan([
+                  ...kebutuhan,
+                  {
+                    namaKebutuhan: "",
+                    qty: 0,
+                  },
+                ])
+              }
+            >
+              <span className="rounded-md bg-primary px-4 py-2 text-white">
+                Tambah
+              </span>
+            </Button>
+          </div>
 
           <Input
             name="taksiranKerugian"

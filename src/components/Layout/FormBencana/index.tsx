@@ -13,10 +13,21 @@ type propTypes = {
   setUploadedImage: any;
   uploadedImage: any;
   isLoading: any;
+  kebutuhan: any;
+  setKebutuhan: any;
+  handleKebutuhan: any;
 };
 
 const FormBencana = (props: propTypes) => {
-  const { handleSubmit, setUploadedImage, uploadedImage, isLoading } = props;
+  const {
+    handleSubmit,
+    setUploadedImage,
+    uploadedImage,
+    isLoading,
+    kebutuhan,
+    handleKebutuhan,
+    setKebutuhan,
+  } = props;
   const [jenisBencana, setJenisBencana] = useState("");
 
   return (
@@ -128,6 +139,61 @@ const FormBencana = (props: propTypes) => {
               placeholder="Masukan jumlah"
             />
           </InputGroup>
+
+          <div className="mt-5">
+            <label htmlFor="kebutuhan" className="text-lg font-bold">
+              <p>Kebutuhan Yang Diperlukan</p>
+            </label>
+            {kebutuhan.map(
+              (
+                kebutuhan: {
+                  namaKebutuhan: string;
+                  qty: number;
+                },
+                i: number,
+              ) => (
+                <div key={i}>
+                  <div className="mb-4 grid grid-cols-2 gap-4 border-t-2">
+                    <Input
+                      name="namaKebutuhan"
+                      label="Nama Kebutuhan"
+                      placeholder="Nama Kebutuhan"
+                      type="text"
+                      onChange={(e) => handleKebutuhan(e, i, "namaKebutuhan")}
+                    />
+                    <Input
+                      name="qty"
+                      label="Qty"
+                      placeholder="Qty"
+                      onChange={(e) => handleKebutuhan(e, i, "qty")}
+                      disabled={kebutuhan.namaKebutuhan === "" ? true : false}
+                      type="number"
+                    />
+                  </div>
+                </div>
+              ),
+            )}
+          </div>
+          <div className="flex items-center justify-between">
+            <Button
+              type="button"
+              className={"my-2 text-xs sm:text-sm"}
+              disabled={kebutuhan.length > 9 ? true : false}
+              onClick={() =>
+                setKebutuhan([
+                  ...kebutuhan,
+                  {
+                    namaKebutuhan: "",
+                    qty: 0,
+                  },
+                ])
+              }
+            >
+              <span className="rounded-md bg-primary px-4 py-2 text-white">
+                Tambah
+              </span>
+            </Button>
+          </div>
 
           <Input
             name="taksiranKerugian"
