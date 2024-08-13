@@ -1,11 +1,15 @@
 import React from "react";
 import HomeGrafikLayout from "@/components/Layout/HomeGrafik";
+import AboutSection from "@/components/Layout/about";
 
 const HomePage = ({ submission }: any) => {
   return (
-    <div>
+    <main>
       <HomeGrafikLayout submission={submission} />
-    </div>
+      <div id="about">
+        <AboutSection />
+      </div>
+    </main>
   );
 };
 

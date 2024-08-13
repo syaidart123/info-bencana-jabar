@@ -42,20 +42,25 @@ const FormBencana = (props: propTypes) => {
             placeholder="Masukan nama pelapor"
             type="text"
             label="Nama Pelapor"
+            minLength={3}
+            maxLength={50}
             required
           />
           <Input
             name="noTelp"
-            placeholder="Masukan No. Telp"
+            placeholder="Masukan nomor telepon..."
             type="number"
             label="No. Telp"
             required
+            minLength={10}
+            maxLength={13}
           />
           <SelectOption
             label="Jenis Bencana"
             name="jenisBencana"
             title="Pilih Jenis Bencana..."
             onChange={(e: any) => setJenisBencana(e.target.value)}
+            required
           >
             <Option value="Banjir">Banjir</Option>
             <Option value="Cuaca Ekstrem">Cuaca Ekstrem</Option>
@@ -70,12 +75,15 @@ const FormBencana = (props: propTypes) => {
             label="Daerah"
             name="daerah"
             title="Pilih Daerah..."
+            required
           />
           <Input
             name="lokasi"
             placeholder="Masukan lokasi"
             type="text"
             label="Lokasi Bencana"
+            minLength={3}
+            maxLength={50}
             required
           />
 
@@ -92,6 +100,7 @@ const FormBencana = (props: propTypes) => {
               required
               className="block w-full rounded-lg border border-gray-200 px-4 py-3 text-sm disabled:pointer-events-none disabled:opacity-50"
               rows={3}
+              maxLength={300}
               placeholder="Masukan deskripsi singkat terkait kejadian"
             ></textarea>
           </div>
@@ -102,6 +111,7 @@ const FormBencana = (props: propTypes) => {
               type="number"
               titleName="Rumah"
               placeholder="Masukan jumlah"
+              maxLength={5}
             />
 
             <InputField
@@ -110,12 +120,14 @@ const FormBencana = (props: propTypes) => {
               titleName="Rumah Terendam "
               placeholder="Masukan jumlah"
               disabled={jenisBencana !== "Banjir"}
+              maxLength={5}
             />
             <InputField
               name="fasilitasUmum"
               type="number"
               titleName="Fasilitas Umum"
               placeholder="Masukan jumlah"
+              maxLength={5}
             />
           </InputGroup>
 
@@ -125,18 +137,21 @@ const FormBencana = (props: propTypes) => {
               type="number"
               titleName="Meninggal"
               placeholder="Masukan jumlah"
+              maxLength={5}
             />
             <InputField
               name="hilang"
               type="number"
               titleName="Hilang"
               placeholder="Masukan jumlah"
+              maxLength={5}
             />
             <InputField
               name="terluka"
               type="number"
               titleName="Terluka"
               placeholder="Masukan jumlah"
+              maxLength={5}
             />
           </InputGroup>
 
@@ -160,6 +175,7 @@ const FormBencana = (props: propTypes) => {
                       placeholder="Nama Kebutuhan"
                       type="text"
                       onChange={(e) => handleKebutuhan(e, i, "namaKebutuhan")}
+                      maxLength={50}
                     />
                     <Input
                       name="qty"
@@ -168,6 +184,7 @@ const FormBencana = (props: propTypes) => {
                       onChange={(e) => handleKebutuhan(e, i, "qty")}
                       disabled={kebutuhan.namaKebutuhan === "" ? true : false}
                       type="number"
+                      maxLength={5}
                     />
                   </div>
                 </div>
@@ -200,6 +217,9 @@ const FormBencana = (props: propTypes) => {
             type="number"
             label="Taksiran Kerugian"
             placeholder="Masukan nominal kerugian *1000000"
+            minLength={4}
+            maxLength={9}
+            required
           />
 
           <InputGroup name="Pengungsian" title="Pengungsian">
@@ -208,18 +228,21 @@ const FormBencana = (props: propTypes) => {
               type="text"
               titleName="Lokasi Pengungsian"
               placeholder="Masukan lokasi"
+              maxLength={50}
             />
             <InputField
               name="jumlahTenda"
               type="number"
               titleName="Tenda"
               placeholder="Jumlah tenda"
+              maxLength={5}
             />
             <InputField
               name="jumlahPengungsi"
               type="number"
               titleName="Pengungsi"
               placeholder="Jumlah Pengungsi"
+              maxLength={5}
             />
           </InputGroup>
 

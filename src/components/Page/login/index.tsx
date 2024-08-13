@@ -64,7 +64,8 @@ const LoginPage = () => {
             name="email"
             type="email"
             placeholder="email@gmail.com"
-            required={true}
+            required
+            maxLength={40}
             className="focus:border-sky-500"
             autoFocus
           />
@@ -74,6 +75,7 @@ const LoginPage = () => {
             label="Password"
             name="password"
             type="password"
+            maxLength={40}
             placeholder="••••••"
             required={true}
           />

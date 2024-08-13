@@ -50,15 +50,18 @@ const RegisterPage = () => {
           name="fullname"
           type="text"
           placeholder="fullname"
-          required={true}
+          maxLength={30}
+          minLength={3}
+          required
           className="focus:border-sky-500"
         />
         <Input
           label="Email"
           name="email"
           type="email"
+          maxLength={40}
           placeholder="email@gmail.com"
-          required={true}
+          required
           className="focus:border-sky-500"
         />
 
@@ -66,13 +69,15 @@ const RegisterPage = () => {
           label="Password"
           name="password"
           type="password"
+          maxLength={40}
           placeholder="••••••"
-          required={true}
+          minLength={6}
+          required
         />
 
         <Button
           type="submit"
-          className={`hover:bg-dark w-full ${loading && "cursor-not-allowed"} bg-primary text-center font-medium text-white focus:outline-none focus:ring-4 focus:ring-sky-300`}
+          className={`w-full hover:bg-dark ${loading && "cursor-not-allowed"} bg-primary text-center font-medium text-white focus:outline-none focus:ring-4 focus:ring-sky-300`}
         >
           {loading ? "Loading..." : "Register"}
         </Button>

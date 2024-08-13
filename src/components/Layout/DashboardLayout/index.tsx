@@ -24,8 +24,8 @@ const listSidebarAdmin = [
     icon: <Newspaper />,
   },
   {
-    title: "Postingan",
-    link: "/admin/postingan",
+    title: "Berita",
+    link: "/admin/berita",
     icon: <MonitorUp />,
   },
   {

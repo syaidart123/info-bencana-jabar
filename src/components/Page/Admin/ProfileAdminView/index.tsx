@@ -173,6 +173,8 @@ const ProfileAdminView = (props: any) => {
               label="Nama Lengkap"
               defaultValue={profileData.fullname}
               className="w-full"
+              maxLength={50}
+              minLength={3}
             />
             <Input
               type="email"
@@ -188,6 +190,8 @@ const ProfileAdminView = (props: any) => {
               label="No. Telepon"
               defaultValue={profileData.telepon}
               className="w-full"
+              minLength={10}
+              maxLength={13}
             />
             <hr className="mb-2 mt-5" />
             <div className="flex justify-end">

@@ -322,6 +322,8 @@ const ModalUpdatePengajuan = (props: any) => {
                           label="Nama Bantuan"
                           placeholder="Nama Bantuan"
                           defaultValue={bantuan.namaBantuan}
+                          required
+                          maxLength={50}
                           type="text"
                           onChange={(e) => handleAid(e, i, "namaBantuan")}
                         />
@@ -329,6 +331,7 @@ const ModalUpdatePengajuan = (props: any) => {
                           name="qty"
                           label="Qty"
                           placeholder="Qty"
+                          maxLength={5}
                           defaultValue={bantuan.qty}
                           onChange={(e) => handleAid(e, i, "qty")}
                           disabled={
@@ -346,6 +349,7 @@ const ModalUpdatePengajuan = (props: any) => {
                           type="number"
                           defaultValue={bantuan.nominal}
                           disabled={bantuan.jenisBantuan === "" ? true : false}
+                          maxLength={10}
                           onChange={(e) => handleAid(e, i, "nominal")}
                           required
                         />

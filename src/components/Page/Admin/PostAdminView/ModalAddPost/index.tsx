@@ -56,7 +56,7 @@ const ModalAddPost = (props: propsTypes) => {
               setPostData(data.data);
               setToaster({
                 variant: "success",
-                message: "Postingan Berhasil Di Tambah",
+                message: "Berita Berhasil Di Tambah",
               });
             } else {
               setIsLoading(false);
@@ -65,14 +65,14 @@ const ModalAddPost = (props: propsTypes) => {
               setModalAddPost(false);
               setToaster({
                 variant: "danger",
-                message: "Postingan Gagal Di Tambah",
+                message: "Berita Gagal Di Tambah",
               });
             }
           } else {
             setIsLoading(false);
             setToaster({
               variant: "danger",
-              message: "Postingan Gagal Di Tambah",
+              message: "Berita Gagal Di Tambah",
             });
           }
         },
@@ -128,7 +128,7 @@ const ModalAddPost = (props: propsTypes) => {
         setUploadedImage(null);
         setToaster({
           variant: "danger",
-          message: "Postingan Gagal Di Tambah",
+          message: "Berita Gagal Di Tambah",
         });
       }
     } catch (error) {
@@ -136,7 +136,7 @@ const ModalAddPost = (props: propsTypes) => {
       setUploadedImage(null);
       setToaster({
         variant: "danger",
-        message: "Postingan Gagal Di Tambah",
+        message: "Berita Gagal Di Tambah",
       });
     }
   };
@@ -145,7 +145,7 @@ const ModalAddPost = (props: propsTypes) => {
     <Modal onClose={() => setModalAddPost(false)}>
       <div className="flex items-center justify-center lg:items-start lg:justify-start">
         <p className="my-5 inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text text-3xl font-bold text-transparent">
-          Buat Postingan Bencana
+          Tambahkan Berita Bencana
         </p>
       </div>
       <form onSubmit={handleSubmit}>
@@ -154,12 +154,15 @@ const ModalAddPost = (props: propsTypes) => {
           type="text"
           label="Judul"
           placeholder="Masukan Judul"
+          minLength={10}
+          maxLength={100}
           required
         />
         <SelectOption
           label="Jenis Bencana"
           name="jenisBencana"
           title="Pilih Jenis Bencana..."
+          required
         >
           <Option value="Banjir">Banjir</Option>
           <Option value="Cuaca Ekstrem">Cuaca Ekstrem</Option>
@@ -171,6 +174,7 @@ const ModalAddPost = (props: propsTypes) => {
         <SelectOptionFragment
           label="Daerah"
           name="daerah"
+          required
           title="Pilih Daerah..."
         />
 
@@ -186,6 +190,7 @@ const ModalAddPost = (props: propsTypes) => {
             required
             className="block w-full rounded-lg border border-gray-200 px-4 py-3 text-sm disabled:pointer-events-none disabled:opacity-50"
             rows={15}
+            maxLength={12345}
             placeholder="Masukan Deskripsi..."
           ></textarea>
         </div>
@@ -214,7 +219,7 @@ const ModalAddPost = (props: propsTypes) => {
           type="submit"
           className={`bg-primary p-5 text-white ${isLoading ? "cursor-not-allowed" : ""}`}
         >
-          {isLoading ? "Loading..." : "Buat Postingan"}
+          {isLoading ? "Loading..." : "Tambahkan"}
         </Button>
       </form>
     </Modal>

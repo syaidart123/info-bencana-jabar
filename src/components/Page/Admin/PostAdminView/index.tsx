@@ -8,7 +8,6 @@ import ModalDeletePost from "./ModalDeletePost";
 import Image from "next/image";
 import formatTanggal from "@/utils/formatTanggal";
 import Tabel from "@/components/UI/Tabel";
-import FilterSelect from "@/components/Fragment/filterSelect";
 import { useSearchParams } from "next/navigation";
 import Pagination from "@/components/UI/Pagination";
 
@@ -119,7 +118,7 @@ const PostAdminView = (props: any) => {
                                 className="rounded-lg object-cover"
                               />
                               <p className="py-3 text-lg font-semibold">
-                                Tidak ada Postingan
+                                Tidak ada Berita
                               </p>
                             </div>
                           </td>
@@ -131,7 +130,9 @@ const PostAdminView = (props: any) => {
               </div>
             </div>
           </div>
-          <div className={`${postData.length > 0 ? "flex" : "hidden"} mt-5`}>
+          <div
+            className={`${postData.length > 0 ? "flex" : "hidden"} mb-20 mt-5`}
+          >
             <Pagination
               hasNextPage={endIndex < postData.length}
               hasPrevPage={startIndex > 0}

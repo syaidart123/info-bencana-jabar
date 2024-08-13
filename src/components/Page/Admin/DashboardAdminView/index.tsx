@@ -85,7 +85,7 @@ const DashboardAdminView = (props: propsTypes) => {
             <p className="">Jumlah Pengajuan : {dataSubmission.length}</p>
           </div>
           <div className="rounded-md bg-gradient-to-tr from-sky-400 to-secondary px-5 py-10 text-white shadow-md hover:shadow-lg lg:py-8">
-            <p>Jumlah Postingan : {post.length}</p>
+            <p>Jumlah Berita : {post.length}</p>
           </div>
           <div className="to- rounded-md bg-gradient-to-tr from-emerald-400 to-teal-400 px-5 py-10 text-white shadow-md hover:shadow-lg lg:py-8">
             <p>Kerugian : {formatRupiah(totalKerugian)}</p>
@@ -199,19 +199,19 @@ const DashboardAdminView = (props: propsTypes) => {
                     </tbody>
                   </Tabel>
                 </div>
-                <div
-                  className={`${filteredData.length > 0 ? "flex" : "hidden"} mt-5`}
-                >
-                  <Pagination
-                    hasNextPage={endIndex < filteredData.length}
-                    hasPrevPage={startIndex > 0}
-                    perPage="5"
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                  />
-                </div>
               </div>
             </div>
+          </div>
+          <div
+            className={`${filteredData.length > 0 ? "flex" : "hidden"} my-5`}
+          >
+            <Pagination
+              hasNextPage={endIndex < filteredData.length}
+              hasPrevPage={startIndex > 0}
+              perPage="5"
+              currentPage={currentPage}
+              totalPages={totalPages}
+            />
           </div>
         </div>
       </DashboardLayout>

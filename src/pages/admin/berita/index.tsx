@@ -33,14 +33,12 @@ const PostAdminPage = (props: any) => {
   return (
     <>
       <Head>
-        <title>Info Bencana Jabar | Postingan</title>
+        <title>Info Bencana Jabar | Berita</title>
       </Head>
-      {/* <DashboardLayout type="Admin"> */}
-
       <PostAdminView posts={filteredData}>
         <div className="flex">
           <p className="my-3 inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text text-3xl font-bold text-transparent">
-            Postingan Bencana
+            Berita Kebencanaan
           </p>
         </div>
         <div className="lg:w-1/2">
@@ -52,7 +50,6 @@ const PostAdminPage = (props: any) => {
           />
         </div>
       </PostAdminView>
-      {/* </DashboardLayout> */}
     </>
   );
 };

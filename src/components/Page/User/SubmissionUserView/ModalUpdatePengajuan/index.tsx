@@ -181,6 +181,8 @@ const ModalUpdatePengajuan = (props: any) => {
             label="Nama Pelapor"
             required
             defaultValue={updatedSubmission?.namaPelapor}
+            minLength={3}
+            maxLength={50}
           />
           <Input
             name="noTelp"
@@ -188,6 +190,9 @@ const ModalUpdatePengajuan = (props: any) => {
             label="No. Telp"
             required
             defaultValue={updatedSubmission?.noTelp}
+            placeholder="Masukan nomor telepon..."
+            minLength={10}
+            maxLength={13}
           />
           <SelectOption
             label="Jenis Bencana"
@@ -195,6 +200,7 @@ const ModalUpdatePengajuan = (props: any) => {
             title="Pilih Jenis Bencana..."
             onChange={(e: any) => setJenisBencana(e.target.value)}
             defaultValue={updatedSubmission?.jenisBencana}
+            required
           >
             <Option value="Banjir">Banjir</Option>
             <Option value="Cuaca Ekstrem">Cuaca Ekstrem</Option>
@@ -216,6 +222,7 @@ const ModalUpdatePengajuan = (props: any) => {
             name="daerah"
             title="Pilih Daerah..."
             defaultValue={updatedSubmission?.daerah}
+            required
           />
           <Input
             name="lokasi"
@@ -224,6 +231,8 @@ const ModalUpdatePengajuan = (props: any) => {
             label="Lokasi Bencana"
             defaultValue={updatedSubmission?.lokasi}
             required
+            minLength={3}
+            maxLength={50}
           />
           <div className="mt-3">
             <label
@@ -239,6 +248,7 @@ const ModalUpdatePengajuan = (props: any) => {
               required
               className="block w-full rounded-lg border border-gray-200 px-4 py-3 text-sm disabled:pointer-events-none disabled:opacity-50"
               rows={3}
+              maxLength={300}
               placeholder="Masukan deskripsi singkat terkait kejadian"
             ></textarea>
           </div>
@@ -249,6 +259,7 @@ const ModalUpdatePengajuan = (props: any) => {
               titleName="Rumah"
               placeholder="Jumlah kerusakan rumah"
               defaultValue={updatedSubmission?.kerusakan.rumah}
+              maxLength={5}
             />
 
             <InputField
@@ -261,12 +272,14 @@ const ModalUpdatePengajuan = (props: any) => {
                 jenisBencana !== "Banjir"
               }
               defaultValue={updatedSubmission?.kerusakan.rumahTerendam}
+              maxLength={5}
             />
             <InputField
               name="fasilitasUmum"
               type="number"
               titleName="Fasilitas Umum"
               placeholder="Jumlah kerusakan fasilitas umum"
+              maxLength={5}
               defaultValue={updatedSubmission?.kerusakan.fasilitasUmum}
             />
           </InputGroup>
@@ -277,6 +290,7 @@ const ModalUpdatePengajuan = (props: any) => {
               type="number"
               titleName="Meninggal"
               placeholder="Jumlah korban meninggal"
+              maxLength={5}
               defaultValue={updatedSubmission?.korban.meninggal}
             />
             <InputField
@@ -284,6 +298,7 @@ const ModalUpdatePengajuan = (props: any) => {
               type="number"
               titleName="Hilang"
               placeholder="Jumlah korban hilang"
+              maxLength={5}
               defaultValue={updatedSubmission?.korban.hilang}
             />
             <InputField
@@ -292,6 +307,7 @@ const ModalUpdatePengajuan = (props: any) => {
               titleName="Terluka"
               placeholder="Jumlah korban terluka"
               defaultValue={updatedSubmission?.korban.terluka}
+              maxLength={5}
             />
           </InputGroup>
           <div className="mt-5">
@@ -314,6 +330,7 @@ const ModalUpdatePengajuan = (props: any) => {
                       placeholder="Nama Kebutuhan"
                       defaultValue={kebutuhan.namaKebutuhan}
                       type="text"
+                      maxLength={50}
                       onChange={(e) => handleKebutuhan(e, i, "namaKebutuhan")}
                     />
                     <Input
@@ -324,6 +341,7 @@ const ModalUpdatePengajuan = (props: any) => {
                       onChange={(e) => handleKebutuhan(e, i, "qty")}
                       disabled={kebutuhan.namaKebutuhan === "" ? true : false}
                       type="number"
+                      maxLength={5}
                     />
                   </div>
                 </div>
@@ -357,6 +375,9 @@ const ModalUpdatePengajuan = (props: any) => {
             defaultValue={updatedSubmission.taksiranKerugian}
             label="Taksiran Kerugian"
             placeholder="Masukan nominal kerugian *1000000"
+            minLength={4}
+            maxLength={9}
+            required
           />
 
           <InputGroup name="Pengungsian" title="Pengungsian">
@@ -366,6 +387,7 @@ const ModalUpdatePengajuan = (props: any) => {
               titleName="Lokasi Pengungsian"
               placeholder="Masukan lokasi pengungsian"
               defaultValue={updatedSubmission?.pengungsian.lokasiPengungsian}
+              maxLength={50}
             />
             <InputField
               name="tenda"
@@ -373,6 +395,7 @@ const ModalUpdatePengajuan = (props: any) => {
               titleName="Tenda"
               placeholder="Jumlah tenda"
               defaultValue={updatedSubmission?.pengungsian.tenda}
+              maxLength={5}
             />
             <InputField
               name="pengungsi"
@@ -380,9 +403,9 @@ const ModalUpdatePengajuan = (props: any) => {
               titleName="Pengungsi"
               placeholder="Jumlah Pengungsi"
               defaultValue={updatedSubmission?.pengungsian.pengungsi}
+              maxLength={5}
             />
           </InputGroup>
-
           <div className="my-3 flex items-center gap-4">
             <Image
               src={

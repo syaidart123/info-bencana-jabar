@@ -36,10 +36,11 @@ type propsTypes = {
   title: string;
   defaultValue?: any;
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  required?: boolean;
 };
 
 const SelectOptionFragment = (props: propsTypes) => {
-  const { label, name, title, defaultValue, onChange } = props;
+  const { label, name, title, defaultValue, onChange, required } = props;
   return (
     <SelectOption
       label={label}
@@ -47,6 +48,7 @@ const SelectOptionFragment = (props: propsTypes) => {
       title={title}
       defaultValue={defaultValue}
       onChange={onChange}
+      required={required}
     >
       {daerahOptions.map((option) => (
         <Option key={option.value} value={option.value}>

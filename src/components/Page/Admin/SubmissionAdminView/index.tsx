@@ -133,7 +133,7 @@ const PengajuanView = (props: any) => {
             </div>
           </div>
           <div
-            className={`${dataSubmission.length > 0 ? "flex" : "hidden"} mt-5`}
+            className={`${dataSubmission.length > 0 ? "flex" : "hidden"} mb-20 mt-5`}
           >
             <Pagination
               hasNextPage={endIndex < dataSubmission.length}

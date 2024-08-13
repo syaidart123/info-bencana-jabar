@@ -161,7 +161,7 @@ const Sidebar = (props: any) => {
           </div>
         </div>
       </nav>
-      <nav className="z-[99999] border bg-white p-1">
+      <aside className="z-[99999] border bg-white p-1">
         <ul className="flex items-center justify-center gap-3 md:hidden">
           {links.map((link: any, i: any) => (
             <Link
@@ -210,7 +210,7 @@ const Sidebar = (props: any) => {
             )}
           </div>
         </ul>
-      </nav>
+      </aside>
     </aside>
   );
 };

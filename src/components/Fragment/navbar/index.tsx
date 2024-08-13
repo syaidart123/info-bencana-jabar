@@ -62,7 +62,7 @@ const Navbar = () => {
     <nav
       className={`sticky top-0 z-50 flex items-center justify-between border-b bg-white px-6 md:justify-around`}
     >
-      <div>
+      <Link href="/">
         <Image
           src="/images/logo.png"
           width={1000}
@@ -71,7 +71,7 @@ const Navbar = () => {
           className="h-20 w-56 cursor-pointer lg:w-56"
           loading="lazy"
         />
-      </div>
+      </Link>
       <div className="mr-20 hidden md:flex lg:mr-32">
         <ul className="flex gap-3">
           {listNavbar.map((list, i) => {

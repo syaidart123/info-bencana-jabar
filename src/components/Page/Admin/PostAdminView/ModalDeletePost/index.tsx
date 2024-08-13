@@ -25,7 +25,7 @@ const ModalDeletePost = (props: any) => {
             setPostData(data.data);
             setToaster({
               variant: "success",
-              message: "Postingan Berhasil Dihapus",
+              message: "Berita Berhasil Dihapus",
             });
           }
         },
@@ -35,7 +35,7 @@ const ModalDeletePost = (props: any) => {
       setDeletedPost({});
       setToaster({
         variant: "danger",
-        message: "Postingan Gagal Di Hapus",
+        message: "Berita Gagal Di Hapus",
       });
     }
   };

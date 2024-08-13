@@ -41,7 +41,7 @@ const ModalUpdatePost = (props: any) => {
       setPostData(data.data);
       setToaster({
         variant: "success",
-        message: "Postingan Berhasil Di Update",
+        message: "Berita Berhasil Di Update",
       });
     } else {
       setIsLoading(false);
@@ -50,7 +50,7 @@ const ModalUpdatePost = (props: any) => {
       setUpdatedPost(false);
       setToaster({
         variant: "danger",
-        message: "Postingan Gagal Di Update",
+        message: "Berita Gagal Di Update",
       });
     }
   };
@@ -115,7 +115,7 @@ const ModalUpdatePost = (props: any) => {
       <Modal onClose={() => setUpdatedPost({})}>
         <div className="flex items-center justify-center lg:items-start lg:justify-start">
           <p className="my-5 inline-block bg-gradient-to-l from-secondary to-primary bg-clip-text text-3xl font-bold text-transparent">
-            Update Postingan
+            Update Berita
           </p>
         </div>
         <form onSubmit={handleUpdate}>
@@ -125,6 +125,8 @@ const ModalUpdatePost = (props: any) => {
             label="Judul"
             placeholder="Masukan Judul"
             defaultValue={updatedPost.title}
+            minLength={10}
+            maxLength={100}
             required
           />
           <SelectOption
@@ -132,6 +134,7 @@ const ModalUpdatePost = (props: any) => {
             name="jenisBencana"
             title="Pilih Jenis Bencana..."
             defaultValue={updatedPost.jenisBencana}
+            required
           >
             <Option value="Banjir">Banjir</Option>
             <Option value="Cuaca Ekstrem">Cuaca Ekstrem</Option>
@@ -145,6 +148,7 @@ const ModalUpdatePost = (props: any) => {
             name="daerah"
             title="Pilih Daerah..."
             defaultValue={updatedPost.daerah}
+            required
           />
           <Input
             name="tanggal"
@@ -164,6 +168,7 @@ const ModalUpdatePost = (props: any) => {
               defaultValue={updatedPost.deskripsi}
               required
               className="block w-full rounded-lg border border-gray-200 px-4 py-3 text-sm disabled:pointer-events-none disabled:opacity-50"
+              maxLength={12345}
               rows={15}
               placeholder="Masukan Deskripsi..."
             ></textarea>
@@ -190,7 +195,7 @@ const ModalUpdatePost = (props: any) => {
             type="submit"
             className={`bg-primary p-5 text-white ${isLoading ? "cursor-not-allowed" : ""}`}
           >
-            {isLoading ? "Loading..." : "Update Postingan"}
+            {isLoading ? "Loading..." : "Update Berita"}
           </Button>
         </form>
       </Modal>

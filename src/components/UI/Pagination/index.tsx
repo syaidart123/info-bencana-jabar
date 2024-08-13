@@ -27,7 +27,7 @@ const Pagination = (props: propsTypes) => {
         }
       >
         <span
-          className={`${hasPrevPage ? "" : "cursor-not-allowed opacity-70"} inline-flex rounded-md bg-tertiary px-4 py-1`}
+          className={`${hasPrevPage ? "" : "cursor-not-allowed bg-red-400"} inline-flex rounded-md bg-tertiary px-4 py-1`}
         >
           <ChevronsLeft color="white" />
         </span>
@@ -42,7 +42,7 @@ const Pagination = (props: propsTypes) => {
         }
       >
         <span
-          className={`${hasNextPage ? "" : "cursor-not-allowed opacity-70"} inline-flex rounded-md bg-tertiary px-4 py-1`}
+          className={`${hasNextPage ? "" : "cursor-not-allowed bg-red-400"} inline-flex rounded-md bg-tertiary px-4 py-1`}
         >
           <ChevronsRight color="white" />
         </span>

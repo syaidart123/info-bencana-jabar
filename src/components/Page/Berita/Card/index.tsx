@@ -14,6 +14,7 @@ const Card = (props: any) => {
           className="absolute start-0 top-0 size-full rounded-t-xl object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
           src={post.image}
           alt="post"
+          loading="lazy"
         />
       </div>
       <div className="flex flex-col gap-2 p-4 md:p-5">

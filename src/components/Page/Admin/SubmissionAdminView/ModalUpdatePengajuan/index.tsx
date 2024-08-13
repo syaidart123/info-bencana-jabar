@@ -328,6 +328,7 @@ const ModalUpdatePengajuan = (props: any) => {
                           defaultValue={bantuan.namaBantuan}
                           type="text"
                           onChange={(e) => handleAid(e, i, "namaBantuan")}
+                          maxLength={50}
                         />
                         <Input
                           name="qty"
@@ -335,6 +336,7 @@ const ModalUpdatePengajuan = (props: any) => {
                           placeholder="Qty"
                           defaultValue={bantuan.qty}
                           onChange={(e) => handleAid(e, i, "qty")}
+                          maxLength={5}
                           disabled={
                             bantuan.jenisBantuan === "Rupiah" ||
                             bantuan.jenisBantuan === ""
@@ -351,6 +353,7 @@ const ModalUpdatePengajuan = (props: any) => {
                           defaultValue={bantuan.nominal}
                           disabled={bantuan.jenisBantuan === "" ? true : false}
                           onChange={(e) => handleAid(e, i, "nominal")}
+                          maxLength={10}
                           required
                         />
                       </div>
