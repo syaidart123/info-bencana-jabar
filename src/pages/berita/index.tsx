@@ -50,7 +50,7 @@ const BeritaPage = (props: any) => {
             setSelectedEndDate={setSelectedEndDate}
           />
         </div>
-        <BeritaPageView postData={postData} />
+        <BeritaPageView postData={filteredData} />
       </main>
     </>
   );
